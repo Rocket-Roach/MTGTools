@@ -1,0 +1,8 @@
+# Core dependencies (stdlib only) - no install needed
+# Optional dependencies for extended file format support:
+# pip install -r requirements.txt
+
+openpyxl>=3.1.0      # .xlsx support
+python-docx>=1.1.0   # .docx support
+pyperclip>=1.8.2     # Clipboard support
+Pillow>=8.0          # Metagame deck thumbnails (gracefully skipped if missing)

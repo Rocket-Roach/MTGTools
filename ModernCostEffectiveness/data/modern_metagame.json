@@ -1,0 +1,311 @@
+{
+ "source": "https://www.mtggoldfish.com/metagame/modern#paper",
+ "snapshot_date": "2026-09-05",
+ "timeframe": "7 days",
+ "timeframes_checked": [
+  "7 days"
+ ],
+ "note": "Pulled from the 7-day view (period=7). Sample is smaller than the 30-day view, so shares move around more week to week.",
+ "decks": [
+  {
+   "name": "Goryo's Vengeance",
+   "meta_pct": 10.2,
+   "deck_count": 106,
+   "paper_price": 917,
+   "mtgo_tix": 505,
+   "key_cards": [
+    "Goryo's Vengeance",
+    "Quantum Riddler",
+    "Solitude"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-goryo-s-vengeance",
+   "thumb": "assets/thumbs/goryo-s-vengeance-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Izzet Prowess",
+   "meta_pct": 9.6,
+   "deck_count": 99,
+   "paper_price": 422,
+   "mtgo_tix": 301,
+   "key_cards": [
+    "Slickshot Show-Off",
+    "Cori-Steel Cutter",
+    "Mishra's Bauble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-izzet-prowess",
+   "thumb": "assets/thumbs/izzet-prowess-art.jpg",
+   "archetype": "Aggro"
+  },
+  {
+   "name": "Eldrazi Bloodchief Combo",
+   "meta_pct": 7.8,
+   "deck_count": 81,
+   "paper_price": 640,
+   "mtgo_tix": 250,
+   "key_cards": [
+    "Thought-Knot Seer",
+    "Kozilek's Command",
+    "Malevolent Rumble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-eldrazi",
+   "thumb": "assets/thumbs/eldrazi-bloodchief-combo-art.jpg",
+   "archetype": "Midrange"
+  },
+  {
+   "name": "Esper Blink",
+   "meta_pct": 7.2,
+   "deck_count": 74,
+   "paper_price": 861,
+   "mtgo_tix": 506,
+   "key_cards": [
+    "Quantum Riddler",
+    "Solitude",
+    "Overlord of the Balemurk"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-esper-blink",
+   "thumb": "assets/thumbs/esper-blink-art.jpg",
+   "archetype": "Midrange"
+  },
+  {
+   "name": "Affinity",
+   "meta_pct": 5.2,
+   "deck_count": 54,
+   "paper_price": 1176,
+   "mtgo_tix": 342,
+   "key_cards": [
+    "Mox Opal",
+    "Engineered Explosives",
+    "Mishra's Bauble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-affinity",
+   "thumb": "assets/thumbs/affinity-art.jpg",
+   "archetype": "Aggro"
+  },
+  {
+   "name": "Ruby Storm",
+   "meta_pct": 4.7,
+   "deck_count": 49,
+   "paper_price": 518,
+   "mtgo_tix": 112,
+   "key_cards": [
+    "Ruby Medallion",
+    "Ral, Monsoon Mage",
+    "Desperate Ritual"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-ruby-storm",
+   "thumb": "assets/thumbs/ruby-storm-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Mono-Green Eldrazi",
+   "meta_pct": 4.0,
+   "deck_count": 41,
+   "paper_price": 927,
+   "mtgo_tix": 388,
+   "key_cards": [
+    "Green Sun's Zenith",
+    "Emrakul, the Promised End",
+    "Fanatic of Rhonas"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-mono-green-eldrazi",
+   "thumb": "assets/thumbs/mono-green-eldrazi-art.jpg",
+   "archetype": "Ramp"
+  },
+  {
+   "name": "Boros Energy",
+   "meta_pct": 3.9,
+   "deck_count": 40,
+   "paper_price": 998,
+   "mtgo_tix": 258,
+   "key_cards": [
+    "Galvanic Discharge",
+    "Ragavan, Nimble Pilferer",
+    "Ocelot Pride"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-boros-energy",
+   "thumb": "assets/thumbs/boros-energy-art.jpg",
+   "archetype": "Midrange"
+  },
+  {
+   "name": "Living End",
+   "meta_pct": 3.8,
+   "deck_count": 39,
+   "paper_price": 652,
+   "mtgo_tix": 233,
+   "key_cards": [
+    "Living End",
+    "Force of Negation",
+    "Subtlety"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/living-end",
+   "thumb": "assets/thumbs/living-end-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Eldrazi Tron",
+   "meta_pct": 3.7,
+   "deck_count": 38,
+   "paper_price": 529,
+   "mtgo_tix": 283,
+   "key_cards": [
+    "Thought-Knot Seer",
+    "Ugin, Eye of the Storms",
+    "Kozilek's Command"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/eldrazi-tron",
+   "thumb": "assets/thumbs/eldrazi-tron-art.jpg",
+   "archetype": "Ramp"
+  },
+  {
+   "name": "Boros Ponza",
+   "meta_pct": 3.5,
+   "deck_count": 36,
+   "paper_price": 322,
+   "mtgo_tix": 216,
+   "key_cards": [
+    "Solitude",
+    "Relic of Progenitus",
+    "Erode"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-boros-ponza",
+   "thumb": "assets/thumbs/boros-ponza-art.jpg",
+   "archetype": "Control"
+  },
+  {
+   "name": "Dimir Midrange",
+   "meta_pct": 2.6,
+   "deck_count": 27,
+   "paper_price": 907,
+   "mtgo_tix": 422,
+   "key_cards": [
+    "Force of Negation",
+    "Quantum Riddler",
+    "Thoughtseize"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-dimir-midrange",
+   "thumb": "assets/thumbs/dimir-midrange-art.jpg",
+   "archetype": "Midrange"
+  },
+  {
+   "name": "4c HollowOne",
+   "meta_pct": 2.1,
+   "deck_count": 22,
+   "paper_price": 414,
+   "mtgo_tix": 108,
+   "key_cards": [
+    "Vengevine",
+    "Burning Inquiry",
+    "Marauding Mako"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-4c-hollowone",
+   "thumb": "assets/thumbs/4c-hollowone-art.jpg",
+   "archetype": "Aggro"
+  },
+  {
+   "name": "Domain Zoo",
+   "meta_pct": 2.0,
+   "deck_count": 21,
+   "paper_price": 781,
+   "mtgo_tix": 311,
+   "key_cards": [
+    "Tribal Flames",
+    "Ragavan, Nimble Pilferer",
+    "Quantum Riddler"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-domain-zoo",
+   "thumb": "assets/thumbs/domain-zoo-art.jpg",
+   "archetype": "Aggro"
+  },
+  {
+   "name": "Tron",
+   "meta_pct": 2.0,
+   "deck_count": 21,
+   "paper_price": 585,
+   "mtgo_tix": 272,
+   "key_cards": [
+    "Karn, the Great Creator",
+    "Ugin, Eye of the Storms",
+    "Kozilek's Command"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/tron",
+   "thumb": "assets/thumbs/tron-art.jpg",
+   "archetype": "Ramp"
+  },
+  {
+   "name": "Amulet Titan",
+   "meta_pct": 2.0,
+   "deck_count": 21,
+   "paper_price": 975,
+   "mtgo_tix": 486,
+   "key_cards": [
+    "Primeval Titan",
+    "Amulet of Vigor",
+    "Scapeshift"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/amulet-titan",
+   "thumb": "assets/thumbs/amulet-titan-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Neobrand",
+   "meta_pct": 1.9,
+   "deck_count": 20,
+   "paper_price": 584,
+   "mtgo_tix": 191,
+   "key_cards": [
+    "Griselbrand",
+    "Summoner's Pact",
+    "Consign to Memory"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/neobrand",
+   "thumb": "assets/thumbs/neobrand-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Devoted Combo",
+   "meta_pct": 1.7,
+   "deck_count": 18,
+   "paper_price": 990,
+   "mtgo_tix": 253,
+   "key_cards": [
+    "Devoted Druid",
+    "Badgermole Cub",
+    "Green Sun's Zenith"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-devoted-combo",
+   "thumb": "assets/thumbs/devoted-combo-art.jpg",
+   "archetype": "Combo"
+  },
+  {
+   "name": "Jeskai Energy",
+   "meta_pct": 1.6,
+   "deck_count": 16,
+   "paper_price": 804,
+   "mtgo_tix": 364,
+   "key_cards": [
+    "Orim's Chant",
+    "Consult the Star Charts",
+    "Narset, Parter of Veils"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-jeskai-energy",
+   "thumb": "assets/thumbs/jeskai-energy-art.jpg",
+   "archetype": "Control"
+  },
+  {
+   "name": "Boros Burn",
+   "meta_pct": 1.4,
+   "deck_count": 14,
+   "paper_price": 278,
+   "mtgo_tix": 80,
+   "key_cards": [
+    "Boros Charm",
+    "Boltwave",
+    "Goblin Guide"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-boros-burn",
+   "thumb": "assets/thumbs/boros-burn-art.jpg",
+   "archetype": "Aggro"
+  }
+ ]
+}

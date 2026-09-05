@@ -1,0 +1,239 @@
+{
+ "source": "https://www.mtggoldfish.com/metagame/modern#paper",
+ "snapshot_date": "2026-09-04",
+ "timeframe": "30 days",
+ "timeframes_checked": [
+  "7 days",
+  "14 days",
+  "30 days",
+  "90 days"
+ ],
+ "note": "Site default view (30-day window selected). All timeframe views returned identical data at capture time, so the 30-day selection was kept.",
+ "decks": [
+  {
+   "name": "Goryo's Vengeance",
+   "meta_pct": 10.3,
+   "deck_count": 298,
+   "paper_price": 917,
+   "mtgo_tix": 505,
+   "key_cards": [
+    "Goryo's Vengeance",
+    "Quantum Riddler",
+    "Solitude"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-goryo-s-vengeance",
+   "thumb": null,
+   "gateway_phase": "Phase 4a: Goryo's Vengeance"
+  },
+  {
+   "name": "Esper Blink",
+   "meta_pct": 8.4,
+   "deck_count": 242,
+   "paper_price": 861,
+   "mtgo_tix": 506,
+   "key_cards": [
+    "Quantum Riddler",
+    "Solitude",
+    "Overlord of the Balemurk"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-esper-blink",
+   "thumb": null,
+   "gateway_phase": "Phase 1-3: Esper Blink (core plan)"
+  },
+  {
+   "name": "Izzet Prowess",
+   "meta_pct": 7.4,
+   "deck_count": 212,
+   "paper_price": 422,
+   "mtgo_tix": 301,
+   "key_cards": [
+    "Slickshot Show-Off",
+    "Cori-Steel Cutter",
+    "Mishra's Bauble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-izzet-prowess",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Eldrazi Bloodchief Combo",
+   "meta_pct": 6.6,
+   "deck_count": 191,
+   "paper_price": 640,
+   "mtgo_tix": 250,
+   "key_cards": [
+    "Thought-Knot Seer",
+    "Kozilek's Command",
+    "Malevolent Rumble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-eldrazi",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Affinity",
+   "meta_pct": 4.6,
+   "deck_count": 133,
+   "paper_price": 1176,
+   "mtgo_tix": 342,
+   "key_cards": [
+    "Mox Opal",
+    "Engineered Explosives",
+    "Mishra's Bauble"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-affinity",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Boros Energy",
+   "meta_pct": 4.6,
+   "deck_count": 132,
+   "paper_price": 998,
+   "mtgo_tix": 258,
+   "key_cards": [
+    "Galvanic Discharge",
+    "Ragavan, Nimble Pilferer",
+    "Ocelot Pride"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-boros-energy",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Devoted Combo",
+   "meta_pct": 3.9,
+   "deck_count": 112,
+   "paper_price": 990,
+   "mtgo_tix": 253,
+   "key_cards": [
+    "Devoted Druid",
+    "Badgermole Cub",
+    "Green Sun's Zenith"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-devoted-combo",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Dimir Midrange",
+   "meta_pct": 3.5,
+   "deck_count": 101,
+   "paper_price": 907,
+   "mtgo_tix": 422,
+   "key_cards": [
+    "Force of Negation",
+    "Quantum Riddler",
+    "Thoughtseize"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-dimir-midrange",
+   "thumb": null,
+   "gateway_phase": "Phase 4c: Dimir Midrange"
+  },
+  {
+   "name": "Ruby Storm",
+   "meta_pct": 3.4,
+   "deck_count": 98,
+   "paper_price": 518,
+   "mtgo_tix": 112,
+   "key_cards": [
+    "Ruby Medallion",
+    "Ral, Monsoon Mage",
+    "Desperate Ritual"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-ruby-storm",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Living End",
+   "meta_pct": 3.3,
+   "deck_count": 94,
+   "paper_price": 652,
+   "mtgo_tix": 233,
+   "key_cards": [
+    "Living End",
+    "Force of Negation",
+    "Subtlety"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-living-end",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Mono-Green Eldrazi",
+   "meta_pct": 3.2,
+   "deck_count": 92,
+   "paper_price": 927,
+   "mtgo_tix": 388,
+   "key_cards": [
+    "Green Sun's Zenith",
+    "Emrakul, the Promised End",
+    "Fanatic of Rhonas"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-mono-green-eldrazi",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Eldrazi Tron",
+   "meta_pct": 2.8,
+   "deck_count": 81,
+   "paper_price": 529,
+   "mtgo_tix": 283,
+   "key_cards": [
+    "Thought-Knot Seer",
+    "Ugin, Eye of the Storms",
+    "Kozilek's Command"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/eldrazi-tron",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Neobrand",
+   "meta_pct": 2.6,
+   "deck_count": 76,
+   "paper_price": 584,
+   "mtgo_tix": 191,
+   "key_cards": [
+    "Griselbrand",
+    "Summoner's Pact",
+    "Consign to Memory"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/neobrand",
+   "thumb": null,
+   "gateway_phase": null
+  },
+  {
+   "name": "Domain Zoo",
+   "meta_pct": 2.6,
+   "deck_count": 76,
+   "paper_price": 781,
+   "mtgo_tix": 311,
+   "key_cards": [
+    "Tribal Flames",
+    "Ragavan, Nimble Pilferer",
+    "Quantum Riddler"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-domain-zoo",
+   "thumb": null,
+   "gateway_phase": "Phase 4d: Domain Zoo"
+  },
+  {
+   "name": "Boros Ponza",
+   "meta_pct": 2.5,
+   "deck_count": 71,
+   "paper_price": 322,
+   "mtgo_tix": 216,
+   "key_cards": [
+    "Solitude",
+    "Relic of Progenitus",
+    "Erode"
+   ],
+   "url": "https://www.mtggoldfish.com/archetype/modern-boros-ponza",
+   "thumb": null,
+   "gateway_phase": null
+  }
+ ]
+}

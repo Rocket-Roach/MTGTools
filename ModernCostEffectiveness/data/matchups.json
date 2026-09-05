@@ -1,0 +1,2736 @@
+{
+ "source": "https://mtgdecks.net/Modern/winrates/range:last15days",
+ "snapshot_date": "2026-09-05",
+ "range": "last15days",
+ "note": "Overall winrate + pairwise matrix vs the tracked archetypes. Ours-to-theirs name mapping applied where names differ.",
+ "mapping": {
+  "Goryo's Vengeance": "Esper Reanimator",
+  "Izzet Prowess": "Izzet Prowess",
+  "Eldrazi Bloodchief Combo": "Eldrazi Bloodchief Combo",
+  "Esper Blink": "Esper Blink",
+  "Affinity": "Izzet Metalcraft",
+  "Ruby Storm": "Ruby Storm",
+  "Mono-Green Eldrazi": "Eldrazi Ramp",
+  "Boros Energy": "Boros Energy",
+  "Living End": "Living End",
+  "Eldrazi Tron": "Eldrazi Tron",
+  "Boros Ponza": "Boros Wildfire",
+  "Dimir Midrange": "Dimir Frog",
+  "4c HollowOne": "Hollow One",
+  "Domain Zoo": "Domain Aggro",
+  "Tron": "Mono Blue Tron",
+  "Amulet Titan": "Amulet Titan",
+  "Neobrand": "Neoform",
+  "Devoted Combo": "Devoted Druid Combo",
+  "Jeskai Energy": "Jeskai Ocelot",
+  "Boros Burn": "Burn"
+ },
+ "unmapped": [],
+ "columns": [
+  "Izzet Prowess",
+  "Esper Reanimator",
+  "Eldrazi Bloodchief Combo",
+  "Esper Blink",
+  "Devoted Druid Combo",
+  "Izzet Metalcraft",
+  "Eldrazi Ramp",
+  "Living End",
+  "Boros Energy",
+  "Ruby Storm",
+  "Dimir Frog",
+  "Eldrazi Tron",
+  "Boros Wildfire",
+  "Domain Aggro",
+  "Hollow One",
+  "Amulet Titan",
+  "Neoform",
+  "Grixis Reanimator",
+  "Jeskai Ocelot",
+  "Tameshi Belcher",
+  "Grinding Emry",
+  "Burn",
+  "Jeskai Control",
+  "Mono Black Necrodominance",
+  "Mill",
+  "Prison Tron",
+  "Simic Ritual",
+  "Azorius Control",
+  "Samwise Combo",
+  "Mardu Energy",
+  "Mono Blue Tron",
+  "Cosmogoyf Combo",
+  "Mono Black Bones",
+  "Merfolk",
+  "Golgari Yawgmoth"
+ ],
+ "decks": {
+  "Goryo's Vengeance": {
+   "as": "Esper Reanimator",
+   "overall": 51.7,
+   "matches": 1071,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 56.0,
+     "matches": 108
+    },
+    "Esper Reanimator": {
+     "winrate": 50.0,
+     "matches": 86
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 55.0,
+     "matches": 76
+    },
+    "Esper Blink": {
+     "winrate": 46.0,
+     "matches": 80
+    },
+    "Devoted Druid Combo": {
+     "winrate": 40.0,
+     "matches": 67
+    },
+    "Izzet Metalcraft": {
+     "winrate": 43.0,
+     "matches": 49
+    },
+    "Eldrazi Ramp": {
+     "winrate": 52.0,
+     "matches": 61
+    },
+    "Living End": {
+     "winrate": 45.0,
+     "matches": 38
+    },
+    "Boros Energy": {
+     "winrate": 58.0,
+     "matches": 43
+    },
+    "Ruby Storm": {
+     "winrate": 63.0,
+     "matches": 38
+    },
+    "Dimir Frog": {
+     "winrate": 33.0,
+     "matches": 43
+    },
+    "Eldrazi Tron": {
+     "winrate": 29.0,
+     "matches": 24
+    },
+    "Boros Wildfire": {
+     "winrate": 50.0,
+     "matches": 26
+    },
+    "Domain Aggro": {
+     "winrate": 48.0,
+     "matches": 25
+    },
+    "Hollow One": {
+     "winrate": 74.0,
+     "matches": 23
+    },
+    "Amulet Titan": {
+     "winrate": 59.0,
+     "matches": 22
+    },
+    "Neoform": {
+     "winrate": 71.0,
+     "matches": 21
+    },
+    "Grixis Reanimator": {
+     "winrate": 26.0,
+     "matches": 19
+    },
+    "Jeskai Ocelot": {
+     "winrate": 59.0,
+     "matches": 17
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 16
+    },
+    "Grinding Emry": {
+     "winrate": 53.0,
+     "matches": 15
+    },
+    "Burn": {
+     "winrate": 91.0,
+     "matches": 11
+    },
+    "Jeskai Control": {
+     "winrate": 83.0,
+     "matches": 12
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 58.0,
+     "matches": 12
+    },
+    "Mill": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Prison Tron": {
+     "winrate": 62.0,
+     "matches": 13
+    },
+    "Simic Ritual": {
+     "winrate": 0.0,
+     "matches": 5
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 6
+    },
+    "Samwise Combo": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mardu Energy": {
+     "winrate": 43.0,
+     "matches": 7
+    },
+    "Mono Blue Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Mono Black Bones": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Merfolk": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Golgari Yawgmoth": {
+     "winrate": 33.0,
+     "matches": 3
+    }
+   }
+  },
+  "Izzet Prowess": {
+   "as": "Izzet Prowess",
+   "overall": 50.3,
+   "matches": 1152,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 50.0,
+     "matches": 150
+    },
+    "Esper Reanimator": {
+     "winrate": 44.0,
+     "matches": 108
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 57.0,
+     "matches": 68
+    },
+    "Esper Blink": {
+     "winrate": 37.0,
+     "matches": 62
+    },
+    "Devoted Druid Combo": {
+     "winrate": 64.0,
+     "matches": 66
+    },
+    "Izzet Metalcraft": {
+     "winrate": 46.0,
+     "matches": 59
+    },
+    "Eldrazi Ramp": {
+     "winrate": 50.0,
+     "matches": 64
+    },
+    "Living End": {
+     "winrate": 42.0,
+     "matches": 38
+    },
+    "Boros Energy": {
+     "winrate": 53.0,
+     "matches": 47
+    },
+    "Ruby Storm": {
+     "winrate": 53.0,
+     "matches": 36
+    },
+    "Dimir Frog": {
+     "winrate": 38.0,
+     "matches": 29
+    },
+    "Eldrazi Tron": {
+     "winrate": 39.0,
+     "matches": 36
+    },
+    "Boros Wildfire": {
+     "winrate": 42.0,
+     "matches": 31
+    },
+    "Domain Aggro": {
+     "winrate": 33.0,
+     "matches": 24
+    },
+    "Hollow One": {
+     "winrate": 52.0,
+     "matches": 29
+    },
+    "Amulet Titan": {
+     "winrate": 41.0,
+     "matches": 22
+    },
+    "Neoform": {
+     "winrate": 39.0,
+     "matches": 28
+    },
+    "Grixis Reanimator": {
+     "winrate": 47.0,
+     "matches": 15
+    },
+    "Jeskai Ocelot": {
+     "winrate": 47.0,
+     "matches": 17
+    },
+    "Tameshi Belcher": {
+     "winrate": 67.0,
+     "matches": 18
+    },
+    "Grinding Emry": {
+     "winrate": 69.0,
+     "matches": 16
+    },
+    "Burn": {
+     "winrate": 61.0,
+     "matches": 18
+    },
+    "Jeskai Control": {
+     "winrate": 64.0,
+     "matches": 11
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Mill": {
+     "winrate": 86.0,
+     "matches": 7
+    },
+    "Prison Tron": {
+     "winrate": 25.0,
+     "matches": 12
+    },
+    "Simic Ritual": {
+     "winrate": 73.0,
+     "matches": 11
+    },
+    "Azorius Control": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Samwise Combo": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Mardu Energy": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Mono Blue Tron": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 57.0,
+     "matches": 7
+    },
+    "Mono Black Bones": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Merfolk": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Golgari Yawgmoth": {
+     "winrate": 33.0,
+     "matches": 3
+    }
+   }
+  },
+  "Eldrazi Bloodchief Combo": {
+   "as": "Eldrazi Bloodchief Combo",
+   "overall": 52.9,
+   "matches": 802,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 43.0,
+     "matches": 68
+    },
+    "Esper Reanimator": {
+     "winrate": 45.0,
+     "matches": 76
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 50.0,
+     "matches": 64
+    },
+    "Esper Blink": {
+     "winrate": 52.0,
+     "matches": 60
+    },
+    "Devoted Druid Combo": {
+     "winrate": 41.0,
+     "matches": 37
+    },
+    "Izzet Metalcraft": {
+     "winrate": 62.0,
+     "matches": 39
+    },
+    "Eldrazi Ramp": {
+     "winrate": 48.0,
+     "matches": 48
+    },
+    "Living End": {
+     "winrate": 71.0,
+     "matches": 35
+    },
+    "Boros Energy": {
+     "winrate": 68.0,
+     "matches": 19
+    },
+    "Ruby Storm": {
+     "winrate": 38.0,
+     "matches": 21
+    },
+    "Dimir Frog": {
+     "winrate": 54.0,
+     "matches": 26
+    },
+    "Eldrazi Tron": {
+     "winrate": 75.0,
+     "matches": 24
+    },
+    "Boros Wildfire": {
+     "winrate": 42.0,
+     "matches": 24
+    },
+    "Domain Aggro": {
+     "winrate": 44.0,
+     "matches": 27
+    },
+    "Hollow One": {
+     "winrate": 33.0,
+     "matches": 18
+    },
+    "Amulet Titan": {
+     "winrate": 45.0,
+     "matches": 20
+    },
+    "Neoform": {
+     "winrate": 41.0,
+     "matches": 17
+    },
+    "Grixis Reanimator": {
+     "winrate": 75.0,
+     "matches": 8
+    },
+    "Jeskai Ocelot": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Tameshi Belcher": {
+     "winrate": 63.0,
+     "matches": 8
+    },
+    "Grinding Emry": {
+     "winrate": 83.0,
+     "matches": 6
+    },
+    "Burn": {
+     "winrate": 29.0,
+     "matches": 7
+    },
+    "Jeskai Control": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 64.0,
+     "matches": 11
+    },
+    "Mill": {
+     "winrate": 86.0,
+     "matches": 7
+    },
+    "Prison Tron": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Simic Ritual": {
+     "winrate": 100.0,
+     "matches": 5
+    },
+    "Azorius Control": {
+     "winrate": 75.0,
+     "matches": 8
+    },
+    "Samwise Combo": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Mardu Energy": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Mono Blue Tron": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mono Black Bones": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Merfolk": {
+     "winrate": 57.0,
+     "matches": 7
+    }
+   }
+  },
+  "Esper Blink": {
+   "as": "Esper Blink",
+   "overall": 56.0,
+   "matches": 700,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 63.0,
+     "matches": 62
+    },
+    "Esper Reanimator": {
+     "winrate": 54.0,
+     "matches": 80
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 48.0,
+     "matches": 60
+    },
+    "Esper Blink": {
+     "winrate": 50.0,
+     "matches": 66
+    },
+    "Devoted Druid Combo": {
+     "winrate": 65.0,
+     "matches": 49
+    },
+    "Izzet Metalcraft": {
+     "winrate": 50.0,
+     "matches": 30
+    },
+    "Eldrazi Ramp": {
+     "winrate": 46.0,
+     "matches": 28
+    },
+    "Living End": {
+     "winrate": 70.0,
+     "matches": 27
+    },
+    "Boros Energy": {
+     "winrate": 39.0,
+     "matches": 28
+    },
+    "Ruby Storm": {
+     "winrate": 44.0,
+     "matches": 16
+    },
+    "Dimir Frog": {
+     "winrate": 80.0,
+     "matches": 20
+    },
+    "Eldrazi Tron": {
+     "winrate": 67.0,
+     "matches": 12
+    },
+    "Boros Wildfire": {
+     "winrate": 18.0,
+     "matches": 17
+    },
+    "Domain Aggro": {
+     "winrate": 69.0,
+     "matches": 16
+    },
+    "Hollow One": {
+     "winrate": 63.0,
+     "matches": 19
+    },
+    "Amulet Titan": {
+     "winrate": 83.0,
+     "matches": 12
+    },
+    "Neoform": {
+     "winrate": 36.0,
+     "matches": 11
+    },
+    "Grixis Reanimator": {
+     "winrate": 67.0,
+     "matches": 6
+    },
+    "Jeskai Ocelot": {
+     "winrate": 92.0,
+     "matches": 13
+    },
+    "Tameshi Belcher": {
+     "winrate": 43.0,
+     "matches": 14
+    },
+    "Grinding Emry": {
+     "winrate": 57.0,
+     "matches": 7
+    },
+    "Burn": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Jeskai Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 17.0,
+     "matches": 6
+    },
+    "Prison Tron": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Simic Ritual": {
+     "winrate": 75.0,
+     "matches": 8
+    },
+    "Azorius Control": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Mono Blue Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Mono Black Bones": {
+     "winrate": 50.0,
+     "matches": 2
+    }
+   }
+  },
+  "Affinity": {
+   "as": "Izzet Metalcraft",
+   "overall": 50.2,
+   "matches": 536,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 54.0,
+     "matches": 59
+    },
+    "Esper Reanimator": {
+     "winrate": 57.0,
+     "matches": 49
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 38.0,
+     "matches": 39
+    },
+    "Esper Blink": {
+     "winrate": 50.0,
+     "matches": 30
+    },
+    "Devoted Druid Combo": {
+     "winrate": 32.0,
+     "matches": 31
+    },
+    "Izzet Metalcraft": {
+     "winrate": 50.0,
+     "matches": 22
+    },
+    "Eldrazi Ramp": {
+     "winrate": 34.0,
+     "matches": 29
+    },
+    "Living End": {
+     "winrate": 65.0,
+     "matches": 20
+    },
+    "Boros Energy": {
+     "winrate": 54.0,
+     "matches": 24
+    },
+    "Ruby Storm": {
+     "winrate": 56.0,
+     "matches": 9
+    },
+    "Dimir Frog": {
+     "winrate": 35.0,
+     "matches": 20
+    },
+    "Eldrazi Tron": {
+     "winrate": 57.0,
+     "matches": 28
+    },
+    "Boros Wildfire": {
+     "winrate": 45.0,
+     "matches": 11
+    },
+    "Domain Aggro": {
+     "winrate": 67.0,
+     "matches": 9
+    },
+    "Hollow One": {
+     "winrate": 56.0,
+     "matches": 16
+    },
+    "Amulet Titan": {
+     "winrate": 44.0,
+     "matches": 16
+    },
+    "Neoform": {
+     "winrate": 46.0,
+     "matches": 13
+    },
+    "Grixis Reanimator": {
+     "winrate": 56.0,
+     "matches": 9
+    },
+    "Jeskai Ocelot": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Tameshi Belcher": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Grinding Emry": {
+     "winrate": 33.0,
+     "matches": 9
+    },
+    "Burn": {
+     "winrate": 67.0,
+     "matches": 6
+    },
+    "Jeskai Control": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 14.0,
+     "matches": 7
+    },
+    "Prison Tron": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Azorius Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Samwise Combo": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Mardu Energy": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Mono Blue Tron": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mono Black Bones": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Merfolk": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Golgari Yawgmoth": {
+     "winrate": 100.0,
+     "matches": 1
+    }
+   }
+  },
+  "Ruby Storm": {
+   "as": "Ruby Storm",
+   "overall": 48.2,
+   "matches": 340,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 47.0,
+     "matches": 36
+    },
+    "Esper Reanimator": {
+     "winrate": 37.0,
+     "matches": 38
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 62.0,
+     "matches": 21
+    },
+    "Esper Blink": {
+     "winrate": 56.0,
+     "matches": 16
+    },
+    "Devoted Druid Combo": {
+     "winrate": 41.0,
+     "matches": 17
+    },
+    "Izzet Metalcraft": {
+     "winrate": 44.0,
+     "matches": 9
+    },
+    "Eldrazi Ramp": {
+     "winrate": 60.0,
+     "matches": 15
+    },
+    "Living End": {
+     "winrate": 41.0,
+     "matches": 17
+    },
+    "Boros Energy": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Ruby Storm": {
+     "winrate": 50.0,
+     "matches": 12
+    },
+    "Dimir Frog": {
+     "winrate": 36.0,
+     "matches": 14
+    },
+    "Eldrazi Tron": {
+     "winrate": 47.0,
+     "matches": 15
+    },
+    "Boros Wildfire": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Domain Aggro": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Hollow One": {
+     "winrate": 56.0,
+     "matches": 9
+    },
+    "Amulet Titan": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Neoform": {
+     "winrate": 11.0,
+     "matches": 9
+    },
+    "Grixis Reanimator": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Jeskai Ocelot": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Tameshi Belcher": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Jeskai Control": {
+     "winrate": 13.0,
+     "matches": 8
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Prison Tron": {
+     "winrate": 43.0,
+     "matches": 7
+    },
+    "Simic Ritual": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Azorius Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Samwise Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Mono Blue Tron": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    }
+   }
+  },
+  "Mono-Green Eldrazi": {
+   "as": "Eldrazi Ramp",
+   "overall": 52.4,
+   "matches": 529,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 50.0,
+     "matches": 64
+    },
+    "Esper Reanimator": {
+     "winrate": 48.0,
+     "matches": 61
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 52.0,
+     "matches": 48
+    },
+    "Esper Blink": {
+     "winrate": 54.0,
+     "matches": 28
+    },
+    "Devoted Druid Combo": {
+     "winrate": 36.0,
+     "matches": 22
+    },
+    "Izzet Metalcraft": {
+     "winrate": 66.0,
+     "matches": 29
+    },
+    "Eldrazi Ramp": {
+     "winrate": 50.0,
+     "matches": 24
+    },
+    "Living End": {
+     "winrate": 36.0,
+     "matches": 11
+    },
+    "Boros Energy": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Ruby Storm": {
+     "winrate": 40.0,
+     "matches": 15
+    },
+    "Dimir Frog": {
+     "winrate": 35.0,
+     "matches": 26
+    },
+    "Eldrazi Tron": {
+     "winrate": 80.0,
+     "matches": 20
+    },
+    "Boros Wildfire": {
+     "winrate": 82.0,
+     "matches": 11
+    },
+    "Domain Aggro": {
+     "winrate": 56.0,
+     "matches": 16
+    },
+    "Hollow One": {
+     "winrate": 55.0,
+     "matches": 11
+    },
+    "Amulet Titan": {
+     "winrate": 50.0,
+     "matches": 12
+    },
+    "Neoform": {
+     "winrate": 44.0,
+     "matches": 9
+    },
+    "Grixis Reanimator": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Jeskai Ocelot": {
+     "winrate": 29.0,
+     "matches": 7
+    },
+    "Tameshi Belcher": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Grinding Emry": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Burn": {
+     "winrate": 78.0,
+     "matches": 9
+    },
+    "Jeskai Control": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Mill": {
+     "winrate": 86.0,
+     "matches": 7
+    },
+    "Prison Tron": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Simic Ritual": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 3
+    },
+    "Samwise Combo": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mardu Energy": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Mono Blue Tron": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Mono Black Bones": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  },
+  "Boros Energy": {
+   "as": "Boros Energy",
+   "overall": 46.9,
+   "matches": 341,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 47.0,
+     "matches": 47
+    },
+    "Esper Reanimator": {
+     "winrate": 42.0,
+     "matches": 43
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 32.0,
+     "matches": 19
+    },
+    "Esper Blink": {
+     "winrate": 61.0,
+     "matches": 28
+    },
+    "Devoted Druid Combo": {
+     "winrate": 42.0,
+     "matches": 24
+    },
+    "Izzet Metalcraft": {
+     "winrate": 46.0,
+     "matches": 24
+    },
+    "Eldrazi Ramp": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Living End": {
+     "winrate": 67.0,
+     "matches": 6
+    },
+    "Boros Energy": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Ruby Storm": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Dimir Frog": {
+     "winrate": 43.0,
+     "matches": 7
+    },
+    "Eldrazi Tron": {
+     "winrate": 71.0,
+     "matches": 14
+    },
+    "Boros Wildfire": {
+     "winrate": 0.0,
+     "matches": 5
+    },
+    "Domain Aggro": {
+     "winrate": 25.0,
+     "matches": 8
+    },
+    "Hollow One": {
+     "winrate": 57.0,
+     "matches": 7
+    },
+    "Amulet Titan": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Neoform": {
+     "winrate": 10.0,
+     "matches": 10
+    },
+    "Grixis Reanimator": {
+     "winrate": 17.0,
+     "matches": 6
+    },
+    "Jeskai Ocelot": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Tameshi Belcher": {
+     "winrate": 0.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Burn": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Jeskai Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Blue Tron": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  },
+  "Living End": {
+   "as": "Living End",
+   "overall": 51.1,
+   "matches": 354,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 58.0,
+     "matches": 38
+    },
+    "Esper Reanimator": {
+     "winrate": 55.0,
+     "matches": 38
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 29.0,
+     "matches": 35
+    },
+    "Esper Blink": {
+     "winrate": 30.0,
+     "matches": 27
+    },
+    "Devoted Druid Combo": {
+     "winrate": 64.0,
+     "matches": 14
+    },
+    "Izzet Metalcraft": {
+     "winrate": 35.0,
+     "matches": 20
+    },
+    "Eldrazi Ramp": {
+     "winrate": 64.0,
+     "matches": 11
+    },
+    "Living End": {
+     "winrate": 50.0,
+     "matches": 10
+    },
+    "Boros Energy": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Ruby Storm": {
+     "winrate": 59.0,
+     "matches": 17
+    },
+    "Dimir Frog": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Eldrazi Tron": {
+     "winrate": 54.0,
+     "matches": 13
+    },
+    "Boros Wildfire": {
+     "winrate": 43.0,
+     "matches": 14
+    },
+    "Domain Aggro": {
+     "winrate": 67.0,
+     "matches": 9
+    },
+    "Hollow One": {
+     "winrate": 58.0,
+     "matches": 12
+    },
+    "Amulet Titan": {
+     "winrate": 60.0,
+     "matches": 10
+    },
+    "Neoform": {
+     "winrate": 67.0,
+     "matches": 9
+    },
+    "Grixis Reanimator": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Jeskai Ocelot": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Tameshi Belcher": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Jeskai Control": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mill": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Mardu Energy": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Blue Tron": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mono Black Bones": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Merfolk": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Golgari Yawgmoth": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  },
+  "Eldrazi Tron": {
+   "as": "Eldrazi Tron",
+   "overall": 47.1,
+   "matches": 327,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 61.0,
+     "matches": 36
+    },
+    "Esper Reanimator": {
+     "winrate": 71.0,
+     "matches": 24
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 25.0,
+     "matches": 24
+    },
+    "Esper Blink": {
+     "winrate": 33.0,
+     "matches": 12
+    },
+    "Devoted Druid Combo": {
+     "winrate": 58.0,
+     "matches": 12
+    },
+    "Izzet Metalcraft": {
+     "winrate": 43.0,
+     "matches": 28
+    },
+    "Eldrazi Ramp": {
+     "winrate": 20.0,
+     "matches": 20
+    },
+    "Living End": {
+     "winrate": 46.0,
+     "matches": 13
+    },
+    "Boros Energy": {
+     "winrate": 29.0,
+     "matches": 14
+    },
+    "Ruby Storm": {
+     "winrate": 53.0,
+     "matches": 15
+    },
+    "Dimir Frog": {
+     "winrate": 58.0,
+     "matches": 12
+    },
+    "Eldrazi Tron": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Boros Wildfire": {
+     "winrate": 17.0,
+     "matches": 12
+    },
+    "Domain Aggro": {
+     "winrate": 20.0,
+     "matches": 10
+    },
+    "Hollow One": {
+     "winrate": 100.0,
+     "matches": 3
+    },
+    "Amulet Titan": {
+     "winrate": 57.0,
+     "matches": 7
+    },
+    "Neoform": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Grixis Reanimator": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Jeskai Ocelot": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 0.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Jeskai Control": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mill": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Prison Tron": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mono Blue Tron": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 50.0,
+     "matches": 2
+    }
+   }
+  },
+  "Boros Ponza": {
+   "as": "Boros Wildfire",
+   "overall": 56.0,
+   "matches": 268,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 58.0,
+     "matches": 31
+    },
+    "Esper Reanimator": {
+     "winrate": 50.0,
+     "matches": 26
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 58.0,
+     "matches": 24
+    },
+    "Esper Blink": {
+     "winrate": 82.0,
+     "matches": 17
+    },
+    "Devoted Druid Combo": {
+     "winrate": 57.0,
+     "matches": 14
+    },
+    "Izzet Metalcraft": {
+     "winrate": 55.0,
+     "matches": 11
+    },
+    "Eldrazi Ramp": {
+     "winrate": 18.0,
+     "matches": 11
+    },
+    "Living End": {
+     "winrate": 57.0,
+     "matches": 14
+    },
+    "Boros Energy": {
+     "winrate": 100.0,
+     "matches": 5
+    },
+    "Ruby Storm": {
+     "winrate": 29.0,
+     "matches": 7
+    },
+    "Dimir Frog": {
+     "winrate": 45.0,
+     "matches": 11
+    },
+    "Eldrazi Tron": {
+     "winrate": 83.0,
+     "matches": 12
+    },
+    "Boros Wildfire": {
+     "winrate": 50.0,
+     "matches": 10
+    },
+    "Domain Aggro": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Hollow One": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Amulet Titan": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Neoform": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Grixis Reanimator": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Jeskai Ocelot": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Jeskai Control": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mill": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Simic Ritual": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Mardu Energy": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  },
+  "Dimir Midrange": {
+   "as": "Dimir Frog",
+   "overall": 55.8,
+   "matches": 335,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 62.0,
+     "matches": 29
+    },
+    "Esper Reanimator": {
+     "winrate": 67.0,
+     "matches": 43
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 46.0,
+     "matches": 26
+    },
+    "Esper Blink": {
+     "winrate": 20.0,
+     "matches": 20
+    },
+    "Devoted Druid Combo": {
+     "winrate": 43.0,
+     "matches": 23
+    },
+    "Izzet Metalcraft": {
+     "winrate": 65.0,
+     "matches": 20
+    },
+    "Eldrazi Ramp": {
+     "winrate": 65.0,
+     "matches": 26
+    },
+    "Living End": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Boros Energy": {
+     "winrate": 57.0,
+     "matches": 7
+    },
+    "Ruby Storm": {
+     "winrate": 64.0,
+     "matches": 14
+    },
+    "Dimir Frog": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Eldrazi Tron": {
+     "winrate": 42.0,
+     "matches": 12
+    },
+    "Boros Wildfire": {
+     "winrate": 55.0,
+     "matches": 11
+    },
+    "Domain Aggro": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Hollow One": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Amulet Titan": {
+     "winrate": 88.0,
+     "matches": 8
+    },
+    "Neoform": {
+     "winrate": 100.0,
+     "matches": 5
+    },
+    "Grixis Reanimator": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Jeskai Ocelot": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Tameshi Belcher": {
+     "winrate": 17.0,
+     "matches": 6
+    },
+    "Grinding Emry": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Burn": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Jeskai Control": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Prison Tron": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Simic Ritual": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Samwise Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mono Blue Tron": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mono Black Bones": {
+     "winrate": 100.0,
+     "matches": 1
+    }
+   }
+  },
+  "4c HollowOne": {
+   "as": "Hollow One",
+   "overall": 47.9,
+   "matches": 240,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 48.0,
+     "matches": 29
+    },
+    "Esper Reanimator": {
+     "winrate": 26.0,
+     "matches": 23
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 67.0,
+     "matches": 18
+    },
+    "Esper Blink": {
+     "winrate": 37.0,
+     "matches": 19
+    },
+    "Devoted Druid Combo": {
+     "winrate": 58.0,
+     "matches": 12
+    },
+    "Izzet Metalcraft": {
+     "winrate": 44.0,
+     "matches": 16
+    },
+    "Eldrazi Ramp": {
+     "winrate": 45.0,
+     "matches": 11
+    },
+    "Living End": {
+     "winrate": 42.0,
+     "matches": 12
+    },
+    "Boros Energy": {
+     "winrate": 43.0,
+     "matches": 7
+    },
+    "Ruby Storm": {
+     "winrate": 44.0,
+     "matches": 9
+    },
+    "Dimir Frog": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Eldrazi Tron": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Boros Wildfire": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Domain Aggro": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Hollow One": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Amulet Titan": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Neoform": {
+     "winrate": 67.0,
+     "matches": 6
+    },
+    "Grixis Reanimator": {
+     "winrate": 100.0,
+     "matches": 5
+    },
+    "Jeskai Ocelot": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Tameshi Belcher": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Grinding Emry": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Jeskai Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Mill": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Prison Tron": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Simic Ritual": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Azorius Control": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Mono Blue Tron": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Black Bones": {
+     "winrate": 100.0,
+     "matches": 1
+    }
+   }
+  },
+  "Domain Zoo": {
+   "as": "Domain Aggro",
+   "overall": 52.9,
+   "matches": 257,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 67.0,
+     "matches": 24
+    },
+    "Esper Reanimator": {
+     "winrate": 52.0,
+     "matches": 25
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 56.0,
+     "matches": 27
+    },
+    "Esper Blink": {
+     "winrate": 31.0,
+     "matches": 16
+    },
+    "Devoted Druid Combo": {
+     "winrate": 33.0,
+     "matches": 9
+    },
+    "Izzet Metalcraft": {
+     "winrate": 33.0,
+     "matches": 9
+    },
+    "Eldrazi Ramp": {
+     "winrate": 44.0,
+     "matches": 16
+    },
+    "Living End": {
+     "winrate": 33.0,
+     "matches": 9
+    },
+    "Boros Energy": {
+     "winrate": 75.0,
+     "matches": 8
+    },
+    "Ruby Storm": {
+     "winrate": 67.0,
+     "matches": 6
+    },
+    "Dimir Frog": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Eldrazi Tron": {
+     "winrate": 80.0,
+     "matches": 10
+    },
+    "Boros Wildfire": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Domain Aggro": {
+     "winrate": 50.0,
+     "matches": 8
+    },
+    "Hollow One": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Amulet Titan": {
+     "winrate": 22.0,
+     "matches": 9
+    },
+    "Neoform": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Grixis Reanimator": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Jeskai Ocelot": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Tameshi Belcher": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Grinding Emry": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Jeskai Control": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Mill": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Mono Blue Tron": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 0.0,
+     "matches": 2
+    }
+   }
+  },
+  "Tron": {
+   "as": "Mono Blue Tron",
+   "overall": 50.0,
+   "matches": 48,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Esper Reanimator": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Esper Blink": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Devoted Druid Combo": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Izzet Metalcraft": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Eldrazi Ramp": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Living End": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Boros Energy": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Ruby Storm": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Dimir Frog": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Eldrazi Tron": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Boros Wildfire": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Domain Aggro": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Hollow One": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Amulet Titan": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Neoform": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Grixis Reanimator": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Jeskai Ocelot": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 2
+    }
+   }
+  },
+  "Amulet Titan": {
+   "as": "Amulet Titan",
+   "overall": 45.6,
+   "matches": 226,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 59.0,
+     "matches": 22
+    },
+    "Esper Reanimator": {
+     "winrate": 41.0,
+     "matches": 22
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 55.0,
+     "matches": 20
+    },
+    "Esper Blink": {
+     "winrate": 17.0,
+     "matches": 12
+    },
+    "Devoted Druid Combo": {
+     "winrate": 14.0,
+     "matches": 14
+    },
+    "Izzet Metalcraft": {
+     "winrate": 56.0,
+     "matches": 16
+    },
+    "Eldrazi Ramp": {
+     "winrate": 50.0,
+     "matches": 12
+    },
+    "Living End": {
+     "winrate": 40.0,
+     "matches": 10
+    },
+    "Boros Energy": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Ruby Storm": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Dimir Frog": {
+     "winrate": 13.0,
+     "matches": 8
+    },
+    "Eldrazi Tron": {
+     "winrate": 43.0,
+     "matches": 7
+    },
+    "Boros Wildfire": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Domain Aggro": {
+     "winrate": 78.0,
+     "matches": 9
+    },
+    "Hollow One": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Amulet Titan": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Neoform": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Grixis Reanimator": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Jeskai Ocelot": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Grinding Emry": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Burn": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Jeskai Control": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mill": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Simic Ritual": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Azorius Control": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 50.0,
+     "matches": 2
+    }
+   }
+  },
+  "Neobrand": {
+   "as": "Neoform",
+   "overall": 52.7,
+   "matches": 222,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 61.0,
+     "matches": 28
+    },
+    "Esper Reanimator": {
+     "winrate": 29.0,
+     "matches": 21
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 59.0,
+     "matches": 17
+    },
+    "Esper Blink": {
+     "winrate": 64.0,
+     "matches": 11
+    },
+    "Devoted Druid Combo": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Izzet Metalcraft": {
+     "winrate": 54.0,
+     "matches": 13
+    },
+    "Eldrazi Ramp": {
+     "winrate": 56.0,
+     "matches": 9
+    },
+    "Living End": {
+     "winrate": 33.0,
+     "matches": 9
+    },
+    "Boros Energy": {
+     "winrate": 90.0,
+     "matches": 10
+    },
+    "Ruby Storm": {
+     "winrate": 89.0,
+     "matches": 9
+    },
+    "Dimir Frog": {
+     "winrate": 0.0,
+     "matches": 5
+    },
+    "Eldrazi Tron": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Boros Wildfire": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Domain Aggro": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Hollow One": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Amulet Titan": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Neoform": {
+     "winrate": 50.0,
+     "matches": 6
+    },
+    "Grixis Reanimator": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Jeskai Ocelot": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Tameshi Belcher": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Grinding Emry": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Burn": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Jeskai Control": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Mill": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Samwise Combo": {
+     "winrate": 0.0,
+     "matches": 2
+    }
+   }
+  },
+  "Devoted Combo": {
+   "as": "Devoted Druid Combo",
+   "overall": 54.0,
+   "matches": 556,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 36.0,
+     "matches": 66
+    },
+    "Esper Reanimator": {
+     "winrate": 60.0,
+     "matches": 67
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 59.0,
+     "matches": 37
+    },
+    "Esper Blink": {
+     "winrate": 35.0,
+     "matches": 49
+    },
+    "Devoted Druid Combo": {
+     "winrate": 50.0,
+     "matches": 22
+    },
+    "Izzet Metalcraft": {
+     "winrate": 68.0,
+     "matches": 31
+    },
+    "Eldrazi Ramp": {
+     "winrate": 64.0,
+     "matches": 22
+    },
+    "Living End": {
+     "winrate": 36.0,
+     "matches": 14
+    },
+    "Boros Energy": {
+     "winrate": 58.0,
+     "matches": 24
+    },
+    "Ruby Storm": {
+     "winrate": 59.0,
+     "matches": 17
+    },
+    "Dimir Frog": {
+     "winrate": 57.0,
+     "matches": 23
+    },
+    "Eldrazi Tron": {
+     "winrate": 42.0,
+     "matches": 12
+    },
+    "Boros Wildfire": {
+     "winrate": 43.0,
+     "matches": 14
+    },
+    "Domain Aggro": {
+     "winrate": 67.0,
+     "matches": 9
+    },
+    "Hollow One": {
+     "winrate": 42.0,
+     "matches": 12
+    },
+    "Amulet Titan": {
+     "winrate": 86.0,
+     "matches": 14
+    },
+    "Neoform": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Grixis Reanimator": {
+     "winrate": 56.0,
+     "matches": 9
+    },
+    "Jeskai Ocelot": {
+     "winrate": 20.0,
+     "matches": 5
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Grinding Emry": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Burn": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Jeskai Control": {
+     "winrate": 100.0,
+     "matches": 4
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 29.0,
+     "matches": 7
+    },
+    "Mill": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Prison Tron": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Simic Ritual": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Azorius Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Samwise Combo": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Mardu Energy": {
+     "winrate": 44.0,
+     "matches": 9
+    },
+    "Mono Blue Tron": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Cosmogoyf Combo": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mono Black Bones": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Merfolk": {
+     "winrate": 100.0,
+     "matches": 2
+    }
+   }
+  },
+  "Jeskai Energy": {
+   "as": "Jeskai Ocelot",
+   "overall": 50.7,
+   "matches": 144,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 53.0,
+     "matches": 17
+    },
+    "Esper Reanimator": {
+     "winrate": 41.0,
+     "matches": 17
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 50.0,
+     "matches": 14
+    },
+    "Esper Blink": {
+     "winrate": 8.0,
+     "matches": 13
+    },
+    "Devoted Druid Combo": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Izzet Metalcraft": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Eldrazi Ramp": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Living End": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Boros Energy": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Ruby Storm": {
+     "winrate": 75.0,
+     "matches": 4
+    },
+    "Dimir Frog": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Eldrazi Tron": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Boros Wildfire": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Domain Aggro": {
+     "winrate": 80.0,
+     "matches": 5
+    },
+    "Hollow One": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Amulet Titan": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Neoform": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Grixis Reanimator": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Jeskai Ocelot": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Tameshi Belcher": {
+     "winrate": 33.0,
+     "matches": 3
+    },
+    "Grinding Emry": {
+     "winrate": 0.0,
+     "matches": 3
+    },
+    "Burn": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Jeskai Control": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Mill": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Simic Ritual": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  },
+  "Boros Burn": {
+   "as": "Burn",
+   "overall": 37.4,
+   "matches": 115,
+   "vs": {
+    "Izzet Prowess": {
+     "winrate": 39.0,
+     "matches": 18
+    },
+    "Esper Reanimator": {
+     "winrate": 9.0,
+     "matches": 11
+    },
+    "Eldrazi Bloodchief Combo": {
+     "winrate": 71.0,
+     "matches": 7
+    },
+    "Esper Blink": {
+     "winrate": 60.0,
+     "matches": 5
+    },
+    "Devoted Druid Combo": {
+     "winrate": 40.0,
+     "matches": 5
+    },
+    "Izzet Metalcraft": {
+     "winrate": 33.0,
+     "matches": 6
+    },
+    "Eldrazi Ramp": {
+     "winrate": 22.0,
+     "matches": 9
+    },
+    "Living End": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Boros Energy": {
+     "winrate": 25.0,
+     "matches": 4
+    },
+    "Ruby Storm": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Dimir Frog": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Eldrazi Tron": {
+     "winrate": 0.0,
+     "matches": 4
+    },
+    "Boros Wildfire": {
+     "winrate": 100.0,
+     "matches": 2
+    },
+    "Domain Aggro": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Hollow One": {
+     "winrate": 50.0,
+     "matches": 4
+    },
+    "Amulet Titan": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Neoform": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Grixis Reanimator": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Jeskai Ocelot": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Tameshi Belcher": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Grinding Emry": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Burn": {
+     "winrate": 67.0,
+     "matches": 3
+    },
+    "Jeskai Control": {
+     "winrate": 50.0,
+     "matches": 2
+    },
+    "Mono Black Necrodominance": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Mill": {
+     "winrate": 0.0,
+     "matches": 1
+    },
+    "Prison Tron": {
+     "winrate": 0.0,
+     "matches": 2
+    },
+    "Simic Ritual": {
+     "winrate": 100.0,
+     "matches": 1
+    },
+    "Azorius Control": {
+     "winrate": 0.0,
+     "matches": 1
+    }
+   }
+  }
+ }
+}

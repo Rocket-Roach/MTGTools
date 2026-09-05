@@ -1,0 +1,718 @@
+{
+ "superior spider-man": {
+  "price": 2.31,
+  "updated": "2026-09-04"
+ },
+ "undercity sewers": {
+  "price": 8.96,
+  "updated": "2026-09-04"
+ },
+ "nihil spellbomb": {
+  "price": 2.49,
+  "updated": "2026-09-04"
+ },
+ "dragon's rage channeler": {
+  "price": 0.99,
+  "updated": "2026-09-04"
+ },
+ "expressive iteration": {
+  "price": 0.27,
+  "updated": "2026-09-04"
+ },
+ "mutagenic growth": {
+  "price": 1.26,
+  "updated": "2026-09-04"
+ },
+ "wooded foothills": {
+  "price": 17.51,
+  "updated": "2026-09-04"
+ },
+ "cori-steel cutter": {
+  "price": 4.65,
+  "updated": "2026-09-04"
+ },
+ "mishra's bauble": {
+  "price": 1.04,
+  "updated": "2026-09-04"
+ },
+ "violent urge": {
+  "price": 0.37,
+  "updated": "2026-09-04"
+ },
+ "fiery islet": {
+  "price": 4.55,
+  "updated": "2026-09-04"
+ },
+ "slickshot show-off": {
+  "price": 4.75,
+  "updated": "2026-09-04"
+ },
+ "lava dart": {
+  "price": 0.88,
+  "updated": "2026-09-04"
+ },
+ "spell pierce": {
+  "price": 0.28,
+  "updated": "2026-09-04"
+ },
+ "meltdown": {
+  "price": 0.37,
+  "updated": "2026-09-04"
+ },
+ "thought-knot seer": {
+  "price": 5.03,
+  "updated": "2026-09-04"
+ },
+ "blade of the bloodchief": {
+  "price": 5.69,
+  "updated": "2026-09-04"
+ },
+ "basking broodscale": {
+  "price": 0.3,
+  "updated": "2026-09-04"
+ },
+ "delighted halfling": {
+  "price": 27.3,
+  "updated": "2026-09-04"
+ },
+ "eldrazi temple": {
+  "price": 3.25,
+  "updated": "2026-09-04"
+ },
+ "cavern of souls": {
+  "price": 50.09,
+  "updated": "2026-09-04"
+ },
+ "kozilek's command": {
+  "price": 7.55,
+  "updated": "2026-09-04"
+ },
+ "grove of the burnwillows": {
+  "price": 6.9,
+  "updated": "2026-09-04"
+ },
+ "glaring fleshraker": {
+  "price": 1.51,
+  "updated": "2026-09-04"
+ },
+ "sowing mycospawn": {
+  "price": 2.47,
+  "updated": "2026-09-04"
+ },
+ "vexing bauble": {
+  "price": 2.17,
+  "updated": "2026-09-04"
+ },
+ "emrakul, the promised end": {
+  "price": 23.33,
+  "updated": "2026-09-04"
+ },
+ "nature's claim": {
+  "price": 0.57,
+  "updated": "2026-09-04"
+ },
+ "thief of existence": {
+  "price": 0.27,
+  "updated": "2026-09-04"
+ },
+ "warping wail": {
+  "price": 0.48,
+  "updated": "2026-09-04"
+ },
+ "sire of seven deaths": {
+  "price": 18.44,
+  "updated": "2026-09-04"
+ },
+ "high noon": {
+  "price": 4.55,
+  "updated": "2026-09-04"
+ },
+ "salvage titan": {
+  "price": 0.44,
+  "updated": "2026-09-04"
+ },
+ "starting town": {
+  "price": 9.6,
+  "updated": "2026-09-04"
+ },
+ "engineered explosives": {
+  "price": 4.06,
+  "updated": "2026-09-04"
+ },
+ "kappa cannoneer": {
+  "price": 0.36,
+  "updated": "2026-09-04"
+ },
+ "skateboard": {
+  "price": 0.33,
+  "updated": "2026-09-04"
+ },
+ "mox opal": {
+  "price": 236.07,
+  "updated": "2026-09-04"
+ },
+ "pinnacle emissary": {
+  "price": 1.55,
+  "updated": "2026-09-04"
+ },
+ "weapons manufacturing": {
+  "price": 2.03,
+  "updated": "2026-09-04"
+ },
+ "tormod's crypt": {
+  "price": 0.41,
+  "updated": "2026-09-04"
+ },
+ "spirebluff canal": {
+  "price": 5.04,
+  "updated": "2026-09-04"
+ },
+ "metallic rebuke": {
+  "price": 0.27,
+  "updated": "2026-09-04"
+ },
+ "claws of gix": {
+  "price": 13.33,
+  "updated": "2026-09-04"
+ },
+ "the legend of roku": {
+  "price": 9.71,
+  "updated": "2026-09-04"
+ },
+ "whipflare": {
+  "price": 0.21,
+  "updated": "2026-09-04"
+ },
+ "galvanic blast": {
+  "price": 1.99,
+  "updated": "2026-09-04"
+ },
+ "artist's talent": {
+  "price": 5.82,
+  "updated": "2026-09-04"
+ },
+ "desperate ritual": {
+  "price": 6.59,
+  "updated": "2026-09-04"
+ },
+ "hex magic": {
+  "price": 0.71,
+  "updated": "2026-09-04"
+ },
+ "pyretic ritual": {
+  "price": 5.98,
+  "updated": "2026-09-04"
+ },
+ "ral, monsoon mage": {
+  "price": 6.97,
+  "updated": "2026-09-04"
+ },
+ "reckless impulse": {
+  "price": 0.86,
+  "updated": "2026-09-04"
+ },
+ "ruby medallion": {
+  "price": 13.06,
+  "updated": "2026-09-04"
+ },
+ "past in flames": {
+  "price": 2.32,
+  "updated": "2026-09-04"
+ },
+ "sunbaked canyon": {
+  "price": 4.07,
+  "updated": "2026-09-04"
+ },
+ "valakut awakening": {
+  "price": 16.88,
+  "updated": "2026-09-04"
+ },
+ "wrenn's resolve": {
+  "price": 1.43,
+  "updated": "2026-09-04"
+ },
+ "elegant parlor": {
+  "price": 10.33,
+  "updated": "2026-09-04"
+ },
+ "manamorphose": {
+  "price": 4.56,
+  "updated": "2026-09-04"
+ },
+ "stormscale scion": {
+  "price": 2.43,
+  "updated": "2026-09-04"
+ },
+ "grapeshot": {
+  "price": 0.27,
+  "updated": "2026-09-04"
+ },
+ "untimely malfunction": {
+  "price": 8.75,
+  "updated": "2026-09-04"
+ },
+ "silence": {
+  "price": 7.51,
+  "updated": "2026-09-04"
+ },
+ "ugin, eye of the storms": {
+  "price": 39.29,
+  "updated": "2026-09-04"
+ },
+ "slumbering trudge": {
+  "price": 0.53,
+  "updated": "2026-09-04"
+ },
+ "ugin's labyrinth": {
+  "price": 11.83,
+  "updated": "2026-09-04"
+ },
+ "ulamog, the ceaseless hunger": {
+  "price": 23.91,
+  "updated": "2026-09-04"
+ },
+ "mosswort bridge": {
+  "price": 0.31,
+  "updated": "2026-09-04"
+ },
+ "yavimaya, cradle of growth": {
+  "price": 15.42,
+  "updated": "2026-09-04"
+ },
+ "drowner of truth": {
+  "price": 0.3,
+  "updated": "2026-09-04"
+ },
+ "fanatic of rhonas": {
+  "price": 21.17,
+  "updated": "2026-09-04"
+ },
+ "fight rigging": {
+  "price": 0.27,
+  "updated": "2026-09-04"
+ },
+ "soulless jailer": {
+  "price": 1.31,
+  "updated": "2026-09-04"
+ },
+ "carnage tyrant": {
+  "price": 4.7,
+  "updated": "2026-09-04"
+ },
+ "disruptor flute": {
+  "price": 1.5,
+  "updated": "2026-09-04"
+ },
+ "torpor orb": {
+  "price": 4.17,
+  "updated": "2026-09-04"
+ },
+ "elder gargaroth": {
+  "price": 1.71,
+  "updated": "2026-09-04"
+ },
+ "ajani, nacatl pariah": {
+  "price": 9.87,
+  "updated": "2026-09-04"
+ },
+ "arena of glory": {
+  "price": 7.86,
+  "updated": "2026-09-04"
+ },
+ "belladonna took": {
+  "price": 4.21,
+  "updated": "2026-09-04"
+ },
+ "dalkovan encampment": {
+  "price": 0.44,
+  "updated": "2026-09-04"
+ },
+ "galvanic discharge": {
+  "price": 0.32,
+  "updated": "2026-09-04"
+ },
+ "guide of souls": {
+  "price": 2.9,
+  "updated": "2026-09-04"
+ },
+ "goblin bombardment": {
+  "price": 2.32,
+  "updated": "2026-09-04"
+ },
+ "ranger-captain of eos": {
+  "price": 38.71,
+  "updated": "2026-09-04"
+ },
+ "seasoned pyromancer": {
+  "price": 6.02,
+  "updated": "2026-09-04"
+ },
+ "thraben charm": {
+  "price": 0.42,
+  "updated": "2026-09-04"
+ },
+ "voice of victory": {
+  "price": 17.12,
+  "updated": "2026-09-04"
+ },
+ "obsidian charmaw": {
+  "price": 1.05,
+  "updated": "2026-09-04"
+ },
+ "celestial purge": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "wistfulness": {
+  "price": 5.38,
+  "updated": "2026-09-04"
+ },
+ "endurance": {
+  "price": 4.08,
+  "updated": "2026-09-04"
+ },
+ "underground mortuary": {
+  "price": 15.64,
+  "updated": "2026-09-04"
+ },
+ "twilight mire": {
+  "price": null,
+  "updated": "2026-09-04"
+ },
+ "troll of khazad-dum": {
+  "price": 0.98,
+  "updated": "2026-09-04"
+ },
+ "sunken ruins": {
+  "price": 3.17,
+  "updated": "2026-09-04"
+ },
+ "shardless agent": {
+  "price": 0.34,
+  "updated": "2026-09-04"
+ },
+ "living end": {
+  "price": 2.39,
+  "updated": "2026-09-04"
+ },
+ "harvester of misery": {
+  "price": 1.77,
+  "updated": "2026-09-04"
+ },
+ "flooded grove": {
+  "price": 0.29,
+  "updated": "2026-09-04"
+ },
+ "deceit": {
+  "price": 3.37,
+  "updated": "2026-09-04"
+ },
+ "culling ritual": {
+  "price": 0.49,
+  "updated": "2026-09-04"
+ },
+ "foundation breaker": {
+  "price": 0.28,
+  "updated": "2026-09-04"
+ },
+ "inevitable betrayal": {
+  "price": 1.14,
+  "updated": "2026-09-04"
+ },
+ "mind stone": {
+  "price": 0.29,
+  "updated": "2026-09-04"
+ },
+ "devourer of destiny": {
+  "price": 0.9,
+  "updated": "2026-09-04"
+ },
+ "the ten rings": {
+  "price": 15.47,
+  "updated": "2026-09-04"
+ },
+ "extinguisher battleship": {
+  "price": 0.42,
+  "updated": "2026-09-04"
+ },
+ "the filigree sylex": {
+  "price": 0.28,
+  "updated": "2026-09-04"
+ },
+ "erode": {
+  "price": 5.99,
+  "updated": "2026-09-04"
+ },
+ "cori mountain monastery": {
+  "price": 0.46,
+  "updated": "2026-09-04"
+ },
+ "demolition field": {
+  "price": 0.28,
+  "updated": "2026-09-04"
+ },
+ "price of freedom": {
+  "price": 0.4,
+  "updated": "2026-09-04"
+ },
+ "avengers disassembled": {
+  "price": 1.31,
+  "updated": "2026-09-04"
+ },
+ "sunken citadel": {
+  "price": 0.43,
+  "updated": "2026-09-04"
+ },
+ "field of ruin": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "cleansing wildfire": {
+  "price": 0.78,
+  "updated": "2026-09-04"
+ },
+ "relic of progenitus": {
+  "price": 6.16,
+  "updated": "2026-09-04"
+ },
+ "chandra, awakened inferno": {
+  "price": 8.88,
+  "updated": "2026-09-04"
+ },
+ "wrath of god": {
+  "price": 2.97,
+  "updated": "2026-09-04"
+ },
+ "kaheera, the orphanguard": {
+  "price": 0.93,
+  "updated": "2026-09-04"
+ },
+ "kaito, bane of nightmares": {
+  "price": 8.84,
+  "updated": "2026-09-04"
+ },
+ "sheoldred's edict": {
+  "price": 0.98,
+  "updated": "2026-09-04"
+ },
+ "break the ice": {
+  "price": 0.33,
+  "updated": "2026-09-04"
+ },
+ "requiting hex": {
+  "price": 1.02,
+  "updated": "2026-09-04"
+ },
+ "toxic deluge": {
+  "price": 4.49,
+  "updated": "2026-09-04"
+ },
+ "street wraith": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "blazing rootwalla": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "burning inquiry": {
+  "price": 3.25,
+  "updated": "2026-09-04"
+ },
+ "detective's phoenix": {
+  "price": 0.33,
+  "updated": "2026-09-04"
+ },
+ "marauding mako": {
+  "price": 0.72,
+  "updated": "2026-09-04"
+ },
+ "hollow one": {
+  "price": 0.25,
+  "updated": "2026-09-04"
+ },
+ "practiced offense": {
+  "price": 1.13,
+  "updated": "2026-09-04"
+ },
+ "faithless looting": {
+  "price": 0.33,
+  "updated": "2026-09-04"
+ },
+ "hardened academic": {
+  "price": 0.56,
+  "updated": "2026-09-04"
+ },
+ "vengevine": {
+  "price": 5.88,
+  "updated": "2026-09-04"
+ },
+ "rough // tumble": {
+  "price": 0.31,
+  "updated": "2026-09-04"
+ },
+ "deafening silence": {
+  "price": 1.08,
+  "updated": "2026-09-04"
+ },
+ "indatha triome": {
+  "price": 18.96,
+  "updated": "2026-09-04"
+ },
+ "stubborn denial": {
+  "price": 4.1,
+  "updated": "2026-09-04"
+ },
+ "portent of calamity": {
+  "price": 0.28,
+  "updated": "2026-09-04"
+ },
+ "giant's boulder": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "nulldrifter": {
+  "price": 1.2,
+  "updated": "2026-09-04"
+ },
+ "emrakul, the aeons torn": {
+  "price": 20.9,
+  "updated": "2026-09-04"
+ },
+ "stock up": {
+  "price": 1.31,
+  "updated": "2026-09-04"
+ },
+ "test of talents": {
+  "price": 0.33,
+  "updated": "2026-09-04"
+ },
+ "abhorrent oculus": {
+  "price": 12.45,
+  "updated": "2026-09-04"
+ },
+ "thundertrap trainer": {
+  "price": 1.32,
+  "updated": "2026-09-04"
+ },
+ "natural state": {
+  "price": 0.24,
+  "updated": "2026-09-04"
+ },
+ "shang-chi, master of kung fu": {
+  "price": 10.98,
+  "updated": "2026-09-04"
+ },
+ "leyline of abundance": {
+  "price": 1.65,
+  "updated": "2026-09-04"
+ },
+ "ouroboroid": {
+  "price": 34.16,
+  "updated": "2026-09-04"
+ },
+ "nature's rhythm": {
+  "price": 3.72,
+  "updated": "2026-09-04"
+ },
+ "craterhoof behemoth": {
+  "price": 21.27,
+  "updated": "2026-09-04"
+ },
+ "tyvar, jubilant brawler": {
+  "price": 2.2,
+  "updated": "2026-09-04"
+ },
+ "nurturing peatland": {
+  "price": 6.81,
+  "updated": "2026-09-04"
+ },
+ "fiend artisan": {
+  "price": 4.31,
+  "updated": "2026-09-04"
+ },
+ "birds of paradise": {
+  "price": 9.45,
+  "updated": "2026-09-04"
+ },
+ "devoted druid": {
+  "price": 1.04,
+  "updated": "2026-09-04"
+ },
+ "postmortem lunge": {
+  "price": 0.3,
+  "updated": "2026-09-04"
+ },
+ "duskwatch recruiter": {
+  "price": 0.32,
+  "updated": "2026-09-04"
+ },
+ "vizier of remedies": {
+  "price": 0.22,
+  "updated": "2026-09-04"
+ },
+ "badgermole cub": {
+  "price": 47.13,
+  "updated": "2026-09-04"
+ },
+ "guerrilla gorilla": {
+  "price": 0.21,
+  "updated": "2026-09-04"
+ },
+ "keen-eyed curator": {
+  "price": 1.49,
+  "updated": "2026-09-04"
+ },
+ "grist, the hunger tide": {
+  "price": 0.4,
+  "updated": "2026-09-04"
+ },
+ "kraul harpooner": {
+  "price": 0.14,
+  "updated": "2026-09-04"
+ },
+ "abrupt decay": {
+  "price": 1.0,
+  "updated": "2026-09-04"
+ },
+ "day's undoing": {
+  "price": 1.5,
+  "updated": "2026-09-04"
+ },
+ "monumental henge": {
+  "price": 0.46,
+  "updated": "2026-09-04"
+ },
+ "consult the star charts": {
+  "price": 3.04,
+  "updated": "2026-09-04"
+ },
+ "orim's chant": {
+  "price": 6.74,
+  "updated": "2026-09-04"
+ },
+ "isochron scepter": {
+  "price": 8.09,
+  "updated": "2026-09-04"
+ },
+ "beza, the bounding spring": {
+  "price": 3.73,
+  "updated": "2026-09-04"
+ },
+ "inspiring vantage": {
+  "price": 1.95,
+  "updated": "2026-09-04"
+ },
+ "searing blaze": {
+  "price": 0.56,
+  "updated": "2026-09-04"
+ },
+ "skullcrack": {
+  "price": 0.17,
+  "updated": "2026-09-04"
+ },
+ "smash to smithereens": {
+  "price": 0.3,
+  "updated": "2026-09-04"
+ }
+}

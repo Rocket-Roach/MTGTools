@@ -1,0 +1,183 @@
+{
+  "phases": [
+    {
+      "name": "Phase 1: Core Manabase",
+      "description": "Universal WUB fetch/shock manabase - foundation for all 3+ color Modern decks",
+      "totalCost": 377,
+      "cards": [
+        { "category": "Fetchland", "quantity": 4, "name": "Flooded Strand", "price": 25, "total": 100, "notes": "W/U fetch - used in all WUB/x decks" },
+        { "category": "Fetchland", "quantity": 4, "name": "Marsh Flats", "price": 22, "total": 88, "notes": "W/B fetch - used in all WUB/x decks" },
+        { "category": "Fetchland", "quantity": 4, "name": "Polluted Delta", "price": 28, "total": 112, "notes": "U/B fetch - used in all WUB/x decks" },
+        { "category": "Shockland", "quantity": 2, "name": "Watery Grave", "price": 12, "total": 24, "notes": "U/B shock" },
+        { "category": "Shockland", "quantity": 2, "name": "Hallowed Fountain", "price": 12, "total": 24, "notes": "W/U shock" },
+        { "category": "Shockland", "quantity": 2, "name": "Godless Shrine", "price": 12, "total": 24, "notes": "W/B shock" },
+        { "category": "Land", "quantity": 1, "name": "Island", "price": 1, "total": 1, "notes": "Basic" },
+        { "category": "Land", "quantity": 1, "name": "Swamp", "price": 1, "total": 1, "notes": "Basic" },
+        { "category": "Land", "quantity": 1, "name": "Plains", "price": 1, "total": 1, "notes": "Basic" }
+      ]
+    },
+    {
+      "name": "Phase 2: Core Staples",
+      "description": "Irreducible cross-deck staples shared across 5+ top Modern archetypes",
+      "totalCost": 309,
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Quantum Riddler", "price": 18, "total": 72, "notes": "Format staple - 8+ top decks" },
+        { "category": "Creature", "quantity": 4, "name": "Solitude", "price": 15, "total": 60, "notes": "Format staple - 6+ top decks" },
+        { "category": "Sorcery", "quantity": 4, "name": "Ephemerate", "price": 8, "total": 32, "notes": "Blink engine - 5+ top decks" },
+        { "category": "Sorcery", "quantity": 4, "name": "Thoughtseize", "price": 12, "total": 48, "notes": "Universal black staple" },
+        { "category": "Instant", "quantity": 4, "name": "Fatal Push", "price": 5, "total": 20, "notes": "Removal staple - 6+ top decks" },
+        { "category": "Instant", "quantity": 3, "name": "Prismatic Ending", "price": 3, "total": 9, "notes": "Removal staple - 4+ top decks" },
+        { "category": "Planeswalker", "quantity": 2, "name": "Teferi, Time Raveler", "price": 25, "total": 50, "notes": "Control staple - 4+ top decks" },
+        { "category": "Planeswalker", "quantity": 1, "name": "Teferi, Hero of Dominaria", "price": 8, "total": 8, "notes": "Late game value" }
+      ]
+    },
+    {
+      "name": "Phase 3: Esper Blink Completion",
+      "description": "Finish Esper Blink (8.4% meta) - Tier 1 competitive deck",
+      "totalCost": 220,
+      "cards": [
+        { "category": "Creature", "quantity": 2, "name": "Overlord of the Balemurk", "price": 3, "total": 6, "notes": "Blink target" },
+        { "category": "Creature", "quantity": 2, "name": "Skyclave Apparition", "price": 4, "total": 8, "notes": "Blink target / removal" },
+        { "category": "Creature", "quantity": 1, "name": "Archon of Cruelty", "price": 15, "total": 15, "notes": "Reanimator target / blink target" },
+        { "category": "Instant", "quantity": 2, "name": "Force of Negation", "price": 22, "total": 44, "notes": "Free counter - 5+ top decks" },
+        { "category": "Instant", "quantity": 2, "name": "Counterspell", "price": 3, "total": 6, "notes": "Hard counter" },
+        { "category": "Instant", "quantity": 2, "name": "Spell Snare", "price": 2, "total": 4, "notes": "Efficient counter" },
+        { "category": "Sorcery", "quantity": 2, "name": "Faithful Mending", "price": 3, "total": 6, "notes": "Card selection / graveyard" },
+        { "category": "Enchantment", "quantity": 1, "name": "The Wandering Emperor", "price": 12, "total": 12, "notes": "Flash value" },
+        { "category": "Land", "quantity": 1, "name": "Castle Ardenvale", "price": 2, "total": 2, "notes": "Token generator" },
+        { "category": "Land", "quantity": 1, "name": "Castle Vantress", "price": 2, "total": 2, "notes": "Scry value" },
+        { "category": "Sideboard", "quantity": 2, "name": "Consign to Memory", "price": 3, "total": 6, "notes": "GY hate - 6+ top decks" },
+        { "category": "Sideboard", "quantity": 2, "name": "Wrath of the Skies", "price": 5, "total": 10, "notes": "Board wipe - 5+ top decks" },
+        { "category": "Sideboard", "quantity": 2, "name": "Rest in Peace", "price": 3, "total": 6, "notes": "GY hate" },
+        { "category": "Sideboard", "quantity": 2, "name": "Damping Sphere", "price": 2, "total": 4, "notes": "Anti-combo" },
+        { "category": "Sideboard", "quantity": 1, "name": "Supreme Verdict", "price": 4, "total": 4, "notes": "Uncounterable wipe" },
+        { "category": "Sideboard", "quantity": 1, "name": "Dress Down", "price": 3, "total": 3, "notes": "Creature hate" },
+        { "category": "Sideboard", "quantity": 2, "name": "Veil of Summer", "price": 4, "total": 8, "notes": "Anti-discard/counter" },
+        { "category": "Sideboard", "quantity": 1, "name": "Narset, Parter of Veils", "price": 8, "total": 8, "notes": "Card advantage hate" }
+      ]
+    },
+    {
+      "name": "Phase 4a: Goryo's Vengeance",
+      "description": "Upgrade to Goryo's Vengeance (10.3% meta - #1 deck)",
+      "incrementalCost": 426,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Griselbrand", "price": 35, "total": 140, "notes": "Reanimator target" },
+        { "category": "Creature", "quantity": 4, "name": "Atraxa, Grand Unifier", "price": 25, "total": 100, "notes": "Reanimator target" },
+        { "category": "Sorcery", "quantity": 4, "name": "Goryo's Vengeance", "price": 8, "total": 32, "notes": "Namesake card" },
+        { "category": "Sorcery", "quantity": 4, "name": "Faithful Mending", "price": 3, "total": 12, "notes": "Already owned from Phase 3" },
+        { "category": "Fetchland", "quantity": 4, "name": "Verdant Catacombs", "price": 30, "total": 120, "notes": "B/G fetch for manabase" },
+        { "category": "Shockland", "quantity": 2, "name": "Overgrown Tomb", "price": 12, "total": 24, "notes": "B/G shock" },
+        { "category": "Creature", "quantity": 2, "name": "Archon of Cruelty", "price": 15, "total": 30, "notes": "Already owned from Phase 3" }
+      ]
+    },
+    {
+      "name": "Phase 4b: Esper Reanimator",
+      "description": "Upgrade to Esper Reanimator (~3% meta)",
+      "incrementalCost": 120,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Archon of Cruelty", "price": 15, "total": 60, "notes": "Main reanimator target - already 1 owned" },
+        { "category": "Sorcery", "quantity": 4, "name": "Persist", "price": 5, "total": 20, "notes": "Reanimation spell" },
+        { "category": "Creature", "quantity": 4, "name": "Psychic Frog", "price": 8, "total": 32, "notes": "Discard outlet / threat" },
+        { "category": "Creature", "quantity": 2, "name": "Chancellor of the Annex", "price": 4, "total": 8, "notes": "Free disruption" },
+        { "category": "Instant", "quantity": 2, "name": "Force of Negation", "price": 22, "total": 44, "notes": "Already owned from Phase 3" }
+      ]
+    },
+    {
+      "name": "Phase 4c: Dimir Midrange",
+      "description": "Upgrade to Dimir Midrange (3.5% meta)",
+      "incrementalCost": 340,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Orcish Bowmasters", "price": 35, "total": 140, "notes": "Format staple - 4+ top decks" },
+        { "category": "Planeswalker", "quantity": 2, "name": "Tamiyo, Inquisitive Student", "price": 15, "total": 30, "notes": "Card advantage" },
+        { "category": "Creature", "quantity": 4, "name": "Psychic Frog", "price": 8, "total": 32, "notes": "From Esper Reanimator" },
+        { "category": "Creature", "quantity": 4, "name": "Subtlety", "price": 12, "total": 48, "notes": "Free interaction - 3+ top decks" },
+        { "category": "Instant", "quantity": 4, "name": "Counterspell", "price": 3, "total": 12, "notes": "Already owned from Phase 3" },
+        { "category": "Instant", "quantity": 2, "name": "Spell Snare", "price": 2, "total": 4, "notes": "Already owned from Phase 3" },
+        { "category": "Sorcery", "quantity": 2, "name": "Sink into Stupor", "price": 1, "total": 2, "notes": "Removal / cycler" },
+        { "category": "Fetchland", "quantity": 4, "name": "Polluted Delta", "price": 28, "total": 112, "notes": "Already owned from Phase 1" },
+        { "category": "Fetchland", "quantity": 4, "name": "Bloodstained Mire", "price": 22, "total": 88, "notes": "B/R fetch" },
+        { "category": "Shockland", "quantity": 2, "name": "Watery Grave", "price": 12, "total": 24, "notes": "Already owned from Phase 1" },
+        { "category": "Shockland", "quantity": 2, "name": "Blood Crypt", "price": 12, "total": 24, "notes": "B/R shock" }
+      ]
+    },
+    {
+      "name": "Phase 4d: Domain Zoo",
+      "description": "Upgrade to Domain Zoo (2.6% meta) - 5-color goodstuff",
+      "incrementalCost": 646,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Ragavan, Nimble Pilferer", "price": 45, "total": 180, "notes": "Format staple - 5+ top decks" },
+        { "category": "Creature", "quantity": 4, "name": "Territorial Kavu", "price": 3, "total": 12, "notes": "Domain payoff" },
+        { "category": "Creature", "quantity": 4, "name": "Scion of Draco", "price": 8, "total": 32, "notes": "Domain payoff" },
+        { "category": "Creature", "quantity": 2, "name": "Quantum Riddler", "price": 18, "total": 36, "notes": "Already owned from Phase 2" },
+        { "category": "Sorcery", "quantity": 4, "name": "Tribal Flames", "price": 2, "total": 8, "notes": "Domain burn" },
+        { "category": "Enchantment", "quantity": 2, "name": "Leyline of the Guildpact", "price": 5, "total": 10, "notes": "Domain enabler" },
+        { "category": "Enchantment", "quantity": 2, "name": "Leyline Binding", "price": 8, "total": 16, "notes": "Removal" },
+        { "category": "Fetchland", "quantity": 12, "name": "5-Color Fetch Package", "price": 25, "total": 300, "notes": "All 10 fetches (4 each of 3, 2 each of 2)" },
+        { "category": "Shockland", "quantity": 6, "name": "Triome / Shock Package", "price": 15, "total": 90, "notes": "Triomes + shocks for 5C" }
+      ]
+    },
+    {
+      "name": "Phase 4e: Azorius Blink",
+      "description": "Upgrade to Azorius Blink (~1% meta) - pure W/U blink",
+      "incrementalCost": 272,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Skyclave Apparition", "price": 4, "total": 16, "notes": "Already owned from Phase 3" },
+        { "category": "Creature", "quantity": 4, "name": "Spirit of the Labyrinth", "price": 3, "total": 12, "notes": "Hate piece" },
+        { "category": "Creature", "quantity": 3, "name": "Restoration Angel", "price": 4, "total": 12, "notes": "Blink target" },
+        { "category": "Creature", "quantity": 2, "name": "Solitude", "price": 15, "total": 30, "notes": "Already owned from Phase 2" },
+        { "category": "Instant", "quantity": 4, "name": "Ephemerate", "price": 8, "total": 32, "notes": "Already owned from Phase 2" },
+        { "category": "Instant", "quantity": 4, "name": "Prismatic Ending", "price": 3, "total": 12, "notes": "Already owned from Phase 2" },
+        { "category": "Instant", "quantity": 4, "name": "Path to Exile", "price": 2, "total": 8, "notes": "Removal" },
+        { "category": "Planeswalker", "quantity": 2, "name": "Teferi, Time Raveler", "price": 25, "total": 50, "notes": "Already owned from Phase 2" },
+        { "category": "Planeswalker", "quantity": 1, "name": "The Wandering Emperor", "price": 12, "total": 12, "notes": "Already owned from Phase 3" },
+        { "category": "Fetchland", "quantity": 4, "name": "Flooded Strand", "price": 25, "total": 100, "notes": "Already owned from Phase 1" },
+        { "category": "Fetchland", "quantity": 4, "name": "Windswept Heath", "price": 22, "total": 88, "notes": "W/G fetch" },
+        { "category": "Shockland", "quantity": 2, "name": "Hallowed Fountain", "price": 12, "total": 24, "notes": "Already owned from Phase 1" },
+        { "category": "Shockland", "quantity": 2, "name": "Temple Garden", "price": 12, "total": 24, "notes": "W/G shock" }
+      ]
+    },
+    {
+      "name": "Phase 4f: Jeskai Blink",
+      "description": "Upgrade to Jeskai Blink (~0.5% meta) - W/U/R energy/blink hybrid",
+      "incrementalCost": 546,
+      "reusesFromPhases": ["Phase 1", "Phase 2", "Phase 3", "Phase 4d"],
+      "cards": [
+        { "category": "Creature", "quantity": 4, "name": "Ragavan, Nimble Pilferer", "price": 45, "total": 180, "notes": "From Domain Zoo (Phase 4d)" },
+        { "category": "Creature", "quantity": 4, "name": "Ocelot Pride", "price": 8, "total": 32, "notes": "Energy/Blink payoff" },
+        { "category": "Creature", "quantity": 4, "name": "Quantum Riddler", "price": 18, "total": 72, "notes": "Already owned from Phase 2" },
+        { "category": "Creature", "quantity": 2, "name": "Solitude", "price": 15, "total": 30, "notes": "Already owned from Phase 2" },
+        { "category": "Instant", "quantity": 4, "name": "Lightning Bolt", "price": 2, "total": 8, "notes": "Burn/Removal" },
+        { "category": "Instant", "quantity": 4, "name": "Ephemerate", "price": 8, "total": 32, "notes": "Already owned from Phase 2" },
+        { "category": "Instant", "quantity": 2, "name": "Prismatic Ending", "price": 3, "total": 6, "notes": "Already owned from Phase 2" },
+        { "category": "Planeswalker", "quantity": 2, "name": "Teferi, Time Raveler", "price": 25, "total": 50, "notes": "Already owned from Phase 2" },
+        { "category": "Fetchland", "quantity": 4, "name": "Scalding Tarn", "price": 28, "total": 112, "notes": "U/R fetch" },
+        { "category": "Fetchland", "quantity": 4, "name": "Arid Mesa", "price": 22, "total": 88, "notes": "W/R fetch" },
+        { "category": "Fetchland", "quantity": 4, "name": "Flooded Strand", "price": 25, "total": 100, "notes": "Already owned from Phase 1" },
+        { "category": "Shockland", "quantity": 2, "name": "Steam Vents", "price": 12, "total": 24, "notes": "U/R shock" },
+        { "category": "Shockland", "quantity": 2, "name": "Sacred Foundry", "price": 12, "total": 24, "notes": "W/R shock" },
+        { "category": "Shockland", "quantity": 2, "name": "Hallowed Fountain", "price": 12, "total": 24, "notes": "Already owned from Phase 1" }
+      ]
+    }
+  ],
+  "summary": {
+    "totalPhases1to3": 906,
+    "phase1to3Description": "Complete Esper Blink (competitive Tier 1 deck)",
+    "allSixDecksIncrementalTotal": 2350,
+    "allSixDecksGrandTotal": 3256,
+    "buyingSeparatelyEstimate": 5020,
+    "savings": 1764,
+    "savingsPercent": 35,
+    "notes": "Prices are paper (USD) estimates. MTGO costs are ~60-70% lower. Savings calculated vs building each deck independently without card overlap."
+  },
+  "metadata": {
+    "source": "MTGGoldfish Modern Metagame (7/14/30/90-day windows - all identical)",
+    "analysisDate": "2026-09-04",
+    "recommendedFirstDeck": "Esper Blink",
+    "reasoning": "Highest staple density across format (Quantum Riddler, Solitude, Thoughtseize, Ephemerate, Fatal Push, Teferi, Force of Negation). WUB manabase is universal foundation for 3+ color Modern. Unlocks ~25-30% competitive meta."
+  }
+}

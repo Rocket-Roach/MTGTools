@@ -1,0 +1,2762 @@
+{
+ "Goryo's Vengeance": {
+  "source_deck_id": 7923960,
+  "source_url": "https://www.mtggoldfish.com/deck/7923960",
+  "mainboard": [
+   {
+    "name": "Swamp",
+    "qty": 1
+   },
+   {
+    "name": "Faithful Mending",
+    "qty": 4
+   },
+   {
+    "name": "Goryo's Vengeance",
+    "qty": 4
+   },
+   {
+    "name": "Flooded Strand",
+    "qty": 4
+   },
+   {
+    "name": "Thoughtseize",
+    "qty": 3
+   },
+   {
+    "name": "Griselbrand",
+    "qty": 1
+   },
+   {
+    "name": "Ephemerate",
+    "qty": 4
+   },
+   {
+    "name": "Hallowed Fountain",
+    "qty": 1
+   },
+   {
+    "name": "Breeding Pool",
+    "qty": 1
+   },
+   {
+    "name": "Force of Negation",
+    "qty": 2
+   },
+   {
+    "name": "Superior Spider-Man",
+    "qty": 1
+   },
+   {
+    "name": "Island",
+    "qty": 1
+   },
+   {
+    "name": "March of Otherworldly Light",
+    "qty": 1
+   },
+   {
+    "name": "Atraxa, Grand Unifier",
+    "qty": 4
+   },
+   {
+    "name": "Undercity Sewers",
+    "qty": 1
+   },
+   {
+    "name": "Psychic Frog",
+    "qty": 4
+   },
+   {
+    "name": "Shadowy Backstreet",
+    "qty": 1
+   },
+   {
+    "name": "Meticulous Archive",
+    "qty": 1
+   },
+   {
+    "name": "Polluted Delta",
+    "qty": 4
+   },
+   {
+    "name": "Watery Grave",
+    "qty": 1
+   },
+   {
+    "name": "Prismatic Ending",
+    "qty": 2
+   },
+   {
+    "name": "Solitude",
+    "qty": 4
+   },
+   {
+    "name": "Plains",
+    "qty": 1
+   },
+   {
+    "name": "Godless Shrine",
+    "qty": 1
+   },
+   {
+    "name": "Marsh Flats",
+    "qty": 4
+   },
+   {
+    "name": "Quantum Riddler",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Nihil Spellbomb",
+    "qty": 1
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 2
+   },
+   {
+    "name": "Teferi, Time Raveler",
+    "qty": 2
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 4
+   },
+   {
+    "name": "Spell Snare",
+    "qty": 2
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 3
+   },
+   {
+    "name": "Thoughtseize",
+    "qty": 1
+   }
+  ]
+ },
+ "Izzet Prowess": {
+  "source_deck_id": 7935875,
+  "source_url": "https://www.mtggoldfish.com/deck/7935875",
+  "mainboard": [
+   {
+    "name": "Dragon's Rage Channeler",
+    "qty": 4
+   },
+   {
+    "name": "Thundering Falls",
+    "qty": 1
+   },
+   {
+    "name": "Expressive Iteration",
+    "qty": 4
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 1
+   },
+   {
+    "name": "Lightning Bolt",
+    "qty": 4
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 3
+   },
+   {
+    "name": "Preordain",
+    "qty": 4
+   },
+   {
+    "name": "Mutagenic Growth",
+    "qty": 4
+   },
+   {
+    "name": "Mountain",
+    "qty": 3
+   },
+   {
+    "name": "Wooded Foothills",
+    "qty": 3
+   },
+   {
+    "name": "Cori-Steel Cutter",
+    "qty": 4
+   },
+   {
+    "name": "Mishra's Bauble",
+    "qty": 4
+   },
+   {
+    "name": "Steam Vents",
+    "qty": 3
+   },
+   {
+    "name": "Violent Urge",
+    "qty": 2
+   },
+   {
+    "name": "Monastery Swiftspear",
+    "qty": 4
+   },
+   {
+    "name": "Fiery Islet",
+    "qty": 2
+   },
+   {
+    "name": "Slickshot Show-Off",
+    "qty": 4
+   },
+   {
+    "name": "Lava Dart",
+    "qty": 4
+   },
+   {
+    "name": "Bloodstained Mire",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Surgical Extraction",
+    "qty": 2
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 3
+   },
+   {
+    "name": "Spell Snare",
+    "qty": 2
+   },
+   {
+    "name": "Spell Pierce",
+    "qty": 2
+   },
+   {
+    "name": "Meltdown",
+    "qty": 2
+   },
+   {
+    "name": "Unholy Heat",
+    "qty": 4
+   }
+  ]
+ },
+ "Esper Blink": {
+  "source_deck_id": 7923958,
+  "source_url": "https://www.mtggoldfish.com/deck/7923958",
+  "mainboard": [
+   {
+    "name": "Boggart Trawler",
+    "qty": 1
+   },
+   {
+    "name": "Emperor of Bones",
+    "qty": 3
+   },
+   {
+    "name": "Ephemerate",
+    "qty": 3
+   },
+   {
+    "name": "Fatal Push",
+    "qty": 4
+   },
+   {
+    "name": "Flickerwisp",
+    "qty": 3
+   },
+   {
+    "name": "Flooded Strand",
+    "qty": 4
+   },
+   {
+    "name": "Godless Shrine",
+    "qty": 2
+   },
+   {
+    "name": "Hallowed Fountain",
+    "qty": 1
+   },
+   {
+    "name": "Marsh Flats",
+    "qty": 4
+   },
+   {
+    "name": "Meticulous Archive",
+    "qty": 1
+   },
+   {
+    "name": "Overlord of the Balemurk",
+    "qty": 4
+   },
+   {
+    "name": "Phelia, Exuberant Shepherd",
+    "qty": 4
+   },
+   {
+    "name": "Plains",
+    "qty": 2
+   },
+   {
+    "name": "Polluted Delta",
+    "qty": 1
+   },
+   {
+    "name": "Prismatic Ending",
+    "qty": 1
+   },
+   {
+    "name": "Quantum Riddler",
+    "qty": 4
+   },
+   {
+    "name": "Shadowy Backstreet",
+    "qty": 1
+   },
+   {
+    "name": "Solitude",
+    "qty": 4
+   },
+   {
+    "name": "Swamp",
+    "qty": 1
+   },
+   {
+    "name": "Teferi, Time Raveler",
+    "qty": 2
+   },
+   {
+    "name": "Thoughtseize",
+    "qty": 4
+   },
+   {
+    "name": "Undercity Sewers",
+    "qty": 1
+   },
+   {
+    "name": "Watery Grave",
+    "qty": 1
+   },
+   {
+    "name": "Witch Enchanter",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Clarion Conqueror",
+    "qty": 2
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 4
+   },
+   {
+    "name": "Containment Priest",
+    "qty": 2
+   },
+   {
+    "name": "High Noon",
+    "qty": 2
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 2
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 3
+   }
+  ]
+ },
+ "Affinity": {
+  "source_deck_id": 7935882,
+  "source_url": "https://www.mtggoldfish.com/deck/7935882",
+  "mainboard": [
+   {
+    "name": "Otawara, Soaring City",
+    "qty": 1
+   },
+   {
+    "name": "Fiery Islet",
+    "qty": 4
+   },
+   {
+    "name": "Salvage Titan",
+    "qty": 2
+   },
+   {
+    "name": "Starting Town",
+    "qty": 3
+   },
+   {
+    "name": "Preordain",
+    "qty": 1
+   },
+   {
+    "name": "Blood Moon",
+    "qty": 1
+   },
+   {
+    "name": "Pithing Needle",
+    "qty": 1
+   },
+   {
+    "name": "Island",
+    "qty": 2
+   },
+   {
+    "name": "Engineered Explosives",
+    "qty": 4
+   },
+   {
+    "name": "Kappa Cannoneer",
+    "qty": 4
+   },
+   {
+    "name": "Skateboard",
+    "qty": 1
+   },
+   {
+    "name": "Mox Opal",
+    "qty": 4
+   },
+   {
+    "name": "Welding Jar",
+    "qty": 1
+   },
+   {
+    "name": "Mishra's Bauble",
+    "qty": 4
+   },
+   {
+    "name": "Pinnacle Emissary",
+    "qty": 4
+   },
+   {
+    "name": "Haywire Mite",
+    "qty": 1
+   },
+   {
+    "name": "Weapons Manufacturing",
+    "qty": 4
+   },
+   {
+    "name": "Tormod's Crypt",
+    "qty": 4
+   },
+   {
+    "name": "Emry, Lurker of the Loch",
+    "qty": 2
+   },
+   {
+    "name": "Steam Vents",
+    "qty": 1
+   },
+   {
+    "name": "Spirebluff Canal",
+    "qty": 3
+   },
+   {
+    "name": "Metallic Rebuke",
+    "qty": 2
+   },
+   {
+    "name": "Urza's Saga",
+    "qty": 4
+   },
+   {
+    "name": "Claws of Gix",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Damping Sphere",
+    "qty": 2
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 1
+   },
+   {
+    "name": "Cursed Totem",
+    "qty": 1
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 1
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 3
+   },
+   {
+    "name": "Shadowspear",
+    "qty": 1
+   },
+   {
+    "name": "The Legend of Roku",
+    "qty": 1
+   },
+   {
+    "name": "Whipflare",
+    "qty": 2
+   },
+   {
+    "name": "Galvanic Blast",
+    "qty": 2
+   },
+   {
+    "name": "Swan Song",
+    "qty": 1
+   }
+  ]
+ },
+ "Ruby Storm": {
+  "source_deck_id": 7933141,
+  "source_url": "https://www.mtggoldfish.com/deck/7933141",
+  "mainboard": [
+   {
+    "name": "Mountain",
+    "qty": 4
+   },
+   {
+    "name": "Artist's Talent",
+    "qty": 2
+   },
+   {
+    "name": "Desperate Ritual",
+    "qty": 4
+   },
+   {
+    "name": "Commercial District",
+    "qty": 1
+   },
+   {
+    "name": "Stomping Ground",
+    "qty": 1
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 2
+   },
+   {
+    "name": "Gemstone Caverns",
+    "qty": 1
+   },
+   {
+    "name": "Strike It Rich",
+    "qty": 1
+   },
+   {
+    "name": "Hex Magic",
+    "qty": 4
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 1
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 1
+   },
+   {
+    "name": "Pyretic Ritual",
+    "qty": 4
+   },
+   {
+    "name": "Ral, Monsoon Mage",
+    "qty": 4
+   },
+   {
+    "name": "Reckless Impulse",
+    "qty": 4
+   },
+   {
+    "name": "Ruby Medallion",
+    "qty": 4
+   },
+   {
+    "name": "Past in Flames",
+    "qty": 3
+   },
+   {
+    "name": "Wooded Foothills",
+    "qty": 2
+   },
+   {
+    "name": "Sunbaked Canyon",
+    "qty": 1
+   },
+   {
+    "name": "Valakut Awakening",
+    "qty": 2
+   },
+   {
+    "name": "Wish",
+    "qty": 2
+   },
+   {
+    "name": "Wrenn's Resolve",
+    "qty": 4
+   },
+   {
+    "name": "Elegant Parlor",
+    "qty": 1
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 1
+   },
+   {
+    "name": "Manamorphose",
+    "qty": 4
+   },
+   {
+    "name": "Bloodstained Mire",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Stormscale Scion",
+    "qty": 1
+   },
+   {
+    "name": "Grapeshot",
+    "qty": 1
+   },
+   {
+    "name": "Past in Flames",
+    "qty": 1
+   },
+   {
+    "name": "Prismatic Ending",
+    "qty": 3
+   },
+   {
+    "name": "Wear // Tear",
+    "qty": 1
+   },
+   {
+    "name": "Brotherhood's End",
+    "qty": 2
+   },
+   {
+    "name": "Untimely Malfunction",
+    "qty": 2
+   },
+   {
+    "name": "Silence",
+    "qty": 3
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 1
+   }
+  ]
+ },
+ "Mono-Green Eldrazi": {
+  "source_deck_id": 7935884,
+  "source_url": "https://www.mtggoldfish.com/deck/7935884",
+  "mainboard": [
+   {
+    "name": "Ugin, Eye of the Storms",
+    "qty": 2
+   },
+   {
+    "name": "Slumbering Trudge",
+    "qty": 4
+   },
+   {
+    "name": "Forest",
+    "qty": 3
+   },
+   {
+    "name": "Ugin's Labyrinth",
+    "qty": 4
+   },
+   {
+    "name": "Ulamog, the Ceaseless Hunger",
+    "qty": 2
+   },
+   {
+    "name": "Ghost Quarter",
+    "qty": 1
+   },
+   {
+    "name": "Green Sun's Zenith",
+    "qty": 4
+   },
+   {
+    "name": "Eldrazi Temple",
+    "qty": 4
+   },
+   {
+    "name": "Disciple of Freyalise",
+    "qty": 4
+   },
+   {
+    "name": "Cavern of Souls",
+    "qty": 1
+   },
+   {
+    "name": "Shifting Woodland",
+    "qty": 1
+   },
+   {
+    "name": "Kozilek's Command",
+    "qty": 4
+   },
+   {
+    "name": "Mosswort Bridge",
+    "qty": 1
+   },
+   {
+    "name": "Yavimaya, Cradle of Growth",
+    "qty": 1
+   },
+   {
+    "name": "Malevolent Rumble",
+    "qty": 4
+   },
+   {
+    "name": "Sowing Mycospawn",
+    "qty": 4
+   },
+   {
+    "name": "Emrakul, the Promised End",
+    "qty": 4
+   },
+   {
+    "name": "Drowner of Truth",
+    "qty": 2
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 2
+   },
+   {
+    "name": "Fanatic of Rhonas",
+    "qty": 4
+   },
+   {
+    "name": "Fight Rigging",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Soulless Jailer",
+    "qty": 1
+   },
+   {
+    "name": "Thought-Knot Seer",
+    "qty": 2
+   },
+   {
+    "name": "Carnage Tyrant",
+    "qty": 1
+   },
+   {
+    "name": "Disruptor Flute",
+    "qty": 1
+   },
+   {
+    "name": "Torpor Orb",
+    "qty": 1
+   },
+   {
+    "name": "Trinisphere",
+    "qty": 3
+   },
+   {
+    "name": "Grafdigger's Cage",
+    "qty": 2
+   },
+   {
+    "name": "Warping Wail",
+    "qty": 2
+   },
+   {
+    "name": "Dismember",
+    "qty": 1
+   },
+   {
+    "name": "Elder Gargaroth",
+    "qty": 1
+   }
+  ]
+ },
+ "Boros Energy": {
+  "source_deck_id": 7925829,
+  "source_url": "https://www.mtggoldfish.com/deck/7925829",
+  "mainboard": [
+   {
+    "name": "Ajani, Nacatl Pariah",
+    "qty": 4
+   },
+   {
+    "name": "Arena of Glory",
+    "qty": 1
+   },
+   {
+    "name": "Mountain",
+    "qty": 1
+   },
+   {
+    "name": "Belladonna Took",
+    "qty": 1
+   },
+   {
+    "name": "Plains",
+    "qty": 3
+   },
+   {
+    "name": "Dalkovan Encampment",
+    "qty": 1
+   },
+   {
+    "name": "Elegant Parlor",
+    "qty": 1
+   },
+   {
+    "name": "Galvanic Discharge",
+    "qty": 4
+   },
+   {
+    "name": "Guide of Souls",
+    "qty": 4
+   },
+   {
+    "name": "March of Otherworldly Light",
+    "qty": 1
+   },
+   {
+    "name": "Marsh Flats",
+    "qty": 3
+   },
+   {
+    "name": "Ocelot Pride",
+    "qty": 4
+   },
+   {
+    "name": "Goblin Bombardment",
+    "qty": 3
+   },
+   {
+    "name": "Ragavan, Nimble Pilferer",
+    "qty": 4
+   },
+   {
+    "name": "Ranger-Captain of Eos",
+    "qty": 3
+   },
+   {
+    "name": "Blood Moon",
+    "qty": 1
+   },
+   {
+    "name": "Seasoned Pyromancer",
+    "qty": 3
+   },
+   {
+    "name": "Sunbaked Canyon",
+    "qty": 1
+   },
+   {
+    "name": "Thraben Charm",
+    "qty": 2
+   },
+   {
+    "name": "Voice of Victory",
+    "qty": 3
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 4
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 3
+   },
+   {
+    "name": "Windswept Heath",
+    "qty": 4
+   },
+   {
+    "name": "Lightning Bolt",
+    "qty": 1
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Surgical Extraction",
+    "qty": 1
+   },
+   {
+    "name": "Rest in Peace",
+    "qty": 1
+   },
+   {
+    "name": "High Noon",
+    "qty": 2
+   },
+   {
+    "name": "Obsidian Charmaw",
+    "qty": 2
+   },
+   {
+    "name": "Celestial Purge",
+    "qty": 1
+   },
+   {
+    "name": "Sanctifier en-Vec",
+    "qty": 1
+   },
+   {
+    "name": "Blood Moon",
+    "qty": 1
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 2
+   },
+   {
+    "name": "Wear // Tear",
+    "qty": 2
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 2
+   }
+  ]
+ },
+ "Living End": {
+  "source_deck_id": 7927492,
+  "source_url": "https://www.mtggoldfish.com/deck/7927492",
+  "mainboard": [
+   {
+    "name": "Wistfulness",
+    "qty": 4
+   },
+   {
+    "name": "Watery Grave",
+    "qty": 1
+   },
+   {
+    "name": "Disciple of Freyalise",
+    "qty": 1
+   },
+   {
+    "name": "Endurance",
+    "qty": 4
+   },
+   {
+    "name": "Underground Mortuary",
+    "qty": 1
+   },
+   {
+    "name": "Twilight Mire",
+    "qty": 1
+   },
+   {
+    "name": "Troll of Khazad-dum",
+    "qty": 3
+   },
+   {
+    "name": "Formidable Speaker",
+    "qty": 1
+   },
+   {
+    "name": "Generous Ent",
+    "qty": 4
+   },
+   {
+    "name": "Swamp",
+    "qty": 1
+   },
+   {
+    "name": "Sunken Ruins",
+    "qty": 1
+   },
+   {
+    "name": "Shardless Agent",
+    "qty": 4
+   },
+   {
+    "name": "Polluted Delta",
+    "qty": 3
+   },
+   {
+    "name": "Overgrown Tomb",
+    "qty": 1
+   },
+   {
+    "name": "Overlord of the Balemurk",
+    "qty": 4
+   },
+   {
+    "name": "Misty Rainforest",
+    "qty": 2
+   },
+   {
+    "name": "Living End",
+    "qty": 3
+   },
+   {
+    "name": "Sink into Stupor",
+    "qty": 2
+   },
+   {
+    "name": "Subtlety",
+    "qty": 4
+   },
+   {
+    "name": "Island",
+    "qty": 1
+   },
+   {
+    "name": "Superior Spider-Man",
+    "qty": 1
+   },
+   {
+    "name": "Harvester of Misery",
+    "qty": 1
+   },
+   {
+    "name": "Forest",
+    "qty": 1
+   },
+   {
+    "name": "Force of Negation",
+    "qty": 4
+   },
+   {
+    "name": "Undercity Sewers",
+    "qty": 1
+   },
+   {
+    "name": "Flooded Grove",
+    "qty": 1
+   },
+   {
+    "name": "Deceit",
+    "qty": 4
+   },
+   {
+    "name": "Breeding Pool",
+    "qty": 1
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Ashiok, Dream Render",
+    "qty": 2
+   },
+   {
+    "name": "Culling Ritual",
+    "qty": 2
+   },
+   {
+    "name": "Dismember",
+    "qty": 2
+   },
+   {
+    "name": "Force of Vigor",
+    "qty": 1
+   },
+   {
+    "name": "Foundation Breaker",
+    "qty": 2
+   },
+   {
+    "name": "Harvester of Misery",
+    "qty": 1
+   },
+   {
+    "name": "Inevitable Betrayal",
+    "qty": 2
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 3
+   }
+  ]
+ },
+ "Eldrazi Tron": {
+  "source_deck_id": 7935886,
+  "source_url": "https://www.mtggoldfish.com/deck/7935886",
+  "mainboard": [
+   {
+    "name": "Swamp",
+    "qty": 1
+   },
+   {
+    "name": "Ugin, Eye of the Storms",
+    "qty": 4
+   },
+   {
+    "name": "Ugin's Labyrinth",
+    "qty": 4
+   },
+   {
+    "name": "Urza's Mine",
+    "qty": 4
+   },
+   {
+    "name": "Thought-Knot Seer",
+    "qty": 3
+   },
+   {
+    "name": "Disruptor Flute",
+    "qty": 1
+   },
+   {
+    "name": "Trinisphere",
+    "qty": 2
+   },
+   {
+    "name": "Dismember",
+    "qty": 2
+   },
+   {
+    "name": "Chalice of the Void",
+    "qty": 2
+   },
+   {
+    "name": "Eldrazi Temple",
+    "qty": 4
+   },
+   {
+    "name": "Mind Stone",
+    "qty": 4
+   },
+   {
+    "name": "Karn, the Great Creator",
+    "qty": 4
+   },
+   {
+    "name": "Devourer of Destiny",
+    "qty": 4
+   },
+   {
+    "name": "Kozilek's Command",
+    "qty": 4
+   },
+   {
+    "name": "Glaring Fleshraker",
+    "qty": 3
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 1
+   },
+   {
+    "name": "Expedition Map",
+    "qty": 4
+   },
+   {
+    "name": "Urza's Tower",
+    "qty": 4
+   },
+   {
+    "name": "Emrakul, the Promised End",
+    "qty": 1
+   },
+   {
+    "name": "Urza's Power Plant",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "The Stone Brain",
+    "qty": 1
+   },
+   {
+    "name": "Soulless Jailer",
+    "qty": 1
+   },
+   {
+    "name": "Ensnaring Bridge",
+    "qty": 1
+   },
+   {
+    "name": "Cityscape Leveler",
+    "qty": 1
+   },
+   {
+    "name": "Liquimetal Coating",
+    "qty": 1
+   },
+   {
+    "name": "Cursed Totem",
+    "qty": 1
+   },
+   {
+    "name": "Disruptor Flute",
+    "qty": 2
+   },
+   {
+    "name": "Torpor Orb",
+    "qty": 1
+   },
+   {
+    "name": "The Ten Rings",
+    "qty": 1
+   },
+   {
+    "name": "Grafdigger's Cage",
+    "qty": 1
+   },
+   {
+    "name": "Tormod's Crypt",
+    "qty": 1
+   },
+   {
+    "name": "Walking Ballista",
+    "qty": 1
+   },
+   {
+    "name": "Extinguisher Battleship",
+    "qty": 1
+   },
+   {
+    "name": "The Filigree Sylex",
+    "qty": 1
+   }
+  ]
+ },
+ "Boros Ponza": {
+  "source_deck_id": 7935880,
+  "source_url": "https://www.mtggoldfish.com/deck/7935880",
+  "mainboard": [
+   {
+    "name": "Erode",
+    "qty": 4
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 1
+   },
+   {
+    "name": "Cori Mountain Monastery",
+    "qty": 4
+   },
+   {
+    "name": "Demolition Field",
+    "qty": 4
+   },
+   {
+    "name": "Price of Freedom",
+    "qty": 4
+   },
+   {
+    "name": "Avengers Disassembled",
+    "qty": 3
+   },
+   {
+    "name": "Sunken Citadel",
+    "qty": 3
+   },
+   {
+    "name": "Field of Ruin",
+    "qty": 4
+   },
+   {
+    "name": "Mountain",
+    "qty": 2
+   },
+   {
+    "name": "Galvanic Discharge",
+    "qty": 3
+   },
+   {
+    "name": "Cleansing Wildfire",
+    "qty": 4
+   },
+   {
+    "name": "The Legend of Roku",
+    "qty": 1
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 3
+   },
+   {
+    "name": "Solitude",
+    "qty": 4
+   },
+   {
+    "name": "Plains",
+    "qty": 4
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 4
+   },
+   {
+    "name": "Relic of Progenitus",
+    "qty": 4
+   },
+   {
+    "name": "Path to Exile",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "High Noon",
+    "qty": 4
+   },
+   {
+    "name": "Surgical Extraction",
+    "qty": 2
+   },
+   {
+    "name": "Disruptor Flute",
+    "qty": 2
+   },
+   {
+    "name": "Chandra, Awakened Inferno",
+    "qty": 1
+   },
+   {
+    "name": "Wear // Tear",
+    "qty": 2
+   },
+   {
+    "name": "The Legend of Roku",
+    "qty": 1
+   },
+   {
+    "name": "Wrath of God",
+    "qty": 2
+   },
+   {
+    "name": "Kaheera, the Orphanguard",
+    "qty": 1
+   }
+  ]
+ },
+ "Dimir Midrange": {
+  "source_deck_id": 7923967,
+  "source_url": "https://www.mtggoldfish.com/deck/7923967",
+  "mainboard": [
+   {
+    "name": "Bloodstained Mire",
+    "qty": 4
+   },
+   {
+    "name": "Cling to Dust",
+    "qty": 1
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 2
+   },
+   {
+    "name": "Counterspell",
+    "qty": 2
+   },
+   {
+    "name": "Fatal Push",
+    "qty": 4
+   },
+   {
+    "name": "Force of Negation",
+    "qty": 4
+   },
+   {
+    "name": "Island",
+    "qty": 2
+   },
+   {
+    "name": "Kaito, Bane of Nightmares",
+    "qty": 2
+   },
+   {
+    "name": "Orcish Bowmasters",
+    "qty": 3
+   },
+   {
+    "name": "Otawara, Soaring City",
+    "qty": 1
+   },
+   {
+    "name": "Polluted Delta",
+    "qty": 4
+   },
+   {
+    "name": "Psychic Frog",
+    "qty": 4
+   },
+   {
+    "name": "Quantum Riddler",
+    "qty": 4
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 1
+   },
+   {
+    "name": "Sheoldred's Edict",
+    "qty": 2
+   },
+   {
+    "name": "Sink into Stupor",
+    "qty": 2
+   },
+   {
+    "name": "Spell Snare",
+    "qty": 3
+   },
+   {
+    "name": "Subtlety",
+    "qty": 3
+   },
+   {
+    "name": "Swamp",
+    "qty": 1
+   },
+   {
+    "name": "Tamiyo, Inquisitive Student",
+    "qty": 2
+   },
+   {
+    "name": "Thoughtseize",
+    "qty": 4
+   },
+   {
+    "name": "Undercity Sewers",
+    "qty": 2
+   },
+   {
+    "name": "Watery Grave",
+    "qty": 3
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Break the Ice",
+    "qty": 3
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 2
+   },
+   {
+    "name": "Engineered Explosives",
+    "qty": 2
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 3
+   },
+   {
+    "name": "Nihil Spellbomb",
+    "qty": 2
+   },
+   {
+    "name": "Requiting Hex",
+    "qty": 1
+   },
+   {
+    "name": "Toxic Deluge",
+    "qty": 2
+   }
+  ]
+ },
+ "4c HollowOne": {
+  "source_deck_id": 7937207,
+  "source_url": "https://www.mtggoldfish.com/deck/7937207",
+  "mainboard": [
+   {
+    "name": "Street Wraith",
+    "qty": 4
+   },
+   {
+    "name": "Blazing Rootwalla",
+    "qty": 4
+   },
+   {
+    "name": "Burning Inquiry",
+    "qty": 4
+   },
+   {
+    "name": "Detective's Phoenix",
+    "qty": 4
+   },
+   {
+    "name": "Elegant Parlor",
+    "qty": 1
+   },
+   {
+    "name": "Bloodstained Mire",
+    "qty": 4
+   },
+   {
+    "name": "Marauding Mako",
+    "qty": 4
+   },
+   {
+    "name": "Hollow One",
+    "qty": 4
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 4
+   },
+   {
+    "name": "Mountain",
+    "qty": 2
+   },
+   {
+    "name": "Practiced Offense",
+    "qty": 2
+   },
+   {
+    "name": "Lightning Bolt",
+    "qty": 4
+   },
+   {
+    "name": "Faithless Looting",
+    "qty": 4
+   },
+   {
+    "name": "Hardened Academic",
+    "qty": 4
+   },
+   {
+    "name": "Vengevine",
+    "qty": 4
+   },
+   {
+    "name": "Arena of Glory",
+    "qty": 1
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 2
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Damping Sphere",
+    "qty": 2
+   },
+   {
+    "name": "Surgical Extraction",
+    "qty": 3
+   },
+   {
+    "name": "Prismatic Ending",
+    "qty": 1
+   },
+   {
+    "name": "Rough // Tumble",
+    "qty": 2
+   },
+   {
+    "name": "Obsidian Charmaw",
+    "qty": 1
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 2
+   },
+   {
+    "name": "Wear // Tear",
+    "qty": 2
+   },
+   {
+    "name": "Deafening Silence",
+    "qty": 1
+   },
+   {
+    "name": "Soul-Guide Lantern",
+    "qty": 1
+   }
+  ]
+ },
+ "Domain Zoo": {
+  "source_deck_id": 7929451,
+  "source_url": "https://www.mtggoldfish.com/deck/7929451",
+  "mainboard": [
+   {
+    "name": "Arena of Glory",
+    "qty": 1
+   },
+   {
+    "name": "Quantum Riddler",
+    "qty": 4
+   },
+   {
+    "name": "Temple Garden",
+    "qty": 1
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 1
+   },
+   {
+    "name": "Flooded Strand",
+    "qty": 4
+   },
+   {
+    "name": "Indatha Triome",
+    "qty": 1
+   },
+   {
+    "name": "Leyline Binding",
+    "qty": 4
+   },
+   {
+    "name": "Lightning Bolt",
+    "qty": 4
+   },
+   {
+    "name": "Lush Portico",
+    "qty": 1
+   },
+   {
+    "name": "Ragavan, Nimble Pilferer",
+    "qty": 4
+   },
+   {
+    "name": "Plains",
+    "qty": 1
+   },
+   {
+    "name": "Scion of Draco",
+    "qty": 4
+   },
+   {
+    "name": "Mountain",
+    "qty": 1
+   },
+   {
+    "name": "Stubborn Denial",
+    "qty": 3
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 4
+   },
+   {
+    "name": "Territorial Kavu",
+    "qty": 4
+   },
+   {
+    "name": "Thundering Falls",
+    "qty": 1
+   },
+   {
+    "name": "Blood Crypt",
+    "qty": 1
+   },
+   {
+    "name": "Wooded Foothills",
+    "qty": 4
+   },
+   {
+    "name": "Tribal Flames",
+    "qty": 2
+   },
+   {
+    "name": "Phelia, Exuberant Shepherd",
+    "qty": 3
+   },
+   {
+    "name": "Leyline of the Guildpact",
+    "qty": 4
+   },
+   {
+    "name": "Strix Serenade",
+    "qty": 1
+   },
+   {
+    "name": "Steam Vents",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Containment Priest",
+    "qty": 2
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 2
+   },
+   {
+    "name": "Obsidian Charmaw",
+    "qty": 2
+   },
+   {
+    "name": "Rest in Peace",
+    "qty": 2
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 2
+   },
+   {
+    "name": "Wear // Tear",
+    "qty": 1
+   },
+   {
+    "name": "Brotherhood's End",
+    "qty": 1
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 2
+   },
+   {
+    "name": "Surgical Extraction",
+    "qty": 1
+   }
+  ]
+ },
+ "Tron": {
+  "source_deck_id": 7938729,
+  "source_url": "https://www.mtggoldfish.com/deck/7938729",
+  "mainboard": [
+   {
+    "name": "Expedition Map",
+    "qty": 4
+   },
+   {
+    "name": "Sink into Stupor",
+    "qty": 1
+   },
+   {
+    "name": "Portent of Calamity",
+    "qty": 4
+   },
+   {
+    "name": "Force of Negation",
+    "qty": 2
+   },
+   {
+    "name": "Giant's Boulder",
+    "qty": 2
+   },
+   {
+    "name": "Nulldrifter",
+    "qty": 2
+   },
+   {
+    "name": "Kozilek's Command",
+    "qty": 4
+   },
+   {
+    "name": "Talisman of Dominance",
+    "qty": 4
+   },
+   {
+    "name": "Dress Down",
+    "qty": 4
+   },
+   {
+    "name": "Emrakul, the Aeons Torn",
+    "qty": 3
+   },
+   {
+    "name": "Spell Snare",
+    "qty": 3
+   },
+   {
+    "name": "Stock Up",
+    "qty": 3
+   },
+   {
+    "name": "Ugin's Labyrinth",
+    "qty": 4
+   },
+   {
+    "name": "Ugin, Eye of the Storms",
+    "qty": 4
+   },
+   {
+    "name": "Urza's Mine",
+    "qty": 4
+   },
+   {
+    "name": "Urza's Power Plant",
+    "qty": 4
+   },
+   {
+    "name": "Urza's Tower",
+    "qty": 4
+   },
+   {
+    "name": "Island",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Consign to Memory",
+    "qty": 4
+   },
+   {
+    "name": "Cursed Totem",
+    "qty": 1
+   },
+   {
+    "name": "Dismember",
+    "qty": 2
+   },
+   {
+    "name": "Engineered Explosives",
+    "qty": 1
+   },
+   {
+    "name": "Grafdigger's Cage",
+    "qty": 2
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 2
+   },
+   {
+    "name": "Relic of Progenitus",
+    "qty": 1
+   },
+   {
+    "name": "Surgical Extraction",
+    "qty": 1
+   },
+   {
+    "name": "Test of Talents",
+    "qty": 1
+   }
+  ]
+ },
+ "Amulet Titan": {
+  "source_deck_id": 7926551,
+  "source_url": "https://www.mtggoldfish.com/deck/7926551",
+  "mainboard": [
+   {
+    "name": "Aftermath Analyst",
+    "qty": 1
+   },
+   {
+    "name": "Selesnya Sanctuary",
+    "qty": 4
+   },
+   {
+    "name": "Arboreal Grazer",
+    "qty": 4
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 3
+   },
+   {
+    "name": "Crumbling Vestige",
+    "qty": 4
+   },
+   {
+    "name": "Cultivator Colossus",
+    "qty": 1
+   },
+   {
+    "name": "Dryad of the Ilysian Grove",
+    "qty": 1
+   },
+   {
+    "name": "Echoing Deeps",
+    "qty": 1
+   },
+   {
+    "name": "Forest",
+    "qty": 2
+   },
+   {
+    "name": "Vesuva",
+    "qty": 1
+   },
+   {
+    "name": "Primeval Titan",
+    "qty": 3
+   },
+   {
+    "name": "Hanweir Battlements",
+    "qty": 1
+   },
+   {
+    "name": "Malevolent Rumble",
+    "qty": 3
+   },
+   {
+    "name": "Mirrorpool",
+    "qty": 1
+   },
+   {
+    "name": "Otawara, Soaring City",
+    "qty": 1
+   },
+   {
+    "name": "Scapeshift",
+    "qty": 4
+   },
+   {
+    "name": "Summoner's Pact",
+    "qty": 2
+   },
+   {
+    "name": "Simic Growth Chamber",
+    "qty": 2
+   },
+   {
+    "name": "Shifting Woodland",
+    "qty": 1
+   },
+   {
+    "name": "Spelunking",
+    "qty": 4
+   },
+   {
+    "name": "Temple Garden",
+    "qty": 1
+   },
+   {
+    "name": "The Mycosynth Gardens",
+    "qty": 1
+   },
+   {
+    "name": "Tolaria West",
+    "qty": 1
+   },
+   {
+    "name": "Urza's Saga",
+    "qty": 4
+   },
+   {
+    "name": "Valakut, the Molten Pinnacle",
+    "qty": 1
+   },
+   {
+    "name": "Windswept Heath",
+    "qty": 1
+   },
+   {
+    "name": "Amulet of Vigor",
+    "qty": 4
+   },
+   {
+    "name": "Explore",
+    "qty": 1
+   },
+   {
+    "name": "Green Sun's Zenith",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Bojuka Bog",
+    "qty": 1
+   },
+   {
+    "name": "Dismember",
+    "qty": 2
+   },
+   {
+    "name": "Force of Vigor",
+    "qty": 2
+   },
+   {
+    "name": "Drannith Magistrate",
+    "qty": 1
+   },
+   {
+    "name": "Erode",
+    "qty": 2
+   },
+   {
+    "name": "Faerie Macabre",
+    "qty": 1
+   },
+   {
+    "name": "Six",
+    "qty": 1
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 1
+   },
+   {
+    "name": "Trinisphere",
+    "qty": 1
+   },
+   {
+    "name": "Formidable Speaker",
+    "qty": 1
+   },
+   {
+    "name": "Clarion Conqueror",
+    "qty": 2
+   }
+  ]
+ },
+ "Neobrand": {
+  "source_deck_id": 7923970,
+  "source_url": "https://www.mtggoldfish.com/deck/7923970",
+  "mainboard": [
+   {
+    "name": "Neoform",
+    "qty": 4
+   },
+   {
+    "name": "Planar Genesis",
+    "qty": 4
+   },
+   {
+    "name": "Eldritch Evolution",
+    "qty": 4
+   },
+   {
+    "name": "Generous Ent",
+    "qty": 2
+   },
+   {
+    "name": "Forest",
+    "qty": 2
+   },
+   {
+    "name": "Griselbrand",
+    "qty": 1
+   },
+   {
+    "name": "Preordain",
+    "qty": 1
+   },
+   {
+    "name": "Misty Rainforest",
+    "qty": 4
+   },
+   {
+    "name": "Hedge Maze",
+    "qty": 3
+   },
+   {
+    "name": "Allosaurus Rider",
+    "qty": 4
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 2
+   },
+   {
+    "name": "Breeding Pool",
+    "qty": 1
+   },
+   {
+    "name": "Consign to Memory",
+    "qty": 4
+   },
+   {
+    "name": "Island",
+    "qty": 1
+   },
+   {
+    "name": "Hooting Mandrills",
+    "qty": 1
+   },
+   {
+    "name": "Verdant Catacombs",
+    "qty": 1
+   },
+   {
+    "name": "Xenagos, God of Revels",
+    "qty": 1
+   },
+   {
+    "name": "Disciple of Freyalise",
+    "qty": 2
+   },
+   {
+    "name": "Veil of Summer",
+    "qty": 2
+   },
+   {
+    "name": "Ghalta, Stampede Tyrant",
+    "qty": 2
+   },
+   {
+    "name": "Nature's Claim",
+    "qty": 2
+   },
+   {
+    "name": "Ureni, the Song Unending",
+    "qty": 1
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 1
+   },
+   {
+    "name": "Summoner's Pact",
+    "qty": 4
+   },
+   {
+    "name": "Pact of Negation",
+    "qty": 3
+   },
+   {
+    "name": "Bridgeworks Battle",
+    "qty": 1
+   },
+   {
+    "name": "Endurance",
+    "qty": 1
+   },
+   {
+    "name": "Atraxa, Grand Unifier",
+    "qty": 1
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Elesh Norn, Grand Cenobite",
+    "qty": 1
+   },
+   {
+    "name": "Nature's Claim",
+    "qty": 1
+   },
+   {
+    "name": "Abhorrent Oculus",
+    "qty": 1
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 4
+   },
+   {
+    "name": "Hooting Mandrills",
+    "qty": 1
+   },
+   {
+    "name": "Into the Flood Maw",
+    "qty": 1
+   },
+   {
+    "name": "Thundertrap Trainer",
+    "qty": 2
+   },
+   {
+    "name": "Veil of Summer",
+    "qty": 2
+   },
+   {
+    "name": "Pact of Negation",
+    "qty": 1
+   },
+   {
+    "name": "Natural State",
+    "qty": 1
+   }
+  ]
+ },
+ "Devoted Combo": {
+  "source_deck_id": 7927364,
+  "source_url": "https://www.mtggoldfish.com/deck/7927364",
+  "mainboard": [
+   {
+    "name": "Overgrown Tomb",
+    "qty": 2
+   },
+   {
+    "name": "Shang-Chi, Master of Kung Fu",
+    "qty": 1
+   },
+   {
+    "name": "Leyline of Abundance",
+    "qty": 4
+   },
+   {
+    "name": "Ouroboroid",
+    "qty": 1
+   },
+   {
+    "name": "Nature's Rhythm",
+    "qty": 4
+   },
+   {
+    "name": "Craterhoof Behemoth",
+    "qty": 1
+   },
+   {
+    "name": "Forest",
+    "qty": 3
+   },
+   {
+    "name": "Underground Mortuary",
+    "qty": 1
+   },
+   {
+    "name": "Agatha's Soul Cauldron",
+    "qty": 2
+   },
+   {
+    "name": "Delighted Halfling",
+    "qty": 4
+   },
+   {
+    "name": "Tyvar, Jubilant Brawler",
+    "qty": 4
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 1
+   },
+   {
+    "name": "Nurturing Peatland",
+    "qty": 1
+   },
+   {
+    "name": "Fiend Artisan",
+    "qty": 1
+   },
+   {
+    "name": "Walking Ballista",
+    "qty": 1
+   },
+   {
+    "name": "Verdant Catacombs",
+    "qty": 3
+   },
+   {
+    "name": "Temple Garden",
+    "qty": 1
+   },
+   {
+    "name": "Birds of Paradise",
+    "qty": 3
+   },
+   {
+    "name": "Devoted Druid",
+    "qty": 4
+   },
+   {
+    "name": "Misty Rainforest",
+    "qty": 2
+   },
+   {
+    "name": "Postmortem Lunge",
+    "qty": 1
+   },
+   {
+    "name": "Dryad Arbor",
+    "qty": 1
+   },
+   {
+    "name": "Windswept Heath",
+    "qty": 2
+   },
+   {
+    "name": "Wooded Foothills",
+    "qty": 2
+   },
+   {
+    "name": "Duskwatch Recruiter",
+    "qty": 1
+   },
+   {
+    "name": "Vizier of Remedies",
+    "qty": 1
+   },
+   {
+    "name": "Green Sun's Zenith",
+    "qty": 4
+   },
+   {
+    "name": "Badgermole Cub",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Guerrilla Gorilla",
+    "qty": 1
+   },
+   {
+    "name": "Keen-Eyed Curator",
+    "qty": 1
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 2
+   },
+   {
+    "name": "Grist, the Hunger Tide",
+    "qty": 1
+   },
+   {
+    "name": "Endurance",
+    "qty": 2
+   },
+   {
+    "name": "Thoughtseize",
+    "qty": 2
+   },
+   {
+    "name": "Collector Ouphe",
+    "qty": 1
+   },
+   {
+    "name": "Kraul Harpooner",
+    "qty": 1
+   },
+   {
+    "name": "Abrupt Decay",
+    "qty": 2
+   },
+   {
+    "name": "Force of Vigor",
+    "qty": 2
+   }
+  ]
+ },
+ "Jeskai Energy": {
+  "source_deck_id": 7927479,
+  "source_url": "https://www.mtggoldfish.com/deck/7927479",
+  "mainboard": [
+   {
+    "name": "Counterspell",
+    "qty": 3
+   },
+   {
+    "name": "Solitude",
+    "qty": 3
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 4
+   },
+   {
+    "name": "Day's Undoing",
+    "qty": 1
+   },
+   {
+    "name": "Geier Reach Sanitarium",
+    "qty": 1
+   },
+   {
+    "name": "Wrath of the Skies",
+    "qty": 3
+   },
+   {
+    "name": "Monumental Henge",
+    "qty": 1
+   },
+   {
+    "name": "Meticulous Archive",
+    "qty": 2
+   },
+   {
+    "name": "Narset, Parter of Veils",
+    "qty": 4
+   },
+   {
+    "name": "Hallowed Fountain",
+    "qty": 1
+   },
+   {
+    "name": "Prismatic Ending",
+    "qty": 2
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 1
+   },
+   {
+    "name": "Teferi, Time Raveler",
+    "qty": 3
+   },
+   {
+    "name": "Thundering Falls",
+    "qty": 1
+   },
+   {
+    "name": "Steam Vents",
+    "qty": 1
+   },
+   {
+    "name": "Island",
+    "qty": 2
+   },
+   {
+    "name": "Plains",
+    "qty": 2
+   },
+   {
+    "name": "Consult the Star Charts",
+    "qty": 4
+   },
+   {
+    "name": "Supreme Verdict",
+    "qty": 1
+   },
+   {
+    "name": "Orim's Chant",
+    "qty": 4
+   },
+   {
+    "name": "Galvanic Discharge",
+    "qty": 3
+   },
+   {
+    "name": "Flooded Strand",
+    "qty": 4
+   },
+   {
+    "name": "Scalding Tarn",
+    "qty": 2
+   },
+   {
+    "name": "Spell Snare",
+    "qty": 2
+   },
+   {
+    "name": "Hedge Maze",
+    "qty": 1
+   },
+   {
+    "name": "Force of Negation",
+    "qty": 1
+   },
+   {
+    "name": "Mystic Gate",
+    "qty": 1
+   },
+   {
+    "name": "Isochron Scepter",
+    "qty": 2
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Consign to Memory",
+    "qty": 3
+   },
+   {
+    "name": "Kaheera, the Orphanguard",
+    "qty": 1
+   },
+   {
+    "name": "Mystical Dispute",
+    "qty": 3
+   },
+   {
+    "name": "Supreme Verdict",
+    "qty": 1
+   },
+   {
+    "name": "Day's Undoing",
+    "qty": 1
+   },
+   {
+    "name": "Ashiok, Dream Render",
+    "qty": 1
+   },
+   {
+    "name": "High Noon",
+    "qty": 2
+   },
+   {
+    "name": "Rest in Peace",
+    "qty": 1
+   },
+   {
+    "name": "Celestial Purge",
+    "qty": 1
+   },
+   {
+    "name": "Beza, the Bounding Spring",
+    "qty": 1
+   }
+  ]
+ },
+ "Boros Burn": {
+  "source_deck_id": 7930623,
+  "source_url": "https://www.mtggoldfish.com/deck/7930623",
+  "mainboard": [
+   {
+    "name": "Goblin Guide",
+    "qty": 4
+   },
+   {
+    "name": "Monastery Swiftspear",
+    "qty": 4
+   },
+   {
+    "name": "Sacred Foundry",
+    "qty": 2
+   },
+   {
+    "name": "Lightning Bolt",
+    "qty": 4
+   },
+   {
+    "name": "Skewer the Critics",
+    "qty": 4
+   },
+   {
+    "name": "Rift Bolt",
+    "qty": 4
+   },
+   {
+    "name": "Lava Spike",
+    "qty": 4
+   },
+   {
+    "name": "Boros Charm",
+    "qty": 4
+   },
+   {
+    "name": "Sunbaked Canyon",
+    "qty": 3
+   },
+   {
+    "name": "Mountain",
+    "qty": 3
+   },
+   {
+    "name": "Arid Mesa",
+    "qty": 2
+   },
+   {
+    "name": "Boltwave",
+    "qty": 4
+   },
+   {
+    "name": "Inspiring Vantage",
+    "qty": 3
+   },
+   {
+    "name": "Barbarian Ring",
+    "qty": 3
+   },
+   {
+    "name": "Searing Blaze",
+    "qty": 2
+   },
+   {
+    "name": "Bloodstained Mire",
+    "qty": 2
+   },
+   {
+    "name": "Lightning Helix",
+    "qty": 4
+   },
+   {
+    "name": "Wooded Foothills",
+    "qty": 1
+   },
+   {
+    "name": "Eidolon of the Great Revel",
+    "qty": 3
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Path to Exile",
+    "qty": 1
+   },
+   {
+    "name": "Rest in Peace",
+    "qty": 2
+   },
+   {
+    "name": "Obsidian Charmaw",
+    "qty": 1
+   },
+   {
+    "name": "Damping Sphere",
+    "qty": 2
+   },
+   {
+    "name": "Deflecting Palm",
+    "qty": 1
+   },
+   {
+    "name": "Skullcrack",
+    "qty": 2
+   },
+   {
+    "name": "Smash to Smithereens",
+    "qty": 3
+   },
+   {
+    "name": "Orim's Chant",
+    "qty": 1
+   },
+   {
+    "name": "Surgical Extraction",
+    "qty": 2
+   }
+  ]
+ },
+ "Eldrazi Bloodchief Combo": {
+  "source_deck_id": 7935879,
+  "source_url": "https://www.mtggoldfish.com/deck/7935879",
+  "mainboard": [
+   {
+    "name": "Gemstone Caverns",
+    "qty": 1
+   },
+   {
+    "name": "Thought-Knot Seer",
+    "qty": 1
+   },
+   {
+    "name": "Blade of the Bloodchief",
+    "qty": 3
+   },
+   {
+    "name": "Dismember",
+    "qty": 2
+   },
+   {
+    "name": "Forest",
+    "qty": 5
+   },
+   {
+    "name": "Basking Broodscale",
+    "qty": 4
+   },
+   {
+    "name": "Delighted Halfling",
+    "qty": 2
+   },
+   {
+    "name": "The Mycosynth Gardens",
+    "qty": 1
+   },
+   {
+    "name": "Eldrazi Temple",
+    "qty": 4
+   },
+   {
+    "name": "Cavern of Souls",
+    "qty": 2
+   },
+   {
+    "name": "Springleaf Drum",
+    "qty": 1
+   },
+   {
+    "name": "Kozilek's Command",
+    "qty": 4
+   },
+   {
+    "name": "Grove of the Burnwillows",
+    "qty": 4
+   },
+   {
+    "name": "Malevolent Rumble",
+    "qty": 4
+   },
+   {
+    "name": "Glaring Fleshraker",
+    "qty": 1
+   },
+   {
+    "name": "Ancient Stirrings",
+    "qty": 4
+   },
+   {
+    "name": "Sowing Mycospawn",
+    "qty": 3
+   },
+   {
+    "name": "Walking Ballista",
+    "qty": 1
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 2
+   },
+   {
+    "name": "Haywire Mite",
+    "qty": 1
+   },
+   {
+    "name": "Emrakul, the Promised End",
+    "qty": 3
+   },
+   {
+    "name": "Soul-Guide Lantern",
+    "qty": 1
+   },
+   {
+    "name": "Boseiju, Who Endures",
+    "qty": 2
+   },
+   {
+    "name": "Urza's Saga",
+    "qty": 4
+   }
+  ],
+  "sideboard": [
+   {
+    "name": "Thought-Knot Seer",
+    "qty": 1
+   },
+   {
+    "name": "Nature's Claim",
+    "qty": 2
+   },
+   {
+    "name": "Damping Sphere",
+    "qty": 2
+   },
+   {
+    "name": "Vexing Bauble",
+    "qty": 1
+   },
+   {
+    "name": "Pithing Needle",
+    "qty": 1
+   },
+   {
+    "name": "Thief of Existence",
+    "qty": 2
+   },
+   {
+    "name": "Grafdigger's Cage",
+    "qty": 1
+   },
+   {
+    "name": "Dismember",
+    "qty": 1
+   },
+   {
+    "name": "Warping Wail",
+    "qty": 2
+   },
+   {
+    "name": "Sire of Seven Deaths",
+    "qty": 2
+   }
+  ]
+ }
+}
