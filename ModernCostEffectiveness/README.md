@@ -14,6 +14,13 @@ python src\tracker_gui.py
 
 # 3. First run: open the Import tab and load your collection,
 #    then check the Dashboard to see what you can build.
+#
+# Top bar: Reload data re-reads files. Refresh all data re-pulls
+# everything from the internet in order (metagame + art, 20 sample
+# lists, missing prices, missing mana data, matchup matrix — several
+# minutes, swaps reverted, per-step summary at the end).
+# The Settings button (top bar) holds theme, font size, window memory,
+# and auto-refresh preferences — all apply live, no restart needed.
 ```
 
 ## How Matching Works (read once)
@@ -47,7 +54,9 @@ One tile per top-20 deck, sorted with buildable decks first:
 
 Click any tile to open its **deck window**: a 60-card Mainboard plus a
 15-card Sideboard with Need / Have / Missing / $ each columns (green = owned,
-red = missing, blue = swapped). From here you can:
+red = missing, blue = swapped), headed by the sample's provenance
+(`Sample: MTGGoldfish deck #…`, clickable, plus a note if the sample was
+trimmed to 60+15). From here you can:
 
 | Button | What it does |
 |---|---|
@@ -64,17 +73,33 @@ shopping lists, and tiles. Swaps are saved per deck in
 `data/deck_overrides.json`. A **live 7-day refresh always reverts all swaps**,
 since the underlying sample lists may have changed.
 
-### 2. Collection — what you own
+### 2. Buy Next — what to buy first
+
+Answers the bang-for-buck question directly:
+
+- **Shared staples first** — every card you're missing, ranked by how many
+  decks need it, then by total cost. One purchase serves every deck listed,
+  so the top rows are the highest-leverage buys. **Copy staples shopping
+  list** copies the priced rows as `4x Name` lines.
+- **Cheapest decks to unlock** — every non-buildable deck in finishing-cost
+  order, with the single closest unlock called out in the header
+  (`Closest unlock: Esper Blink — $9 to finish (3 cards)`). Decks with
+  unpriced gaps sort last with a `+?` marker, since their totals are
+  understated.
+
+### 3. Collection — what you own
 
 - One row per card (`Qty` + `Card`); the header shows
   `shown | unique | total`.
 - **Search** filters as you type. **Add card** opens a name + quantity
   dialog. **Remove selected** deletes rows. **Clear collection** wipes it
   (with confirmation).
+- Clearing or replace-importing first writes a timestamped backup to
+  `data/backups/` (last 5 kept) — the status bar names the file.
 - Every change saves instantly to `data/my_collection.json`, shared with
   the CLI.
 
-### 3. Import — get cards in
+### 4. Import — get cards in
 
 Three ways in, one collection out:
 
@@ -89,14 +114,15 @@ Three ways in, one collection out:
   a full export so quantities don't double up.
 - **Clear cached collection** is also here for convenience.
 
-### 4. Metagame — the top 20, row by row
+### 5. Metagame — the top 20, row by row
 
 A fixed header labels every column
 (**Deck · Archetype · Paper / MTGO · Have / To finish · Colors**); rows show,
 per deck: thumbnail, title with meta share and deck count, key cards, a
 detail line (`Collection 56/75 (74.7%) · $175 to finish · Keys 2/3 owned`),
 archetype chip, paper $ + MTGO tix, your Have % + $ left, and the top-three
-scaled mana symbols.
+scaled mana symbols. The header also shows the snapshot's age and nudges
+you to refresh past 7 days.
 
 - Row colors: **green** = buildable, cream = partial, white = untouched.
 - Click a row to highlight it; **double-click** (or **Open selected deck**)
@@ -109,10 +135,10 @@ scaled mana symbols.
 | Reload snapshot | Re-reads files from disk |
 | Refresh live 7-day | Re-pulls MTGGoldfish + art (~30–60s); **reverts all card swaps**; auto-saves a snapshot |
 | Save snapshot | Archives the current view into `data/snapshots/` |
-| Update prices | Scrapes cheapest-printing prices (Scryfall) for cards you still need (~1 min, threaded, cached in `prices.json`) |
+| Update prices | Scrapes cheapest-printing prices (Scryfall) for cards you still need (~1 min, threaded, cached in `prices.json`). Prices older than 14 days are re-checked; the confirm dialog breaks down new vs stale |
 | Update mana data | Fetches mana costs for pip/color data (Scryfall bulk lookup, cached in `mana_costs.json`) |
 
-### 5. Statistics — the shape of the format
+### 6. Statistics — the shape of the format
 
 - **Summary line**: snapshot date/window, decks tracked, average paper price,
   buildable count.
@@ -122,13 +148,15 @@ scaled mana symbols.
 - **Archetype bar**: meta share stacked by archetype with a legend.
 - **Trending table**: newest two snapshots compared
   (UP / DOWN / NEW / OUT / FLAT with point changes). Needs 2+ files in
-  `data/snapshots/`.
+  `data/snapshots/`. The title names both windows and says so when they
+  differ — a 30-day → 7-day move partly reflects sample size, not movement.
 
-### 6. Matchups — who beats whom
+### 7. Matchups — who beats whom
 
 A 20×20 winrate matrix from mtgdecks.net (last 15 days), color-coded
 red → yellow → green, with a separate bold **Overall** column and grey
-mirror diagonal. **Hover any cell** for the exact winrate and sample size
+mirror diagonal. Cells under 10 matches render faded — same number, less
+shout. **Hover any cell** for the exact winrate and sample size
 (e.g. `Izzet Prowess 44% vs Goryo's Vengeance (108 matches)`). Cells grow
 with the window; scrollbars cover the rest.
 
@@ -151,22 +179,54 @@ ModernCostEffectiveness/
                        snapshot_fetch.py / fetch_decklists.py
                        price_fetch.py / matchup_fetch.py / mana_fetch.py
   data/                modern_metagame.json (top-20 meta stats)
+                       settings.json (theme, font size, window, auto-refresh)
                        decklists.json (60+15 sample list per deck)
-                       prices.json (cheapest-printing price cache)
+                       prices.json (cheapest-printing price cache;
+                                    prices older than 14 days are re-checked)
                        mana_costs.json (mana-cost pip cache)
                        matchups.json (winrate matrix + name mapping)
                        deck_overrides.json (your card swaps)
                        my_collection.json (your cards — backed up by OneDrive)
                        esper_blink_gateway_plan.json (price reference + CLI)
-                       snapshots/ (dated metagame history)
+                       snapshots/ (dated metagame history, newest 10 kept)
+                       backups/ (auto-saves before clears/replace-imports, last 5)
   assets/thumbs/       deck art thumbnails
   assets/fonts/        bundled mana-symbol font
+  tests/               committed unit suite (`runtests.bat` or
+                         `python -m unittest discover -s tests`)
 ```
 
 Card-content identity rules (`DECK_IDENTITY_RULES` in `snapshot_fetch.py`)
 reclassify lists no matter what a source calls them — e.g. any list holding
 Blade of the Bloodchief + Basking Broodscale is Eldrazi Bloodchief Combo —
 enforced by `fetch_decklists.py` on every refresh.
+
+## Tests
+
+`tests/` holds the committed unit suite (stdlib `unittest`, no extra
+packages) — run it with `runtests.bat` or
+`python -m unittest discover -s tests`:
+
+| File | What it locks in |
+|---|---|
+| `test_matching.py` | Name normalization, `//` faces, printing merges, index consistency |
+| `test_rules.py` | Buildable rule + boundaries, price/pip/color/series helpers |
+| `test_parsers.py` | Card-line formats, 60/15 caps with cut records, identity rules |
+| `test_settings.py` | Settings defaults/validation, theme palette + scale contracts |
+| `test_store.py` | Progress, swaps, snapshots, matchups, shopping, backups, pruning |
+| `test_data.py` | Live `data/` invariants (20 decks, 60/15 sums, mapping coverage) |
+
+## Settings
+
+The top-bar **Settings** button opens preferences (saved to
+`data/settings.json`, all applied live, no restart):
+
+| Setting | Options | Notes |
+|---|---|---|
+| Theme | Light / Dark | Full dark mode; switches instantly |
+| Font size | 80–130% slider | Resizes every label, table, and chart in place |
+| Remember window size and tab | On / Off | Restores geometry + selected tab on launch |
+| Auto-refresh snapshot older than | Off / 3 / 7 / 14 / 30 days | Prompts a full refresh when the snapshot is stale |
 
 ## Command Line
 

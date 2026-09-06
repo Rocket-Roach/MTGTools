@@ -22,6 +22,7 @@ from datetime import date
 from pathlib import Path
 
 from paths import DECKLISTS_FILE, PRICES_FILE, COLLECTION_FILE, PLAN_FILE
+from paths import PRICE_TTL_DAYS
 
 CACHE_FILE = PRICES_FILE
 
@@ -98,8 +99,8 @@ def load_cache():
 
 
 def save_cache(cache):
-    with open(CACHE_FILE, 'w', encoding='utf-8') as f:
-        json.dump(cache, f, indent=1)
+    from paths import write_json_atomic
+    write_json_atomic(CACHE_FILE, cache)
 
 
 def _load_collection():
@@ -114,9 +115,32 @@ def _load_collection():
     return None
 
 
+def price_age_days(cache, lname):
+    """Age in days of a cached price, or None if unknown/undated."""
+    v = cache.get(lname)
+    stamp = v.get('updated') if isinstance(v, dict) else None
+    if not stamp:
+        return None
+    try:
+        return (date.today() - date.fromisoformat(str(stamp)[:10])).days
+    except Exception:
+        return None
+
+
+def is_stale(cache, lname, ttl_days=None):
+    """True when a cached price exists but is older than the TTL."""
+    if ttl_days is None:
+        ttl_days = PRICE_TTL_DAYS
+    if not _cached_price(cache, lname):
+        return False
+    age = price_age_days(cache, lname)
+    return age is not None and age > ttl_days
+
+
 def missing_names(limit_decks=20):
-    """Unique top-20 card names (lowercased) lacking a price that the
-    collection doesn't already cover (owned < most needed copies)."""
+    """Unique top-20 card names (lowercased) lacking a *fresh* price that the
+    collection doesn't already cover (owned < most needed copies). Stale
+    cache entries (>TTL) count as missing so they get re-checked."""
     try:
         dl = json.loads(DECKLISTS_FILE.read_text(encoding='utf-8'))
     except Exception:
@@ -132,7 +156,7 @@ def missing_names(limit_decks=20):
                 have.add(ci['name'].strip().lower())
     cache = load_cache()
     for k, v in cache.items():
-        if isinstance(v, dict) and v.get('price'):
+        if isinstance(v, dict) and v.get('price') and not is_stale(cache, k):
             have.add(k)
     need = {}
     for d in list(dl.values())[:limit_decks]:
@@ -158,9 +182,12 @@ def _cached_price(cache, lname):
     return v
 
 
-def update_missing(name_map, cache=None, progress_cb=None, delay=DELAY):
+def update_missing(name_map, cache=None, progress_cb=None, delay=DELAY,
+                   force=False):
     """Fetch cheapest prices for {lower_name: display_name} missing from cache.
 
+    With force=True, entries already cached are re-fetched too (used for
+    stale-price refreshes; the caller pre-filters what to include).
     Returns (updated, failed_display_names). Cache is saved on completion.
     """
     if cache is None:
@@ -169,7 +196,7 @@ def update_missing(name_map, cache=None, progress_cb=None, delay=DELAY):
     items = list(name_map.items())
     updated, failed = 0, []
     for i, (lname, display) in enumerate(items):
-        if _cached_price(cache, lname):
+        if not force and _cached_price(cache, lname):
             if progress_cb:
                 progress_cb(i + 1, len(items), display, True)
             continue

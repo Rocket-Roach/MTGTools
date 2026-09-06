@@ -87,18 +87,21 @@ class Collection:
                 s.add(key)
             self._face_qty[f] = self._face_qty.get(f, 0) + qty
 
-    def _index_remove(self, key: str, name: str, qty: int):
+    def _index_sub(self, key: str, name: str, qty: int):
+        for f in card_faces(name):
+            left = self._face_qty.get(f, 0) - qty
+            if left > 0:
+                self._face_qty[f] = left
+            else:
+                self._face_qty.pop(f, None)
+
+    def _index_drop(self, key: str, name: str):
         for f in card_faces(name):
             s = self._face_index.get(f)
             if s is not None:
                 s.discard(key)
                 if not s:
                     del self._face_index[f]
-            left = self._face_qty.get(f, 0) - qty
-            if left > 0:
-                self._face_qty[f] = left
-            else:
-                self._face_qty.pop(f, None)
 
     def add(self, card: Card):
         key = card.key()
@@ -118,7 +121,7 @@ class Collection:
             existing.quantity += card.quantity
             self._index_add(ek, existing.name, card.quantity)
             if '//' in card.name and '//' not in existing.name:
-                self._index_remove(ek, existing.name, existing.quantity)
+                self._index_drop(ek, existing.name)
                 existing.name = card.name
                 self._index_add(ek, existing.name, existing.quantity)
             return
@@ -131,15 +134,17 @@ class Collection:
             existing = self.cards[key]
             take = min(quantity, existing.quantity)
             existing.quantity -= take
-            self._index_remove(key, existing.name, take)
+            self._index_sub(key, existing.name, take)
             if existing.quantity <= 0:
+                self._index_drop(key, existing.name)
                 del self.cards[key]
 
     def pop(self, key: str):
         """Remove a whole entry by key (keeps the face index consistent)."""
         card = self.cards.pop(key, None)
         if card is not None:
-            self._index_remove(key, card.name, card.quantity)
+            self._index_sub(key, card.name, card.quantity)
+            self._index_drop(key, card.name)
         return card
 
     def clear(self):

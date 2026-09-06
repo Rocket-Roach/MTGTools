@@ -9,6 +9,7 @@ Run:  python tracker_gui.py
        or double-click tracker_gui.bat
 """
 
+import datetime
 import json
 import os
 import queue
@@ -23,7 +24,9 @@ from collections import defaultdict
 
 from paths import (ROOT as BASE_DIR, PLAN_FILE, COLLECTION_FILE, METAGAME_FILE,
                      DATA_DIR, SNAPSHOTS_DIR, PRICES_FILE, DECKLISTS_FILE,
-                     MANA_FILE, MANA_FONT_FILE, MATCHUPS_FILE, asset_path)
+                     MANA_FILE, MANA_FONT_FILE, MATCHUPS_FILE, asset_path,
+                     write_json_atomic, backup_file, prune_snapshots,
+                     PRICE_TTL_DAYS)
 METAGAME_URL = "https://www.mtggoldfish.com/metagame/modern#paper"
 
 # Reuse parsing / model logic from CLI tracker
@@ -40,6 +43,10 @@ try:
     HAS_PIL = True
 except ImportError:
     HAS_PIL = False
+
+import theme
+from theme import C, F
+import settings as app_settings
 
 
 # True mana-symbol glyphs (Mana font codepoints) composited onto art.
@@ -147,6 +154,7 @@ PIP_TEXT = {'W': '#000000', 'U': '#FFFFFF', 'B': '#FFFFFF',
 ARCH_CHIP = {'Aggro': '#C0392B', 'Tempo': '#17A589', 'Midrange': '#2874A6',
              'Control': '#7D3C98', 'Combo': '#7D6608', 'Ramp': '#1E8449',
              'Unclassified': '#707070'}
+ARCH_CHIP_FG = {'Tempo': '#1a1a1a'}  # default chip text is white; teal needs black
 
 
 def fmt_price(p) -> str:
@@ -170,12 +178,12 @@ def wr_colors(wr):
     if wr < 40:
         return ("#b03a2e", "#ffffff")
     if wr < 47:
-        return ("#e67e22", "#ffffff")
+        return ("#e67e22", "#1a1a1a")
     if wr < 53:
         return ("#f1c40f", "#1a1a1a")
     if wr < 60:
         return ("#7dc48a", "#1a1a1a")
-    return ("#239b56", "#ffffff")
+    return ("#239b56", "#1a1a1a")
 
 
 def wr_text_color(wr):
@@ -187,6 +195,22 @@ def wr_text_color(wr):
     if wr > 53:
         return "#1e8449"
     return "#7d6608"
+
+
+MU_MIN_MATCHES = 10
+
+
+def mu_fade(hexcolor: str, toward: str = "#8a8f98", t: float = 0.6) -> str:
+    """Desaturate a cell fill for low-sample matchups (still readable)."""
+    try:
+        def ch(s, i):
+            return int(s[i:i + 2], 16)
+        r = round(ch(hexcolor, 1) * (1 - t) + ch(toward, 1) * t)
+        g = round(ch(hexcolor, 3) * (1 - t) + ch(toward, 3) * t)
+        b = round(ch(hexcolor, 5) * (1 - t) + ch(toward, 5) * t)
+        return f"#{r:02x}{g:02x}{b:02x}"
+    except Exception:
+        return hexcolor
 
 
 def short_deck_name(name: str, limit: int = 11) -> str:
@@ -368,11 +392,31 @@ class GuiStore:
                 prices[key] = p
         return prices
 
+    def price_age_days(self, key: str):
+        """Age in days of a cached price, or None if unknown/undated."""
+        v = (self.price_cache or {}).get(key)
+        stamp = v.get("updated") if isinstance(v, dict) else None
+        if not stamp:
+            return None
+        try:
+            return (datetime.date.today() - datetime.date.fromisoformat(str(stamp)[:10])).days
+        except Exception:
+            return None
+
+    def is_price_stale(self, key: str) -> bool:
+        """A cached price counts as stale past PRICE_TTL_DAYS."""
+        v = (self.price_cache or {}).get(key)
+        price = v.get("price") if isinstance(v, dict) else None
+        if not price:
+            return False
+        return (self.price_age_days(key) or 0) > PRICE_TTL_DAYS
+
     def cards_missing_prices(self):
-        """{lower_name: display_name} for top-20 cards with no known price
+        """{lower_name: display_name} for top-20 cards with no *fresh* price
         that the collection doesn't already cover (owned < most needed
         copies). Fully-owned cards need no price since there's nothing
-        left to buy."""
+        left to buy. Stale cache entries count as missing so refreshes
+        re-check them (display math keeps using the old price meanwhile)."""
         disp = {}
         need = {}
         for entry in (self.decklists or {}).values():
@@ -385,7 +429,7 @@ class GuiStore:
                         need[key] = q
         out = {}
         for key, display in disp.items():
-            if self.price_map.get(key):
+            if self.price_map.get(key) and not self.is_price_stale(key):
                 continue
             if self.owned_qty(key) < need.get(key, 1):
                 out[key] = display
@@ -405,8 +449,7 @@ class GuiStore:
 
     def save_overrides(self):
         try:
-            with open(DATA_DIR / "deck_overrides.json", "w", encoding="utf-8") as f:
-                json.dump(self.deck_overrides, f, indent=1)
+            write_json_atomic(DATA_DIR / "deck_overrides.json", self.deck_overrides)
         except Exception:
             pass
 
@@ -467,8 +510,7 @@ class GuiStore:
             self.collection = Collection()
 
     def save_collection(self):
-        with open(self.collection_file, "w", encoding="utf-8") as f:
-            json.dump(self.collection.to_dict(), f, indent=2)
+        write_json_atomic(self.collection_file, self.collection.to_dict())
 
     def owned_qty(self, name: str) -> int:
         """Printing-agnostic, face-aware lookup (any shared '//' face counts)."""
@@ -527,6 +569,53 @@ class GuiStore:
                         "colors": self.deck_colors(d["name"]),
                         "buildable": is_buildable(prog), **prog})
         out.sort(key=lambda x: (not x["buildable"], -x["pct"]))
+        return out
+
+    def shopping_priorities(self, deck_list=None):
+        """Ranked buy list for the bang-for-buck question: cards covering
+        the most decks first, then cheapest total. buy = max shortfall
+        across decks (one purchase serves every deck). Unpriced cards sort
+        last since they can't unlock anything reliably."""
+        if deck_list is None:
+            deck_list = self.deck_progress_list()
+        per = {}
+        for prog in deck_list:
+            for r in prog["rows"]:
+                if r["short"] <= 0:
+                    continue
+                key = r["name"].strip().lower()
+                e = per.setdefault(key, {"display": r["name"], "decks": set(),
+                                         "buy": 0, "price": r["price"] or 0})
+                e["decks"].add(prog["deck"])
+                e["buy"] = max(e["buy"], r["short"])
+                if r["price"]:
+                    e["price"] = e["price"] or r["price"]
+        rows = []
+        for key, e in per.items():
+            total = e["buy"] * e["price"] if e["price"] else None
+            rows.append({"name": e["display"], "decks": len(e["decks"]),
+                         "deck_names": sorted(e["decks"]), "buy": e["buy"],
+                         "price": e["price"], "total": total,
+                         "unpriced": not e["price"]})
+        rows.sort(key=lambda r: (r["unpriced"], -r["decks"],
+                                 r["total"] if r["total"] is not None else float("inf")))
+        return rows
+
+    def deck_unlock_order(self, deck_list=None):
+        """Non-buildable decks cheapest-first; decks with unpriced gaps
+        sort last (their totals are understated)."""
+        if deck_list is None:
+            deck_list = self.deck_progress_list()
+        out = []
+        for prog in deck_list:
+            if prog["buildable"]:
+                continue
+            unpriced = any(r["short"] > 0 and not r["price"] for r in prog["rows"])
+            missing_n = sum(1 for r in prog["rows"] if r["short"] > 0)
+            out.append({"deck": prog["deck"], "meta_pct": prog.get("meta_pct"),
+                        "missing_value": prog["missing_value"],
+                        "missing_n": missing_n, "unpriced": unpriced})
+        out.sort(key=lambda d: (d["unpriced"], d["missing_value"]))
         return out
 
     def deck_art(self, deck_name: str):
@@ -621,28 +710,19 @@ class DeckDetailWindow(tk.Toplevel):
 
     def _build(self):
         # MTGGoldfish-style sample list: flat Mainboard + Sideboard sections.
-        self.lbl_header = ttk.Label(self, text="", font=("Segoe UI", 11, "bold"),
+        self.lbl_header = ttk.Label(self, text="", font=F("l_b"),
                                     wraplength=820)
         self.lbl_header.pack(padx=10, pady=(10, 2))
         desc = self.deck_info.get("description", "")
         if desc:
-            ttk.Label(self, text=desc, wraplength=820, foreground="#555").pack(padx=10, pady=(0, 8))
+            ttk.Label(self, text=desc, wraplength=820, foreground=C("muted")).pack(padx=10, pady=(0, 2))
+        self.lbl_source = tk.Label(self, text="", font=F("xs"),
+                                   fg=C("link"), cursor="hand2")
+        self.lbl_source.pack(padx=10, pady=(0, 8), anchor="w")
+        self._refresh_source()
 
-        cols = ("need", "have", "missing", "price")
-        self.tree = ttk.Treeview(self, columns=cols, show="tree headings", height=20)
-        self.tree.heading("#0", text="Card")
-        self.tree.column("#0", width=340, anchor="w")
-        for c, w, h in [("need", 60, "Need"), ("have", 60, "Have"),
-                        ("missing", 70, "Missing"), ("price", 70, "$ ea")]:
-            self.tree.heading(c, text=h)
-            self.tree.column(c, width=w, anchor="center")
-        self.tree.tag_configure("done", background="#dff5df")
-        self.tree.tag_configure("need", background="#fde8e8")
-        self.tree.tag_configure("section", background="#d9e6f2")
-        self.tree.tag_configure("swapped", background="#e3f0fc")
-        self.tree.pack(fill="both", expand=True, padx=10, pady=5)
-        self._refresh()
-
+        # Button bar is packed BEFORE the expanding tree so the buttons can
+        # never be starved out of the fixed-size window.
         bar = ttk.Frame(self)
         bar.pack(fill="x", padx=10, pady=(0, 10))
         ttk.Button(bar, text="Copy shopping list to clipboard", command=self._copy).pack(side="left")
@@ -653,11 +733,42 @@ class DeckDetailWindow(tk.Toplevel):
                        command=self._revert_swaps).pack(side="left", padx=(8, 0))
         ttk.Button(bar, text="Close", command=self.destroy).pack(side="right")
 
+        cols = ("need", "have", "missing", "price")
+        self.tree = ttk.Treeview(self, columns=cols, show="tree headings", height=14)
+        self.tree.heading("#0", text="Card")
+        self.tree.column("#0", width=340, anchor="w")
+        for c, w, h in [("need", 60, "Need"), ("have", 60, "Have"),
+                        ("missing", 70, "Missing"), ("price", 70, "$ ea")]:
+            self.tree.heading(c, text=h)
+            self.tree.column(c, width=w, anchor="center")
+        theme.apply_tree_tags(self.tree, theme.DECK_TAGS)
+        self.tree.pack(fill="both", expand=True, padx=10, pady=5)
+        self._refresh()
+
+    def _refresh_source(self):
+        """Sample provenance line (+ trimmed cards, if the source list was
+        capped to 60+15). The deck id is clickable."""
+        if self.store is None or not self.deck_name:
+            self.lbl_source.pack_forget()
+            return
+        entry = (self.store.decklists or {}).get(self.deck_name, {})
+        did, url = entry.get("source_deck_id"), entry.get("source_url")
+        if not did and not url:
+            self.lbl_source.pack_forget()
+            return
+        text = f"Sample: MTGGoldfish deck #{did}" if did else "Sample: MTGGoldfish deck list"
+        trimmed = entry.get("truncated") or []
+        if trimmed:
+            text += f"  (trimmed to 60+15: {', '.join(trimmed)})"
+        self.lbl_source.config(text=text)
+        self.lbl_source.bind("<Button-1>", lambda e: webbrowser.open(url) if url else None)
+
     def _refresh(self):
         if self.store is not None and self.deck_name:
             fresh = self.store.decklist_progress(self.deck_name)
             if fresh is not None:
                 self.prog = fresh
+        self._refresh_source()
         self.lbl_header.config(
             text=(f"{self.deck_info['name']}  -  {self.prog['owned']}/{self.prog['total']} "
                   f"({self.prog['pct']:.1f}%)  -  missing ${self.prog['missing_value']:,.0f}"))
@@ -724,8 +835,11 @@ class DeckDetailWindow(tk.Toplevel):
         entry = ttk.Entry(dlg)
         entry.pack(fill="x", padx=10)
         entry.focus_set()
+        # Buttons first so they survive small/fixed window sizes.
+        btns = ttk.Frame(dlg)
+        btns.pack(fill="x", padx=10, pady=(0, 10), side="bottom")
         cols = ("owned", "card")
-        tree = ttk.Treeview(dlg, columns=cols, show="headings", height=14)
+        tree = ttk.Treeview(dlg, columns=cols, show="headings", height=10)
         tree.heading("owned", text="Owned")
         tree.heading("card", text="Card (from your collection)")
         tree.column("owned", width=70, anchor="center")
@@ -752,9 +866,6 @@ class DeckDetailWindow(tk.Toplevel):
 
         entry.bind("<KeyRelease>", refill)
         refill()
-
-        btns = ttk.Frame(dlg)
-        btns.pack(fill="x", padx=10, pady=(0, 10))
 
         def confirm(_event=None):
             sel = tree.selection()
@@ -795,10 +906,29 @@ class TrackerGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("MTG Modern Deck Tracker")
-        self.geometry("1080x740")
+        self.settings = app_settings.load()
+        theme.init_fonts(self.settings.get("font_scale", 1.0))
+        theme.apply(self, self.settings.get("theme", "light"))
+        if self.settings.get("remember_ui", True) and self.settings.get("geometry"):
+            try:
+                self.geometry(self.settings["geometry"])
+            except Exception:
+                self.geometry("1080x740")
+        else:
+            self.geometry("1080x740")
         self.store = GuiStore(PLAN_FILE, COLLECTION_FILE)
         self._build_ui()
         self.refresh_all()
+        # Restore last tab (quietly ignore unknown names).
+        if self.settings.get("remember_ui", True):
+            try:
+                for i in range(self.notebook.index("end")):
+                    if self.notebook.tab(i, "text").strip() == (self.settings.get("last_tab") or ""):
+                        self.notebook.select(i)
+                        break
+            except Exception:
+                pass
+        self.protocol("WM_DELETE_WINDOW", self._on_close)
         # Bring the window to the front on launch (double-click starts
         # hidden behind other windows otherwise).
         try:
@@ -808,28 +938,165 @@ class TrackerGUI(tk.Tk):
             self.focus_force()
         except Exception:
             pass
+        self.after(800, self._maybe_auto_refresh)
+
+    def _on_close(self):
+        """Persist window/tab/visit, then exit."""
+        try:
+            if self.settings.get("remember_ui", True):
+                self.settings["geometry"] = self.geometry()
+                try:
+                    self.settings["last_tab"] = self.notebook.tab(
+                        self.notebook.select(), "text").strip()
+                except Exception:
+                    pass
+            import datetime
+            self.settings["last_visit"] = datetime.date.today().isoformat()
+            app_settings.save(self.settings)
+        except Exception:
+            pass
+        try:
+            self.destroy()
+        except Exception:
+            pass
+
+    def _maybe_auto_refresh(self):
+        days = self.settings.get("auto_refresh_days", 0) or 0
+        if days <= 0:
+            return
+        try:
+            age = self.snapshot_age_days()
+        except Exception:
+            return
+        if age is None or age <= days:
+            return
+        if messagebox.askyesno(
+                "Snapshot is stale",
+                f"Your metagame snapshot is {age} days old "
+                f"(auto-refresh is set to {days} days).\n\n"
+                f"Run Refresh all data now?"):
+            self.refresh_all_data()
+
+    def open_settings(self):
+        """Preferences dialog. Theme and font size apply live; everything
+        is saved on close (and again on app exit)."""
+        dlg = tk.Toplevel(self)
+        dlg.title("Settings")
+        dlg.geometry("380x330")
+        dlg.transient(self)
+        body = ttk.Frame(dlg, padding=12)
+        body.pack(fill="both", expand=True)
+
+        ttk.Label(body, text="Theme", font=F("m_b")).pack(anchor="w")
+        theme_var = tk.StringVar(value=self.settings.get("theme", "light"))
+        trow = ttk.Frame(body)
+        trow.pack(anchor="w", pady=(2, 10))
+        ttk.Radiobutton(trow, text="Light", variable=theme_var, value="light",
+                        command=lambda: self.apply_theme(theme_var.get())).pack(side="left")
+        ttk.Radiobutton(trow, text="Dark", variable=theme_var, value="dark",
+                        command=lambda: self.apply_theme(theme_var.get())).pack(side="left", padx=(12, 0))
+
+        ttk.Label(body, text="Font size", font=F("m_b")).pack(anchor="w")
+        scale_var = tk.DoubleVar(value=float(self.settings.get("font_scale", 1.0)) * 100)
+        ttk.Label(body, text="Drag to resize all text (applies instantly):").pack(anchor="w")
+        slider = ttk.Scale(body, from_=80, to=130, variable=scale_var, orient="horizontal")
+        slider.pack(fill="x", pady=(2, 10))
+
+        def _on_scale_release(_event=None):
+            try:
+                theme.set_scale(scale_var.get() / 100.0)
+                self.settings["font_scale"] = theme.get_scale()
+            except Exception:
+                pass
+
+        slider.bind("<ButtonRelease-1>", _on_scale_release)
+        mem_var = tk.BooleanVar(value=bool(self.settings.get("remember_ui", True)))
+        ttk.Checkbutton(body, text="Remember window size and tab",
+                        variable=mem_var).pack(anchor="w", pady=(0, 10))
+        ttk.Label(body, text="Auto-refresh snapshot older than:", font=F("m_b")).pack(anchor="w")
+        age_var = tk.StringVar()
+        age_map = {"Off": 0, "3 days": 3, "7 days": 7, "14 days": 14, "30 days": 30}
+        current_days = self.settings.get("auto_refresh_days", 7)
+        age_var.set(next((k for k, v in age_map.items() if v == current_days), "7 days"))
+        ttk.OptionMenu(body, age_var, age_var.get(), *age_map.keys()).pack(anchor="w", pady=(2, 10))
+
+        def _close():
+            try:
+                self.settings["theme"] = theme.current()
+                self.settings["font_scale"] = theme.get_scale()
+                self.settings["remember_ui"] = bool(mem_var.get())
+                self.settings["auto_refresh_days"] = age_map.get(age_var.get(), 7)
+                app_settings.save(self.settings)
+            except Exception:
+                pass
+            try:
+                dlg.destroy()
+            except Exception:
+                pass
+
+        ttk.Button(body, text="Done", command=_close).pack(anchor="e")
+
+    def apply_theme(self, name: str):
+        """Switch light/dark live: restyle chrome, recolor static surfaces,
+        then rebuild data views (tiles/rows/charts pick up the palette)."""
+        theme.apply(self, name)
+        self.settings["theme"] = theme.current()
+        for canvas in ("dash_canvas", "meta_canvas", "pie_canvas",
+                       "bar_canvas", "arch_canvas", "mu_canvas"):
+            try:
+                getattr(self, canvas).configure(bg=theme.C("canvas"))
+            except Exception:
+                pass
+        for frame in ("dash_inner", "meta_inner"):
+            try:
+                getattr(self, frame).configure(bg=theme.C("bg"))
+            except Exception:
+                pass
+        try:
+            self.paste_box.configure(bg=theme.C("entry_bg"),
+                                     fg=theme.C("entry_fg"),
+                                     insertbackground=theme.C("entry_fg"))
+        except Exception:
+            pass
+        try:
+            theme.apply_tree_tags(self.trend_tree, theme.TREND_TAGS)
+            self.shop_tree.tag_configure("unpriced",
+                                         foreground=theme.C("faint"))
+        except Exception:
+            pass
+        try:
+            self.refresh_all()
+        except Exception:
+            pass
 
     # ---------- UI construction ----------
     def _build_ui(self):
         # Top summary bar
         top = ttk.Frame(self, padding=10)
         top.pack(fill="x")
-        self.lbl_overall = ttk.Label(top, text="", font=("Segoe UI", 11, "bold"))
+        self.lbl_overall = ttk.Label(top, text="", font=F("l_b"))
         self.lbl_overall.pack(side="left")
-        self.lbl_buildable = ttk.Label(top, text="", font=("Segoe UI", 10))
+        self.lbl_buildable = ttk.Label(top, text="", font=F("m"))
         self.lbl_buildable.pack(side="left", padx=(16, 0))
         ttk.Button(top, text="Reload data", command=self.reload).pack(side="right")
+        self.btn_refresh_all = ttk.Button(top, text="Refresh all data",
+                                          command=self.refresh_all_data)
+        self.btn_refresh_all.pack(side="right", padx=(0, 8))
+        ttk.Button(top, text="Settings", command=self.open_settings).pack(side="right",
+                                                                           padx=(0, 8))
 
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
         self.tab_dash = ttk.Frame(self.notebook, padding=8)
+        self.tab_shop = ttk.Frame(self.notebook, padding=8)
         self.tab_coll = ttk.Frame(self.notebook, padding=8)
         self.tab_import = ttk.Frame(self.notebook, padding=8)
         self.tab_meta = ttk.Frame(self.notebook, padding=8)
         self.tab_stats = ttk.Frame(self.notebook, padding=8)
         self.tab_mu = ttk.Frame(self.notebook, padding=8)
         self.notebook.add(self.tab_dash, text="  Dashboard (decks)  ")
+        self.notebook.add(self.tab_shop, text="  Buy Next  ")
         self.notebook.add(self.tab_coll, text="  Collection  ")
         self.notebook.add(self.tab_import, text="  Import  ")
         self.notebook.add(self.tab_meta, text="  Metagame  ")
@@ -837,6 +1104,7 @@ class TrackerGUI(tk.Tk):
         self.notebook.add(self.tab_mu, text="  Matchups  ")
 
         self._build_dashboard_tab()
+        self._build_shop_tab()
         self._build_collection_tab()
         self._build_import_tab()
         self._build_metagame_tab()
@@ -849,11 +1117,11 @@ class TrackerGUI(tk.Tk):
         # Scrollable tile grid; tiles are built in refresh_dashboard.
         # Solid white background throughout so image tiles don't flicker
         # against the default theme grey while scrolling.
-        canvas = tk.Canvas(self.tab_dash, highlightthickness=0, bg="white")
+        canvas = tk.Canvas(self.tab_dash, highlightthickness=0, bg=C("bg"))
         scrollbar = ttk.Scrollbar(self.tab_dash, orient="vertical", command=canvas.yview)
         self.dash_canvas = canvas
         self.dash_scrollbar = scrollbar
-        self.dash_inner = tk.Frame(canvas, bg="white", padx=4, pady=4)
+        self.dash_inner = tk.Frame(canvas, bg=C("bg"), padx=4, pady=4)
         self.dash_inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0, 0), window=self.dash_inner, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -920,6 +1188,75 @@ class TrackerGUI(tk.Tk):
         for child in widget.winfo_children():
             self._bind_dashboard_wheel(child)
 
+    def _build_shop_tab(self):
+        self.lbl_shop_head = ttk.Label(self.tab_shop, text="", wraplength=980,
+                                       font=F("m_b"))
+        self.lbl_shop_head.pack(anchor="w", pady=(0, 4))
+        ttk.Label(self.tab_shop,
+                  text="Shared staples first — one purchase serves every deck listed:",
+                  font=F("s_b")).pack(anchor="w")
+        cols = ("card", "decks", "buy", "each", "total")
+        self.shop_tree = ttk.Treeview(self.tab_shop, columns=cols, show="headings", height=12)
+        for c, w, h in [("card", 300, "Card"), ("decks", 70, "Decks"),
+                        ("buy", 60, "Buy"), ("each", 80, "$ each"),
+                        ("total", 90, "$ total")]:
+            self.shop_tree.heading(c, text=h)
+            self.shop_tree.column(c, width=w, anchor="center" if c != "card" else "w",
+                                  stretch=(c == "card"))
+        self.shop_tree.pack(fill="both", expand=True, pady=(0, 6))
+        row = ttk.Frame(self.tab_shop)
+        row.pack(fill="x")
+        ttk.Button(row, text="Copy staples shopping list",
+                   command=self._copy_shop_list).pack(side="left")
+        ttk.Label(self.tab_shop, text="Cheapest decks to unlock next:",
+                  font=F("s_b")).pack(anchor="w", pady=(6, 0))
+        ucols = ("deck", "cost", "cards")
+        self.unlock_tree = ttk.Treeview(self.tab_shop, columns=ucols, show="headings", height=7)
+        for c, w, h in [("deck", 300, "Deck"), ("cost", 120, "$ to finish"),
+                        ("cards", 140, "Cards missing")]:
+            self.unlock_tree.heading(c, text=h)
+            self.unlock_tree.column(c, width=w, anchor="center" if c != "deck" else "w",
+                                    stretch=(c == "deck"))
+        self.unlock_tree.pack(fill="both", expand=True)
+
+    def refresh_shop(self, deck_list=None):
+        if not hasattr(self, "shop_tree"):
+            return
+        if deck_list is None:
+            deck_list = self.store.deck_progress_list()
+        for tree in (self.shop_tree, self.unlock_tree):
+            for r in tree.get_children():
+                tree.delete(r)
+        for p in self.store.shopping_priorities(deck_list):
+            total = f"${p['total']:,.0f}" if p["total"] is not None else "—"
+            self.shop_tree.insert("", "end", values=(
+                p["name"], p["decks"], f"{p['buy']}x", fmt_price(p["price"]), total),
+                tags=("unpriced" if p["unpriced"] else ""))
+        self.shop_tree.tag_configure("unpriced", foreground=C("faint"))
+        unlocks = self.store.deck_unlock_order(deck_list)
+        for u in unlocks:
+            cost = f"${u['missing_value']:,.0f}" + (" +?" if u["unpriced"] else "")
+            self.unlock_tree.insert("", "end", values=(u["deck"], cost, u["missing_n"]))
+        if unlocks:
+            top = unlocks[0]
+            self.lbl_shop_head.config(
+                text=f"Closest unlock: {top['deck']} — "
+                     f"${top['missing_value']:,.0f}{' + unknown prices' if top['unpriced'] else ''} "
+                     f"to finish ({top['missing_n']} cards).")
+        else:
+            self.lbl_shop_head.config(text="Everything is buildable — nothing left to buy.")
+
+    def _copy_shop_list(self):
+        lines = []
+        for p in self.store.shopping_priorities():
+            if p["unpriced"]:
+                continue
+            lines.append(f"{p['buy']}x {p['name']}")
+        text = "\n".join(lines)
+        self.clipboard_clear()
+        self.clipboard_append(text)
+        self.set_status(f"Copied {len(lines)} staples to clipboard.")
+
     def _get_deck_art(self, deck_name, size=(264, 150)):
         """Uniform center-cropped art tile (symbols live in their own strip
         above the art, never composited over it)."""
@@ -948,14 +1285,14 @@ class TrackerGUI(tk.Tk):
         if not syms:
             return None
         ds = pip_diameters([s for _, s in syms], dmax)
-        strip = tk.Frame(parent, bg="white", cursor=cursor)
+        strip = tk.Frame(parent, bg=C("bg"), cursor=cursor)
         imgs = []
         for (letter, _share), d in zip(syms, ds):
             img = make_pip_image(letter, d)
             if img is None:
                 continue
             imgs.append(img)  # local ref; caller keeps strip alive via tile
-            tk.Label(strip, image=img, bg="white", cursor=cursor).pack(side="left", padx=3)
+            tk.Label(strip, image=img, bg=C("bg"), cursor=cursor).pack(side="left", padx=3)
         strip.pack(pady=(6, 2))
         strip.imgs = imgs
         return strip
@@ -971,35 +1308,35 @@ class TrackerGUI(tk.Tk):
         return prefix + "Not in the current top-20 snapshot"
 
     def _build_deck_tile(self, prog):
-        tile = tk.Frame(self.dash_inner, relief="raised", borderwidth=2, bg="white",
+        tile = tk.Frame(self.dash_inner, relief="raised", borderwidth=2, bg=C("bg"),
                         cursor="hand2")
         self._pip_strip(tile, prog.get("colors"), dmax=46)
         art = self._get_deck_art(prog["deck"])
         if art is not None:
-            img_lbl = tk.Label(tile, image=art, bg="white", cursor="hand2")
+            img_lbl = tk.Label(tile, image=art, bg=C("bg"), cursor="hand2")
             img_lbl.pack(fill="x")
             self._tile_imgs.append(art)
         arch = prog.get("archetype") or "—"
-        chip = tk.Label(tile, text=arch.upper(), font=("Segoe UI", 8, "bold"),
-                        fg="white", bg=ARCH_CHIP.get(arch, "#707070"),
+        chip = tk.Label(tile, text=arch.upper(), font=F("xs_b"),
+                        fg=ARCH_CHIP_FG.get(arch, "#ffffff"), bg=ARCH_CHIP.get(arch, "#707070"),
                         padx=6, pady=1, cursor="hand2")
         chip.place(relx=1.0, x=-6, y=6, anchor="ne")
         badge = "[BUILDABLE]" if prog["buildable"] else f"{prog['pct']:.0f}%"
-        fg = "#0a6e0a" if prog["buildable"] else "#333333"
-        tk.Label(tile, text=prog["deck"], font=("Segoe UI", 11, "bold"),
-                 bg="white", wraplength=250, cursor="hand2").pack(pady=(6, 0))
-        tk.Label(tile, text=self._deck_subtitle(prog), font=("Segoe UI", 8),
-                 fg="#666666", bg="white", cursor="hand2").pack()
-        tk.Label(tile, text=badge, font=("Segoe UI", 10, "bold"),
-                 fg=fg, bg="white", cursor="hand2").pack(pady=(2, 0))
+        fg = C("accent") if prog["buildable"] else C("fg")
+        tk.Label(tile, text=prog["deck"], font=F("l_b"), fg=C("fg"),
+                 bg=C("bg"), wraplength=250, cursor="hand2").pack(pady=(6, 0))
+        tk.Label(tile, text=self._deck_subtitle(prog), font=F("xs"),
+                 fg=C("muted"), bg=C("bg"), cursor="hand2").pack()
+        tk.Label(tile, text=badge, font=F("m_b"),
+                 fg=fg, bg=C("bg"), cursor="hand2").pack(pady=(2, 0))
         bar = ttk.Progressbar(tile, length=230, maximum=100, value=prog["pct"])
         bar.pack(pady=4)
         tk.Label(tile, text=f"{prog['owned']}/{prog['total']} cards",
-                 font=("Segoe UI", 9), bg="white", cursor="hand2").pack()
+                 font=F("s"), fg=C("fg"), bg=C("bg"), cursor="hand2").pack()
         left = "Complete!" if prog["pct"] >= 100 else f"${prog['missing_value']:,.0f} to finish"
-        tk.Label(tile, text=left, font=("Segoe UI", 9, "bold"),
-                 fg="#0a6e0a" if prog["buildable"] else "#333333",
-                 bg="white", cursor="hand2").pack(pady=(0, 8))
+        tk.Label(tile, text=left, font=F("s_b"),
+                 fg=C("accent") if prog["buildable"] else C("fg"),
+                 bg=C("bg"), cursor="hand2").pack(pady=(0, 8))
         self._bind_tile_click(tile, prog)
         return tile
 
@@ -1069,17 +1406,34 @@ class TrackerGUI(tk.Tk):
         self.paste_box = tk.Text(self.tab_import, height=18, wrap="word")
         self.paste_box.pack(fill="both", expand=True, pady=4)
         self.paste_box.insert("1.0", "4 Flooded Strand\n4 Quantum Riddler\n1 Solitude\n")
-        self.lbl_import = ttk.Label(self.tab_import, text="", foreground="#0a6e0a")
+        self.lbl_import = ttk.Label(self.tab_import, text="", foreground=C("accent"))
         self.lbl_import.pack(anchor="w", pady=4)
 
-    def _build_metagame_tab(self):
+    def snapshot_age_days(self) -> int | None:
+        """Days since the loaded metagame snapshot (None if undated)."""
+        snap = (getattr(self.store, "metagame", {}) or {}).get("snapshot_date", "")
+        try:
+            return (datetime.date.today() - datetime.date.fromisoformat(str(snap)[:10])).days
+        except Exception:
+            return None
+
+    def _meta_header_text(self) -> str:
         meta = getattr(self.store, "metagame", {}) or {}
         snap = meta.get("snapshot_date", "unknown")
         timeframe = meta.get("timeframe", "")
         note = meta.get("note", "")
-        header_txt = (f"Modern Metagame — last {timeframe} (snapshot {snap}) — "
-                      f"MTGGoldfish paper, sorted by META%.  {note}")
-        ttk.Label(self.tab_meta, text=header_txt, wraplength=980, foreground="#444").pack(anchor="w", pady=(0, 6))
+        txt = (f"Modern Metagame — last {timeframe} (snapshot {snap}) — "
+               f"MTGGoldfish paper, sorted by META%.  {note}")
+        age = self.snapshot_age_days()
+        if age is not None and age > 7:
+            txt += f"  Snapshot is {age} days old — consider Refresh live 7-day."
+        return txt
+
+    def _build_metagame_tab(self):
+        self.lbl_meta_header = ttk.Label(self.tab_meta, text="", wraplength=980,
+                                         foreground=C("muted"))
+        self.lbl_meta_header.pack(anchor="w", pady=(0, 6))
+        self.lbl_meta_header.config(text=self._meta_header_text())
 
         btnrow = ttk.Frame(self.tab_meta)
         btnrow.pack(fill="x", pady=(0, 6))
@@ -1096,33 +1450,33 @@ class TrackerGUI(tk.Tk):
         # Custom rows (not a Treeview: cells are text-only, but mana symbols
         # need a dedicated image column). One row per deck: thumb | title +
         # keys + detail line | archetype | prices | have | symbols.
-        self.meta_canvas = tk.Canvas(self.tab_meta, highlightthickness=0, bg="white")
+        self.meta_canvas = tk.Canvas(self.tab_meta, highlightthickness=0, bg=C("bg"))
         meta_vsb = ttk.Scrollbar(self.tab_meta, orient="vertical",
                                  command=self.meta_canvas.yview)
         # Fixed column headers (stay put while rows scroll). Pixel minsizes
         # mirror the row cells below; the Deck column takes the slack. The
         # header frame is width-locked to the canvas at layout time so both
         # grids share identical column geometry (see _meta_canvas_resized).
-        header = tk.Frame(self.tab_meta, bg="white", height=26)
+        header = tk.Frame(self.tab_meta, bg=C("bg"), height=26)
         header.pack(anchor="nw", padx=(8, 0), pady=(0, 2))
         # NOTE: children are grid-managed, so this must be grid_propagate
         # (pack_propagate only affects pack-managed children). The explicit
         # height is required: without it the frame collapses and the labels
         # clip to slivers.
         header.grid_propagate(False)
-        tk.Label(header, text="", bg="white").grid(row=0, column=0)
-        tk.Label(header, text="Deck", bg="white", font=("Segoe UI", 8, "bold"),
-                 fg="#666666", anchor="w").grid(row=0, column=1, sticky="w")
+        tk.Label(header, text="", bg=C("bg")).grid(row=0, column=0)
+        tk.Label(header, text="Deck", bg=C("bg"), font=F("xs_b"),
+                 fg=C("muted"), anchor="w").grid(row=0, column=1, sticky="w")
         for _col, _txt, _min in ((2, "Archetype", 92), (3, "Paper / MTGO", 96),
                                  (4, "Have / To finish", 130), (5, "Colors", 130)):
-            tk.Label(header, text=_txt, bg="white", font=("Segoe UI", 8, "bold"),
-                     fg="#666666").grid(row=0, column=_col)
+            tk.Label(header, text=_txt, bg=C("bg"), font=F("xs_b"),
+                     fg=C("muted")).grid(row=0, column=_col)
             header.grid_columnconfigure(_col, minsize=_min)
         header.grid_columnconfigure(0, minsize=70)
         header.grid_columnconfigure(1, weight=1)
         self._meta_header = header
         ttk.Separator(self.tab_meta, orient="horizontal").pack(fill="x", padx=6)
-        self.meta_inner = tk.Frame(self.meta_canvas, bg="white")
+        self.meta_inner = tk.Frame(self.meta_canvas, bg=C("bg"))
         self.meta_inner.bind("<Configure>",
                              lambda e: self.meta_canvas.configure(scrollregion=self.meta_canvas.bbox("all")))
         self._meta_win = self.meta_canvas.create_window((0, 0), window=self.meta_inner, anchor="nw")
@@ -1152,9 +1506,9 @@ class TrackerGUI(tk.Tk):
         except Exception:
             pass
 
-    META_STATUS_BG = {"done": "#e2f2e2", "partial": "#fff6df",
-                      "none": "#ffffff", "nokeys": "#ffffff"}
-    META_SEL_BG = "#cfe4f7"
+    @staticmethod
+    def _meta_bg(tag: str) -> str:
+        return {"done": C("meta_done"), "partial": C("meta_partial")}.get(tag, C("meta_plain"))
 
     def _paint_meta_row(self, frame, bg):
         try:
@@ -1181,7 +1535,7 @@ class TrackerGUI(tk.Tk):
                 f"Keys {len(owned_keys)}/{len(key_cards)} owned")
 
     def _build_meta_row(self, d, full, tag):
-        bg = self.META_STATUS_BG.get(tag, "#ffffff")
+        bg = self._meta_bg(tag)
         row = tk.Frame(self.meta_inner, bg=bg, relief="flat", borderwidth=0,
                        pady=4)
         # Every cell is a fixed-width, non-propagating frame so all rows
@@ -1196,21 +1550,21 @@ class TrackerGUI(tk.Tk):
         title = tk.Frame(row, bg=bg)
         title.grid(row=0, column=1, sticky="nw")
         tk.Label(title, text=d.get("name", ""), bg=bg,
-                 font=("Segoe UI", 11, "bold")).pack(side="left")
+                 font=F("l_b"), fg=C("fg")).pack(side="left")
         tk.Label(title, text=f"  {d.get('meta_pct', 0):.1f}% · {d.get('deck_count', '')} decks",
-                 bg=bg, font=("Segoe UI", 9), fg="#555555").pack(side="left")
+                 bg=bg, font=F("s"), fg=C("muted")).pack(side="left")
         tk.Label(row, text=", ".join(d.get("key_cards", [])), bg=bg,
-                 font=("Segoe UI", 9), fg="#555555", anchor="w",
+                 font=F("s"), fg=C("muted"), anchor="w",
                  wraplength=420, justify="left").grid(row=1, column=1, sticky="nw")
         tk.Label(row, text=self._meta_detail_text(d, full), bg=bg,
-                 font=("Segoe UI", 9), fg="#333333", anchor="w",
+                 font=F("s"), fg=C("fg"), anchor="w",
                  wraplength=420, justify="left").grid(row=2, column=1, sticky="nw")
         arch = d.get("archetype") or "—"
         chip_cell = tk.Frame(row, bg=bg, width=92)
         chip_cell.grid(row=0, column=2, rowspan=3, sticky="ns")
         chip_cell.pack_propagate(False)
         chip = tk.Label(chip_cell, text=arch.upper(), bg=ARCH_CHIP.get(arch, "#707070"),
-                        fg="white", font=("Segoe UI", 8, "bold"), padx=6, pady=1)
+                        fg=ARCH_CHIP_FG.get(arch, "#ffffff"), font=F("xs_b"), padx=6, pady=1)
         chip._keep_bg = True
         chip.pack(expand=True)
         price_cell = tk.Frame(row, bg=bg, width=96)
@@ -1219,9 +1573,9 @@ class TrackerGUI(tk.Tk):
         price_inner = tk.Frame(price_cell, bg=bg)
         price_inner.pack(expand=True)
         tk.Label(price_inner, text=f"${d.get('paper_price', 0):,}", bg=bg,
-                 font=("Segoe UI", 10, "bold")).pack()
+                 font=F("m_b"), fg=C("fg")).pack()
         tk.Label(price_inner, text=f"{d.get('mtgo_tix', 0)} tix", bg=bg,
-                 font=("Segoe UI", 8), fg="#666666").pack()
+                 font=F("xs"), fg=C("muted")).pack()
         have_cell = tk.Frame(row, bg=bg, width=130)
         have_cell.grid(row=0, column=4, rowspan=3, sticky="ns")
         have_cell.pack_propagate(False)
@@ -1236,10 +1590,10 @@ class TrackerGUI(tk.Tk):
             have_txt = f"{full['pct']:.0f}% ({full['owned']}/{full['total']})"
             left_txt = f"${full['missing_value']:,.0f}"
         tk.Label(have_inner, text=have_txt, bg=bg,
-                 font=("Segoe UI", 10, "bold"),
-                 fg="#0a6e0a" if tag == "done" else "#333333").pack()
+                 font=F("m_b"),
+                 fg=C("accent") if tag == "done" else C("fg")).pack()
         tk.Label(have_inner, text=left_txt, bg=bg,
-                 font=("Segoe UI", 8), fg="#666666").pack()
+                 font=F("xs"), fg=C("muted")).pack()
         syms = top_symbols(self.store.deck_colors(d["name"]))
         sym_cell = tk.Frame(row, bg=bg, width=130)
         sym_cell.grid(row=0, column=5, rowspan=3, sticky="ns")
@@ -1255,8 +1609,8 @@ class TrackerGUI(tk.Tk):
                 self._meta_imgs.append(img)
                 tk.Label(sym_inner, image=img, bg=bg).pack(side="left", padx=2)
         else:
-            tk.Label(sym_inner, text="—", bg=bg, font=("Segoe UI", 9),
-                     fg="#999999").pack(side="left")
+            tk.Label(sym_inner, text="—", bg=bg, font=F("s"),
+                     fg=C("faint")).pack(side="left")
         # Fixed column grid shared by every row so cells line up with each
         # other and with the header above (col 1 takes the slack). col 0 is
         # 70px here and in the header (56px thumb + 6 + 8 padding).
@@ -1285,6 +1639,10 @@ class TrackerGUI(tk.Tk):
         return photo
 
     def refresh_metagame_table(self):
+        try:
+            self.lbl_meta_header.config(text=self._meta_header_text())
+        except Exception:
+            pass
         for w in self.meta_inner.winfo_children():
             w.destroy()
         self._meta_rows = []
@@ -1317,11 +1675,11 @@ class TrackerGUI(tk.Tk):
     def _select_meta_row(self, idx):
         if self._meta_selected is not None and self._meta_selected < len(self._meta_row_frames):
             old_frame, old_tag = self._meta_row_frames[self._meta_selected]
-            self._paint_meta_row(old_frame, self.META_STATUS_BG.get(old_tag, "#ffffff"))
+            self._paint_meta_row(old_frame, self._meta_bg(old_tag))
         self._meta_selected = idx
         if idx is not None and idx < len(self._meta_row_frames):
             frame, _tag = self._meta_row_frames[idx]
-            self._paint_meta_row(frame, self.META_SEL_BG)
+            self._paint_meta_row(frame, C("meta_sel"))
 
     def _bind_meta_wheel(self, widget):
         widget.bind("<MouseWheel>", lambda e: self._smooth_scroll(self.meta_canvas, e))
@@ -1355,12 +1713,15 @@ class TrackerGUI(tk.Tk):
             return
         todo = self.store.cards_missing_prices()
         if not todo:
-            messagebox.showinfo("Update prices", "Every top-20 card already has a price.")
+            messagebox.showinfo("Update prices", "Every top-20 card already has a fresh price.")
             return
+        n_stale = sum(1 for k in todo if self.store.is_price_stale(k))
+        n_new = len(todo) - n_stale
+        detail = f"{n_new} new" if not n_stale else f"{n_new} new + {n_stale} stale (>{PRICE_TTL_DAYS}d)"
         if not messagebox.askyesno(
                 "Update prices",
                 f"Fetch cheapest-printing prices for {len(todo)} cards you "
-                f"still need to buy?\nTakes about a minute. "
+                f"still need to buy ({detail})?\nTakes about a minute. "
                 f"Results are cached in prices.json."):
             return
         self._price_total = len(todo)
@@ -1373,7 +1734,7 @@ class TrackerGUI(tk.Tk):
             try:
                 cache = price_fetch.load_cache()
                 updated, failed = price_fetch.update_missing(
-                    todo, cache,
+                    todo, cache, force=True,
                     progress_cb=lambda i, n, disp, ok: work.put(("p", i, n, disp)))
                 work.put(("done", updated, failed))
             except Exception as e:  # noqa: BLE001 - report to main thread
@@ -1507,6 +1868,140 @@ class TrackerGUI(tk.Tk):
         self.set_status(f"Live 7-day snapshot saved: {fname.name} ({len(snap['decks'])} decks). "
                         f"{n_swaps} card swap(s) reverted to the fresh lists.")
 
+    def refresh_all_data(self):
+        """Refresh everything pulled from the internet, in dependency order:
+        metagame snapshot -> sample decklists -> missing prices -> missing
+        mana data -> matchup matrix. Runs in a worker thread with progress
+        in the status bar; the UI redraws once at the end."""
+        try:
+            import snapshot_fetch
+            import fetch_decklists
+            import price_fetch
+            import mana_fetch
+            import matchup_fetch
+        except ImportError as e:
+            messagebox.showerror("Refresh all data", f"fetch module missing:\n{e}")
+            return
+        if not messagebox.askyesno(
+                "Refresh all data",
+                "Re-pull everything from the internet?\n\n"
+                "1. Metagame snapshot + art\n"
+                "2. Sample decklists (several minutes)\n"
+                "3. Missing prices\n"
+                "4. Missing mana data\n"
+                "5. Matchup matrix\n\n"
+                "Card swaps will be reverted to the fresh lists."):
+            return
+        price_todo = self.store.cards_missing_prices()
+        mana_todo = self.store.cards_missing_mana()
+        self.btn_refresh_all.config(state="disabled")
+        work = queue.Queue()
+
+        def _worker():
+            results = {}
+
+            def say(t):
+                work.put(("status", t))
+
+            try:
+                say("Step 1/5: metagame snapshot + art...")
+                snap, fname = snapshot_fetch.refresh_snapshot(period="7", limit=20, with_art=True)
+                results["metagame"] = f"ok ({len(snap['decks'])} decks)"
+                results["metagame_ok"] = True
+            except Exception as e:  # noqa: BLE001 - collected for the summary
+                results["metagame"] = f"FAILED: {e}"
+                results["metagame_ok"] = False
+            try:
+                say("Step 2/5: sample decklists (several minutes)...")
+                dl = fetch_decklists.fetch_all(limit=20)
+                results["decklists"] = f"ok ({len(dl)} lists)"
+            except Exception as e:  # noqa: BLE001 - collected for the summary
+                results["decklists"] = f"FAILED: {e}"
+            try:
+                if price_todo:
+                    say(f"Step 3/5: prices ({len(price_todo)} cards)...")
+                    cache = price_fetch.load_cache()
+                    updated, failed = price_fetch.update_missing(
+                        price_todo, cache, force=True,
+                        progress_cb=lambda i, n, disp, ok: work.put(("p", "prices", i, n, disp)))
+                    results["prices"] = f"ok ({updated} priced, {len(failed)} failed)"
+                else:
+                    results["prices"] = "ok (nothing missing)"
+            except Exception as e:  # noqa: BLE001 - collected for the summary
+                results["prices"] = f"FAILED: {e}"
+            try:
+                if mana_todo:
+                    say(f"Step 4/5: mana data ({len(mana_todo)} cards)...")
+                    cache = mana_fetch.load_cache()
+                    updated, failed = mana_fetch.update_missing(
+                        mana_todo, cache,
+                        progress_cb=lambda i, n, disp, ok: work.put(("p", "mana", i, n, disp)))
+                    results["mana"] = f"ok ({updated} fetched, {len(failed)} failed)"
+                else:
+                    results["mana"] = "ok (nothing missing)"
+            except Exception as e:  # noqa: BLE001 - collected for the summary
+                results["mana"] = f"FAILED: {e}"
+            try:
+                say("Step 5/5: matchup matrix...")
+                snap = matchup_fetch.build_snapshot()
+                results["matchups"] = f"ok ({len(snap.get('decks', {}))} decks)"
+            except Exception as e:  # noqa: BLE001 - collected for the summary
+                results["matchups"] = f"FAILED: {e}"
+            work.put(("done", results))
+
+        threading.Thread(target=_worker, daemon=True).start()
+        self._poll_refresh_all(work)
+
+    def _poll_refresh_all(self, work):
+        try:
+            while True:
+                msg = work.get_nowait()
+                if msg[0] == "status":
+                    self.set_status(msg[1])
+                elif msg[0] == "p":
+                    _, phase, i, n, disp = msg
+                    try:
+                        self.price_bar["maximum"] = n
+                        self.price_bar["value"] = i
+                    except Exception:
+                        pass
+                    self.set_status(f"[{phase}] {i}/{n}... {disp}")
+                elif msg[0] == "done":
+                    self._finish_refresh_all(msg[1])
+                    return
+                elif msg[0] == "error":
+                    messagebox.showerror("Refresh all data failed", msg[1])
+                    self.btn_refresh_all.config(state="normal")
+                    return
+        except queue.Empty:
+            pass
+        self.after(150, lambda: self._poll_refresh_all(work))
+
+    def _finish_refresh_all(self, results):
+        try:
+            if results.get("metagame_ok"):
+                n_swaps = sum(len(v) for v in (self.store.deck_overrides or {}).values())
+                self.store.deck_overrides = {}
+                self.store.save_overrides()
+            else:
+                n_swaps = 0
+            self._thumb_cache.clear()
+            self.store.metagame = self.store.load_metagame()
+            self.store.decklists = self.store.load_decklists()
+            self.store.price_cache = self.store.load_price_cache()
+            self.store.price_map = self.store.build_price_map()
+            self.store.mana_cache = self.store.load_mana_cache()
+            self.store.matchups = self.store.load_matchups()
+            self.refresh_all()
+        finally:
+            self.btn_refresh_all.config(state="normal")
+        lines = [f"{step}: {results.get(step, 'skipped')}" for step in
+                 ("metagame", "decklists", "prices", "mana", "matchups")]
+        if results.get("metagame_ok"):
+            lines.append(f"{n_swaps} card swap(s) reverted to the fresh lists.")
+        messagebox.showinfo("Refresh all data", "\n".join(lines))
+        self.set_status("All internet data refreshed.")
+
     def save_snapshot_copy(self):
         try:
             with open(METAGAME_FILE, encoding="utf-8") as fh:
@@ -1524,7 +2019,8 @@ class TrackerGUI(tk.Tk):
         while fname.exists():
             fname = d / f"metagame_{stamp}_{tf}_{i}.json"
             i += 1
-        fname.write_text(json.dumps(data, indent=1), encoding="utf-8")
+        write_json_atomic(fname, data)
+        prune_snapshots()
         self.refresh_stats()
         self.set_status(f"Snapshot saved: {fname.name}")
 
@@ -1534,32 +2030,32 @@ class TrackerGUI(tk.Tk):
 
     def _build_stats_tab(self):
         self.lbl_stats_summary = ttk.Label(self.tab_stats, text="", wraplength=1000,
-                                           font=("Segoe UI", 10, "bold"))
+                                           font=F("m_b"))
         self.lbl_stats_summary.pack(anchor="w", pady=(0, 4))
         charts = ttk.Frame(self.tab_stats)
         charts.pack(fill="x", pady=2)
         left = ttk.Frame(charts)
         left.pack(side="left", padx=(0, 12))
-        ttk.Label(left, text="Meta share — top 8 + rest", font=("Segoe UI", 9, "bold")).pack(anchor="w")
-        self.pie_canvas = tk.Canvas(left, width=430, height=290, bg="white", highlightthickness=1,
+        ttk.Label(left, text="Meta share — top 8 + rest", font=F("s_b")).pack(anchor="w")
+        self.pie_canvas = tk.Canvas(left, width=430, height=290, bg=C("bg"), highlightthickness=1,
                                     highlightbackground="#ccc")
         self.pie_canvas.pack()
         right = ttk.Frame(charts)
         right.pack(side="left", fill="x", expand=True)
         ttk.Label(right, text="Top 10 decks by META% · overall winrate in color (blue bar = buildable)",
-                  font=("Segoe UI", 9, "bold")).pack(anchor="w")
-        self.bar_canvas = tk.Canvas(right, width=560, height=290, bg="white", highlightthickness=1,
+                  font=F("s_b")).pack(anchor="w")
+        self.bar_canvas = tk.Canvas(right, width=560, height=290, bg=C("bg"), highlightthickness=1,
                                     highlightbackground="#ccc")
         self.bar_canvas.pack(fill="x")
 
         ttk.Label(self.tab_stats, text="Meta share by archetype",
-                  font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(6, 0))
-        self.arch_canvas = tk.Canvas(self.tab_stats, width=1000, height=86, bg="white",
+                  font=F("s_b")).pack(anchor="w", pady=(6, 0))
+        self.arch_canvas = tk.Canvas(self.tab_stats, width=1000, height=86, bg=C("bg"),
                                      highlightthickness=1, highlightbackground="#ccc")
         self.arch_canvas.pack(fill="x")
 
         self.lbl_trend_title = ttk.Label(self.tab_stats, text="Trending",
-                                         font=("Segoe UI", 9, "bold"))
+                                         font=F("s_b"))
         self.lbl_trend_title.pack(anchor="w", pady=(6, 2))
         tframe = ttk.Frame(self.tab_stats)
         tframe.pack(fill="both", expand=True)
@@ -1575,9 +2071,7 @@ class TrackerGUI(tk.Tk):
         self.trend_tree.configure(yscrollcommand=vsb.set)
         self.trend_tree.pack(side="left", fill="both", expand=True)
         vsb.pack(side="right", fill="y")
-        for tag, bg in [("up", "#dff5df"), ("down", "#fde8e8"), ("new", "#e7f3ff"),
-                        ("out", "#f0f0f0"), ("flat", "white")]:
-            self.trend_tree.tag_configure(tag, background=bg)
+        theme.apply_tree_tags(self.trend_tree, theme.TREND_TAGS)
 
     def _draw_pie(self, decks):
         c = self.pie_canvas
@@ -1601,7 +2095,7 @@ class TrackerGUI(tk.Tk):
             c.create_rectangle(248, y - 9, 264, y + 7, fill=color, outline="#888")
             label = name if len(name) <= 20 else name[:19] + "…"
             c.create_text(270, y, text=f"{label} {pct:.1f}%", anchor="w",
-                          font=("Segoe UI", 9))
+                          font=F("s"), fill=C("fg"))
 
     def _draw_bars(self, decks, buildable=None):
         c = self.bar_canvas
@@ -1619,19 +2113,19 @@ class TrackerGUI(tk.Tk):
             done = d["name"] in buildable
             bar_w = max(2, pct / max_pct * bw_max)
             name = d["name"] if len(d["name"]) <= 22 else d["name"][:21] + "…"
-            c.create_text(x0 - 6, y + 7, text=name, anchor="e", font=("Segoe UI", 9))
+            c.create_text(x0 - 6, y + 7, text=name, anchor="e", font=F("s"), fill=C("fg"))
             c.create_rectangle(x0, y, x0 + bar_w, y + 14,
-                               fill="#4e79a7" if done else "#bab0ac", outline="")
+                               fill=C("bar_done") if done else C("bar_idle"), outline="")
             row = self.store.matchup_row(d["name"])
             ov = row["overall"] if row else None
             c.create_text(x0 + bar_w + 6, y + 7, text=f"{pct:.1f}%",
-                          anchor="w", font=("Segoe UI", 9), fill="#555555")
+                          anchor="w", font=F("s"), fill=C("muted"))
             if ov is None:
                 c.create_text(x0 + bar_w + 52, y + 7, text="no WR data",
-                              anchor="w", font=("Segoe UI", 8), fill="#999999")
+                              anchor="w", font=F("xs"), fill=C("faint"))
             else:
                 c.create_text(x0 + bar_w + 52, y + 7, text=f"{ov:.0f}% win",
-                              anchor="w", font=("Segoe UI", 9, "bold"),
+                              anchor="w", font=F("s_b"),
                               fill=wr_text_color(ov))
 
     def _draw_archetypes(self, decks):
@@ -1656,7 +2150,7 @@ class TrackerGUI(tk.Tk):
                                outline="#888")
             lx += 19
             txt = f"{a} {agg[a]:.1f}% ({counts[a]})"
-            c.create_text(lx, 59, text=txt, anchor="w", font=("Segoe UI", 9))
+            c.create_text(lx, 59, text=txt, anchor="w", font=F("s"), fill=C("fg"))
             lx += len(txt) * 7 + 18
 
     def refresh_stats(self, deck_list=None):
@@ -1692,8 +2186,11 @@ class TrackerGUI(tk.Tk):
                 "Not enough history yet", "—", "—", "—", "—"), tags=("flat",))
             return
         old, new = snaps[-2], snaps[-1]
-        self.lbl_trend_title.config(
-            text=f"Trending: {old['date']} ({old['timeframe']})  ->  {new['date']} ({new['timeframe']})")
+        title = (f"Trending: {old['date']} ({old['timeframe']})  ->  "
+                 f"{new['date']} ({new['timeframe']})")
+        if old['timeframe'] != new['timeframe']:
+            title += "  — different windows, moves partly reflect sample size"
+        self.lbl_trend_title.config(text=title)
         for r in self.store.compare_snapshots(old["data"], new["data"]):
             if r["status"] == "NEW":
                 then, now, delta, arrow = "—", f"{r['new']:.1f}%", "—", "NEW"
@@ -1712,22 +2209,25 @@ class TrackerGUI(tk.Tk):
     MU_LW, MU_OW, MU_CW, MU_RH, MU_HH = 160, 72, 56, 34, 52
     MU_CW_MIN, MU_CW_MAX = 46, 76
     MU_RH_MIN, MU_RH_MAX = 28, 42
+    # Cells below this many matches render faded (same number, less shout).
+    MU_MIN_MATCHES = 10
 
     def _build_matchups_tab(self):
         meta = getattr(self.store, "matchups", {}) or {}
         snap = meta.get("snapshot_date", "never")
         info = (f"Winrates from mtgdecks.net Modern, last 15 days (pulled {snap}). "
                 f"Rows read left-to-right: row deck's winrate vs column deck. "
+                f"Pale cells have under {MU_MIN_MATCHES} matches. "
                 f"Hover any cell for match counts.")
-        ttk.Label(self.tab_mu, text=info, wraplength=980, foreground="#444").pack(anchor="w", pady=(0, 6))
+        ttk.Label(self.tab_mu, text=info, wraplength=980, foreground=C("muted")).pack(anchor="w", pady=(0, 6))
         bar = ttk.Frame(self.tab_mu)
         bar.pack(fill="x", pady=(0, 6))
         ttk.Button(bar, text="Refresh matchups", command=self.refresh_matchups).pack(side="left")
-        self.lbl_mu_status = ttk.Label(bar, text="", foreground="#555")
+        self.lbl_mu_status = ttk.Label(bar, text="", foreground=C("muted"))
         self.lbl_mu_status.pack(side="left", padx=(12, 0))
         frame = ttk.Frame(self.tab_mu)
         frame.pack(fill="both", expand=True)
-        self.mu_canvas = tk.Canvas(frame, highlightthickness=0, bg="white")
+        self.mu_canvas = tk.Canvas(frame, highlightthickness=0, bg=C("bg"))
         mu_vsb = ttk.Scrollbar(frame, orient="vertical", command=self.mu_canvas.yview)
         mu_hsb = ttk.Scrollbar(frame, orient="horizontal", command=self.mu_canvas.xview)
         self.mu_canvas.configure(yscrollcommand=mu_vsb.set, xscrollcommand=mu_hsb.set)
@@ -1785,16 +2285,16 @@ class TrackerGUI(tk.Tk):
             return
         LW, OW, CW, RH, HH = self.MU_LW, self.MU_OW, self.MU_CW, self.MU_RH, self.MU_HH
         # column headers
-        c.create_text(LW + 8 + OW / 2, HH / 2, text="OVERALL", font=("Segoe UI", 9, "bold"),
-                      fill="#333333")
+        c.create_text(LW + 8 + OW / 2, HH / 2, text="OVERALL", font=F("s_b"),
+                      fill=C("fg"))
         for j, name in enumerate(decks):
             x = self._mu_xy(j, half=True)
-            c.create_text(x, HH / 2, text=short_deck_name(name), font=("Segoe UI", 8),
-                          fill="#333333", justify="center")
+            c.create_text(x, HH / 2, text=short_deck_name(name), font=F("xs"),
+                          fill=C("fg"), justify="center")
         for i, a in enumerate(decks):
             y = HH + i * RH
-            c.create_text(LW - 6, y + RH / 2, text=a, font=("Segoe UI", 10),
-                          fill="#222222", anchor="e")
+            c.create_text(LW - 6, y + RH / 2, text=a, font=F("m"),
+                          fill=C("fg"), anchor="e")
             row = self.store.matchup_row(a)
             # overall column (separated look via slightly wider gap)
             if row is None:
@@ -1803,12 +2303,14 @@ class TrackerGUI(tk.Tk):
                 info = (a, None, None, None)
             else:
                 fill, fg = wr_colors(row["overall"])
+                if row["matches"] < self.MU_MIN_MATCHES:
+                    fill = mu_fade(fill)
                 txt = f"{row['overall']:.0f}%"
                 info = (a, None, row["overall"], row["matches"])
             c.create_rectangle(LW + 8, y + 2, LW + 8 + OW, y + RH - 2,
                                fill=fill, outline="white", width=1)
             c.create_text(LW + 8 + OW / 2, y + RH / 2, text=txt,
-                          font=("Segoe UI", 10, "bold"), fill=fg)
+                          font=F("m_b"), fill=fg)
             self._mu_cells[(i, -1)] = info
             for j, b in enumerate(decks):
                 x = self._mu_xy(j)
@@ -1822,12 +2324,14 @@ class TrackerGUI(tk.Tk):
                     info = (a, b, None, None)
                 else:
                     fill, fg = wr_colors(cell["winrate"])
+                    if cell["matches"] < self.MU_MIN_MATCHES:
+                        fill = mu_fade(fill)
                     txt = f"{cell['winrate']:.0f}%"
                     info = (a, b, cell["winrate"], cell["matches"])
                 c.create_rectangle(x, y + 2, x + CW, y + RH - 2,
                                    fill=fill, outline="white", width=1)
                 c.create_text(x + CW / 2, y + RH / 2, text=txt,
-                              font=("Segoe UI", 10, "bold"), fill=fg)
+                              font=F("m_b"), fill=fg)
                 self._mu_cells[(i, j)] = info
         c.configure(scrollregion=c.bbox("all"))
 
@@ -1916,6 +2420,10 @@ class TrackerGUI(tk.Tk):
             self.refresh_metagame_table()
         if hasattr(self, "pie_canvas"):
             self.refresh_stats(deck_list)
+        if hasattr(self, "shop_tree"):
+            self.refresh_shop(deck_list)
+        if hasattr(self, "mu_canvas"):
+            self._draw_matchups()
 
     def refresh_dashboard(self, decks=None):
         # Tile grid of decks (no upgrade-phase references anywhere here):
@@ -1929,8 +2437,8 @@ class TrackerGUI(tk.Tk):
         n_build = sum(1 for d in decks if d["buildable"])
         tk.Label(self.dash_inner,
                  text=f"{n_build}/{len(decks)} decks buildable (complete or under $20 to finish)  (click a tile for its deck list)",
-                 font=("Segoe UI", 10, "bold"), bg="white").grid(row=0, column=0, columnspan=3,
-                                                                  sticky="w", pady=(0, 6))
+                 font=F("m_b"), fg=C("fg"), bg=C("bg")).grid(row=0, column=0, columnspan=3,
+                                                                               sticky="w", pady=(0, 6))
         for i, prog in enumerate(decks):
             self._build_deck_tile(prog).grid(row=1 + i // 3, column=i % 3,
                                              padx=6, pady=6, sticky="n")
@@ -1989,10 +2497,12 @@ class TrackerGUI(tk.Tk):
 
     def clear_collection(self):
         if messagebox.askyesno("Clear", "Delete ALL cards in cached collection?"):
+            backup = backup_file(self.store.collection_file)
             self.store.collection = Collection()
             self.store.save_collection()
             self.refresh_all()
-            self.set_status("Collection cleared.")
+            note = f" Backup kept as {backup.name}." if backup else ""
+            self.set_status(f"Collection cleared.{note}")
 
     def _prepare_import(self, action_desc: str) -> bool:
         """If replace mode is on, confirm and clear the cached collection first.
@@ -2008,10 +2518,14 @@ class TrackerGUI(tk.Tk):
                 "Replace collection",
                 f"Replace mode is ON.\n\nDelete all {u} unique cards ({n} total) "
                 f"from the cached collection and {action_desc} fresh?\n\n"
-                f"(This avoids doubled-up quantities from repeat uploads.)"):
+                f"(A backup is saved first. This avoids doubled-up quantities "
+                f"from repeat uploads.)"):
             return False
+        backup = backup_file(self.store.collection_file)
         self.store.collection = Collection()
         self.store.save_collection()
+        if backup:
+            self.set_status(f"Backed up collection as {backup.name}.")
         return True
 
     def _import_verb(self) -> str:

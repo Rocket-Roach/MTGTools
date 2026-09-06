@@ -127,8 +127,8 @@ def load_cache():
 
 
 def save_cache(cache):
-    with open(CACHE_FILE, 'w', encoding='utf-8') as f:
-        json.dump(cache, f, indent=1)
+    from paths import write_json_atomic
+    write_json_atomic(CACHE_FILE, cache)
 
 
 def _cached(cache, lname):

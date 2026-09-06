@@ -301,14 +301,16 @@ def refresh_snapshot(period: str = '7', limit: int = 20, with_art: bool = True):
                  'Short windows have small samples, so shares move week to week.'),
         'decks': decks,
     }
+    from paths import write_json_atomic, prune_snapshots
     SNAP_DIR.mkdir(parents=True, exist_ok=True)
-    METAGAME_FILE.write_text(json.dumps(snap, indent=1), encoding='utf-8')
+    write_json_atomic(METAGAME_FILE, snap)
     fname = SNAP_DIR / f'metagame_{today}_{period}days.json'
     i = 2
     while fname.exists():
         fname = SNAP_DIR / f'metagame_{today}_{period}days_{i}.json'
         i += 1
-    fname.write_text(json.dumps(snap, indent=1), encoding='utf-8')
+    write_json_atomic(fname, snap)
+    prune_snapshots()
     return snap, fname
 
 
