@@ -29,7 +29,7 @@ import urllib.request
 from datetime import date
 from pathlib import Path
 
-from paths import DATA_DIR
+from paths import DATA_DIR, write_json_atomic
 
 OUT_FILE = DATA_DIR / "matchups.json"
 URL = 'https://mtgdecks.net/Modern/winrates/range:last15days'
@@ -133,7 +133,7 @@ def build_snapshot():
         'columns': columns,
         'decks': decks,
     }
-    OUT_FILE.write_text(json.dumps(snap, indent=1), encoding='utf-8')
+    write_json_atomic(OUT_FILE, snap)
     return snap
 
 

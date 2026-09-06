@@ -28,6 +28,7 @@ import urllib.error
 import urllib.request
 
 from paths import METAGAME_FILE as META_FILE, DECKLISTS_FILE as OUT_FILE
+from paths import write_json_atomic
 
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -83,19 +84,23 @@ def parse_blob(blob):
         return [(q, n) for n, q in agg.items()]
 
     def cap(entries, total, label):
-        got, kept = 0, []
+        got, kept, dropped = 0, [], []
         for q, n in entries:
             if got >= total:
-                print(f'    WARNING: {label} exceeds {total}, truncating')
-                break
+                dropped.append(f'{q}x {n} ({label})')
+                continue
             take = min(q, total - got)
             kept.append((take, n))
             got += take
-        return kept
+            if take < q:
+                dropped.append(f'{q - take}x {n} ({label})')
+        if dropped:
+            print(f'    WARNING: {label} exceeds {total}, cut: ' + ', '.join(dropped))
+        return kept, dropped
 
-    main = cap(section(main_txt), 60, 'mainboard')
-    side = cap(section(side_txt), 15, 'sideboard')
-    return main, side
+    main, drop_main = cap(section(main_txt), 60, 'mainboard')
+    side, drop_side = cap(section(side_txt), 15, 'sideboard')
+    return main, side, drop_main + drop_side
 
 
 def _rename_metagame_deck(old: str, new: str):
@@ -107,7 +112,7 @@ def _rename_metagame_deck(old: str, new: str):
     for d in data.get('decks', []):
         if d.get('name') == old:
             d['name'] = new
-    META_FILE.write_text(json.dumps(data, indent=1), encoding='utf-8')
+    write_json_atomic(META_FILE, data)
 
 
 def fetch_all(limit=20):
@@ -134,7 +139,7 @@ def fetch_all(limit=20):
             if not m:
                 print(f'{name}: deck_input blob not found (deck {deck_id})')
                 continue
-            main, side = parse_blob(m.group(1))
+            main, side, dropped = parse_blob(m.group(1))
             ms, ss = sum(q for q, _ in main), sum(q for q, _ in side)
             flag = '' if (ms, ss) == (60, 15) else '  <-- CHECK'
             print(f'{name}: {ms} main / {ss} side (deck {deck_id}){flag}')
@@ -144,6 +149,8 @@ def fetch_all(limit=20):
                 'mainboard': [{'name': n, 'qty': q} for q, n in main],
                 'sideboard': [{'name': n, 'qty': q} for q, n in side],
             }
+            if dropped:
+                entry['truncated'] = dropped
             # Card-content identity rules can rename the deck (e.g. a list
             # holding Blade of the Bloodchief + Basking Broodscale is
             # Eldrazi Bloodchief Combo whatever the site called it).
@@ -160,7 +167,7 @@ def fetch_all(limit=20):
                         del existing[name]
                     name = canon
             existing[name] = entry
-            OUT_FILE.write_text(json.dumps(existing, indent=1), encoding='utf-8')
+            write_json_atomic(OUT_FILE, existing)
         except Exception as e:
             print(f'{name}: FAILED {e}')
     print(f'done: {len(existing)} decklists in {OUT_FILE.name}')
