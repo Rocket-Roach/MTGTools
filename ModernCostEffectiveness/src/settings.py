@@ -13,6 +13,7 @@ DEFAULTS = {
     "geometry": "",            # "WxH+X+Y" window frame, "" = default
     "last_tab": "",            # notebook tab text to reselect, "" = first
     "auto_refresh_days": 7,    # prompt a live refresh when snapshot older; 0 = off
+    "digest_on_startup": True, # show the since-last-visit digest on launch
     "last_visit": "",          # ISO date, updated on clean exit
 }
 

@@ -23,7 +23,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-goryo-s-vengeance",
    "thumb": null,
-   "gateway_phase": "Phase 4a: Goryo's Vengeance"
+   "gateway_phase": "Phase 4a: Goryo's Vengeance",
+   "overall_winrate": 51.7,
+   "wr_matches": 1071
   },
   {
    "name": "Esper Blink",
@@ -38,7 +40,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-esper-blink",
    "thumb": null,
-   "gateway_phase": "Phase 1-3: Esper Blink (core plan)"
+   "gateway_phase": "Phase 1-3: Esper Blink (core plan)",
+   "overall_winrate": 56.0,
+   "wr_matches": 700
   },
   {
    "name": "Izzet Prowess",
@@ -53,7 +57,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-izzet-prowess",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 50.3,
+   "wr_matches": 1152
   },
   {
    "name": "Eldrazi Bloodchief Combo",
@@ -68,7 +74,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-eldrazi",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 52.9,
+   "wr_matches": 802
   },
   {
    "name": "Affinity",
@@ -83,7 +91,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-affinity",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 50.2,
+   "wr_matches": 536
   },
   {
    "name": "Boros Energy",
@@ -98,7 +108,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-boros-energy",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 46.9,
+   "wr_matches": 341
   },
   {
    "name": "Devoted Combo",
@@ -113,7 +125,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-devoted-combo",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 54.0,
+   "wr_matches": 556
   },
   {
    "name": "Dimir Midrange",
@@ -128,7 +142,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-dimir-midrange",
    "thumb": null,
-   "gateway_phase": "Phase 4c: Dimir Midrange"
+   "gateway_phase": "Phase 4c: Dimir Midrange",
+   "overall_winrate": 55.8,
+   "wr_matches": 335
   },
   {
    "name": "Ruby Storm",
@@ -143,7 +159,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-ruby-storm",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 48.2,
+   "wr_matches": 340
   },
   {
    "name": "Living End",
@@ -158,7 +176,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-living-end",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 51.1,
+   "wr_matches": 354
   },
   {
    "name": "Mono-Green Eldrazi",
@@ -173,7 +193,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-mono-green-eldrazi",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 52.4,
+   "wr_matches": 529
   },
   {
    "name": "Eldrazi Tron",
@@ -188,7 +210,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/eldrazi-tron",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 47.1,
+   "wr_matches": 327
   },
   {
    "name": "Neobrand",
@@ -203,7 +227,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/neobrand",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 52.7,
+   "wr_matches": 222
   },
   {
    "name": "Domain Zoo",
@@ -218,7 +244,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-domain-zoo",
    "thumb": null,
-   "gateway_phase": "Phase 4d: Domain Zoo"
+   "gateway_phase": "Phase 4d: Domain Zoo",
+   "overall_winrate": 52.9,
+   "wr_matches": 257
   },
   {
    "name": "Boros Ponza",
@@ -233,7 +261,9 @@
    ],
    "url": "https://www.mtggoldfish.com/archetype/modern-boros-ponza",
    "thumb": null,
-   "gateway_phase": null
+   "gateway_phase": null,
+   "overall_winrate": 56.0,
+   "wr_matches": 268
   }
  ]
 }

@@ -1,5 +1,11 @@
 {
  "Neobrand": {
   "Scalding Tarn": "Flooded Strand"
+ },
+ "Izzet Prowess": {
+  "Bloodstained Mire": "Wooded Foothills"
+ },
+ "Boros Burn": {
+  "Bloodstained Mire": "Scalding Tarn"
  }
 }

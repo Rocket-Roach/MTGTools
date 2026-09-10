@@ -184,6 +184,25 @@ def apply(root, name: str) -> str:
          foreground=p["head_fg"], font=F("s_b"))
     _cfg(style, "TEntry", fieldbackground=p["entry_bg"],
          foreground=p["entry_fg"], insertcolor=p["entry_fg"], font=F("s"))
+    _cfg(style, "TCombobox", fieldbackground=p["entry_bg"],
+         background=p["btn_bg"], foreground=p["entry_fg"],
+         arrowcolor=p["muted"], font=F("s"))
+    _map(style, "TCombobox",
+         fieldbackground=[("readonly", p["entry_bg"])],
+         foreground=[("readonly", p["entry_fg"])],
+         selected=[("background", p["tree_sel_bg"]),
+                   ("foreground", p["tree_sel_fg"])])
+    # The dropdown list itself is a plain tk Listbox that ttk styles can't
+    # reach — theme it through the option database (popdowns are created
+    # lazily, so this applies to every dropdown opened after a theme flip).
+    for opt, val in (("*TCombobox*Listbox.background", p["entry_bg"]),
+                     ("*TCombobox*Listbox.foreground", p["entry_fg"]),
+                     ("*TCombobox*Listbox.selectBackground", p["tree_sel_bg"]),
+                     ("*TCombobox*Listbox.selectForeground", p["tree_sel_fg"])):
+        try:
+            root.option_add(opt, val)
+        except Exception:
+            pass
     _cfg(style, "TCheckbutton", background=p["bg"], foreground=p["fg"], font=F("s"))
     _cfg(style, "TRadiobutton", background=p["bg"], foreground=p["fg"], font=F("s"))
     _cfg(style, "TProgressbar", background=p["bar_done"], troughcolor=p["bg"],

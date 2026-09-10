@@ -79,9 +79,12 @@ class PricesTest(unittest.TestCase):
     def test_mana_shape(self):
         mana = load("mana_costs.json")
         self.assertTrue(mana)
-        for k, v in list(mana.items())[:50]:
-            self.assertIn("pips", v, k)
-            self.assertIsInstance(v["pips"], dict)
+        for k, v in mana.items():
+            self.assertIsInstance(v.get("pips"), dict, k)
+            self.assertIsInstance(v.get("type_line"), str, k)
+            self.assertTrue(v["type_line"], k)
+            self.assertIsInstance(v.get("cmc"), (int, float), k)
+            self.assertIsInstance(v.get("colors"), list, k)
 
 
 if __name__ == '__main__':

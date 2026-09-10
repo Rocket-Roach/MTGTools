@@ -412,13 +412,6 @@
   "collector_number": "",
   "foil": false
  },
- "arid mesa": {
-  "name": "Arid Mesa",
-  "quantity": 1,
-  "set_code": "",
-  "collector_number": "",
-  "foil": false
- },
  "armory of iroas": {
   "name": "Armory of Iroas",
   "quantity": 1,
@@ -6950,13 +6943,6 @@
   "collector_number": "",
   "foil": false
  },
- "scalding tarn": {
-  "name": "Scalding Tarn",
-  "quantity": 4,
-  "set_code": "",
-  "collector_number": "",
-  "foil": false
- },
  "scapeshift": {
   "name": "Scapeshift",
   "quantity": 4,
@@ -8220,13 +8206,6 @@
  "tamiyo, the moon sage": {
   "name": "Tamiyo, the Moon Sage",
   "quantity": 1,
-  "set_code": "",
-  "collector_number": "",
-  "foil": false
- },
- "tamiyo's safekeeping": {
-  "name": "Tamiyo's Safekeeping",
-  "quantity": 2,
   "set_code": "",
   "collector_number": "",
   "foil": false
@@ -9563,7 +9542,7 @@
  },
  "wooded foothills": {
   "name": "Wooded Foothills",
-  "quantity": 4,
+  "quantity": 1,
   "set_code": "",
   "collector_number": "",
   "foil": false

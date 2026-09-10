@@ -2,8 +2,9 @@
  "theme": "dark",
  "font_scale": 1.0,
  "remember_ui": true,
- "geometry": "1994x1158+78+78",
- "last_tab": "Metagame",
+ "geometry": "2013x1215+84+87",
+ "last_tab": "Dashboard (decks)",
  "auto_refresh_days": 14,
- "last_visit": "2026-09-06"
+ "digest_on_startup": true,
+ "last_visit": "2026-09-09"
 }

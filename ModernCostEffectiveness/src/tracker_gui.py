@@ -11,8 +11,10 @@ Run:  python tracker_gui.py
 
 import datetime
 import json
+import math
 import os
 import queue
+import random
 import re
 import sys
 import threading
@@ -20,13 +22,12 @@ import webbrowser
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, simpledialog
 from pathlib import Path
-from collections import defaultdict
-
+from collections import Counter, defaultdict
 from paths import (ROOT as BASE_DIR, PLAN_FILE, COLLECTION_FILE, METAGAME_FILE,
                      DATA_DIR, SNAPSHOTS_DIR, PRICES_FILE, DECKLISTS_FILE,
-                     MANA_FILE, MANA_FONT_FILE, MATCHUPS_FILE, asset_path,
-                     write_json_atomic, backup_file, prune_snapshots,
-                     PRICE_TTL_DAYS)
+                     MANA_FILE, MANA_FONT_FILE, MATCHUPS_FILE, LAST_SEEN_FILE,
+                     asset_path, write_json_atomic, backup_file,
+                     prune_snapshots, PRICE_TTL_DAYS)
 METAGAME_URL = "https://www.mtggoldfish.com/metagame/modern#paper"
 
 # Reuse parsing / model logic from CLI tracker
@@ -247,6 +248,177 @@ def is_buildable(prog) -> bool:
                for r in prog.get("rows", []))
 
 
+def _fmt_delta(m) -> str:
+    if m["status"] == "NEW":
+        return f"{m['name']} entered the top 20 at {m['new']:.1f}%"
+    if m["status"] == "OUT":
+        return f"{m['name']} dropped out of the top 20"
+    if m["status"] == "FLAT":
+        return f"{m['name']} ±0.0pp ({m['old']:.1f}% → {m['new']:.1f}%)"
+    return f"{m['name']} {m['delta']:+.1f}pp ({m['old']:.1f}% → {m['new']:.1f}%)"
+
+
+def build_digest(previous, current):
+    """Diff two digest states into [(header, [lines])] sections.
+
+    Returns [] when there is nothing worth showing (first run included).
+    Personal deltas always trigger; meta movers alone only trigger on big
+    moves (a NEW/OUT deck or |delta| >= 2pp), so tiny wiggles don't nag.
+    `unpriced` maps lower-name -> display name in both states.
+    """
+    if not previous:
+        return []
+    sections = []
+    new = sorted(set(current.get("buildable", [])) - set(previous.get("buildable", [])))
+    lost = sorted(set(previous.get("buildable", [])) - set(current.get("buildable", [])))
+    if new:
+        sections.append(("Newly buildable",
+                         [f"{n} — ready to sleeve up" for n in new]))
+    if lost:
+        sections.append(("No longer buildable", list(lost)))
+    du = current.get("collection_unique", 0) - previous.get("collection_unique", 0)
+    dt = current.get("collection_total", 0) - previous.get("collection_total", 0)
+    if du or dt:
+        sections.append(("Collection",
+                         [f"{du:+d} unique cards, {dt:+d} total cards"]))
+    old_un = previous.get("unpriced", {})
+    new_un = current.get("unpriced", {})
+    cleared = sorted(set(old_un) - set(new_un))
+    if cleared:
+        shown = [old_un.get(k, k) for k in cleared[:8]]
+        more = f" (+{len(cleared) - 8} more)" if len(cleared) > 8 else ""
+        sections.append(("Cleared from the buy list",
+                         [f"{len(cleared)} cards bought or newly priced: "
+                          f"{', '.join(shown)}{more}"]))
+    # Only movers not already reported last time: the snapshot pair is
+    # re-compared every launch, so without this a big move would nag forever.
+    prev_movers = previous.get("movers", [])
+    movers = [m for m in current.get("movers", []) if m not in prev_movers]
+    big = [m for m in movers
+           if m["status"] in ("NEW", "OUT")
+           or (m["delta"] is not None and abs(m["delta"]) >= 2.0)]
+    if big:
+        sections.append(("Meta movers", [_fmt_delta(m) for m in big]))
+    return sections
+
+
+def hypergeom_pmf(N, K, n, k) -> float:
+    """P(exactly k successes) drawing n from N containing K successes.
+
+    0.0 for any infeasible input (never raises — feeds live UI fields)."""
+    try:
+        N, K, n, k = int(N), int(K), int(n), int(k)
+    except (TypeError, ValueError):
+        return 0.0
+    if not (0 <= K <= N and 0 <= n <= N and 0 <= k <= K and 0 <= n - k <= N - K):
+        return 0.0
+    return math.comb(K, k) * math.comb(N - K, n - k) / math.comb(N, n)
+
+
+def hypergeom_dist(N, K, n):
+    """[(k, P(X=k))] over every feasible k (ascending)."""
+    try:
+        N, K, n = int(N), int(K), int(n)
+    except (TypeError, ValueError):
+        return []
+    lo, hi = max(0, n - (N - K)), min(K, n)
+    if not (0 <= K <= N and 0 <= n <= N) or lo > hi:
+        return []
+    return [(k, hypergeom_pmf(N, K, n, k)) for k in range(lo, hi + 1)]
+
+
+def hypergeom_at_least(N, K, n, k) -> float:
+    try:
+        k = int(k)
+    except (TypeError, ValueError):
+        return 0.0
+    return sum(p for j, p in hypergeom_dist(N, K, n) if j >= k)
+
+
+def hypergeom_at_most(N, K, n, k) -> float:
+    try:
+        k = int(k)
+    except (TypeError, ValueError):
+        return 0.0
+    return sum(p for j, p in hypergeom_dist(N, K, n) if j <= k)
+
+
+def build_sim_pool(decklists, overrides, deck_name):
+    """Flat 60-card mainboard pool (display names) with user card swaps
+    applied at the same quantity. [] when the deck has no stored list."""
+    entry = (decklists or {}).get(deck_name)
+    if not entry:
+        return []
+    subs = (overrides or {}).get(deck_name, {})
+    pool = []
+    for ci in entry.get("mainboard", []):
+        name = subs.get(ci.get("name", ""), ci.get("name", ""))
+        pool.extend([name] * max(0, int(ci.get("qty", 1))))
+    return pool
+
+
+def draw_cards(pool, n, rng=None):
+    """n-card sample without replacement (shuffled order)."""
+    rng = rng or random
+    deck = list(pool)
+    rng.shuffle(deck)
+    return deck[:max(0, int(n))]
+
+
+def land_spell_faces(name, mana_cache):
+    """(can_be_land, can_be_spell) for a card via cached type-line faces.
+
+    MDFCs with a land on either face count as BOTH (e.g. Boggart Trawler
+    is a Goblin spell and a land drop), so land + non-land bucket totals
+    can exceed the deck size — each stays a valid separate query.
+    Without a cached type line, falls back to the legacy heuristic
+    (costless/unknown counts as land only)."""
+    v = (mana_cache or {}).get((name or "").strip().lower())
+    if not isinstance(v, dict):
+        return (True, False)
+    tl = v.get("type_line")
+    if isinstance(tl, str) and tl:
+        faces = [f.strip().lower() for f in tl.split("//")]
+        landy = ["land" in f for f in faces]
+        return (any(landy), not all(landy))
+    if not v.get("cost"):
+        return (True, False)
+    return (False, True)
+
+
+def is_land(name, mana_cache):
+    """Whether a card can be played as a land (either face counts)."""
+    return land_spell_faces(name, mana_cache)[0]
+
+
+def sim_land_count(hand, mana_cache):
+    """Land count for a hand/list: cards playable as lands, so land-face
+    MDFCs count (they're valid land drops)."""
+    return sum(1 for name in hand if is_land(name, mana_cache))
+
+
+HISTORY_COLORS = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f",
+                  "#edc948", "#b07aa1", "#ff9da7", "#9c755f"]
+
+HISTORY_METRICS = (("Meta share %", "meta_pct", True),
+                   ("Overall winrate %", "overall_winrate", True),
+                   ("Deck count", "deck_count", False))
+
+
+def build_history(snaps):
+    """{deck name: [(date, meta_pct, overall_winrate, deck_count), ...]} in
+    snapshot order. A deck missing from a snapshot simply has no entry
+    for it (callers draw a gap, not a zero)."""
+    hist = {}
+    for s in snaps or []:
+        date = s.get("date", "?")
+        for dd in (s.get("data") or {}).get("decks", []):
+            hist.setdefault(dd.get("name", "?"), []).append(
+                (date, dd.get("meta_pct"), dd.get("overall_winrate"),
+                 dd.get("deck_count")))
+    return hist
+
+
 def read_text_file_smart(path: str) -> str:
     for enc in ("utf-8-sig", "utf-8", "latin-1"):
         try:
@@ -256,6 +428,67 @@ def read_text_file_smart(path: str) -> str:
             continue
     with open(path, "r", encoding="utf-8", errors="replace") as f:
         return f.read()
+
+
+def stroke_history_runs(c, run, xy, color):
+    """Draw one contiguous line run (gap-aware: call per run)."""
+    for (i, v), (j, w) in zip(run, run[1:]):
+        c.create_line(*xy(i, v), *xy(j, w), fill=color, width=2)
+    for i, v in run:
+        x, y = xy(i, v)
+        c.create_oval(x - 3, y - 3, x + 3, y + 3, fill=color, outline="")
+
+
+def history_metric_key(label):
+    """(snapshot key, is_percent) for a history dropdown label."""
+    for lab, key, pct in HISTORY_METRICS:
+        if lab == label:
+            return key, pct
+    return HISTORY_METRICS[0][1], HISTORY_METRICS[0][2]
+
+
+def hypergeom_targets(pool, mana_cache):
+    """[(label, copies)] deck-specific calculator targets: any land, every
+    distinct card (qty descending, then name), any non-land. Faces resolve
+    via land_spell_faces(): MDFCs with a land face sit in BOTH buckets, so
+    the two totals can exceed the deck size (each is a valid separate
+    query — annotated with the MDFC count when that happens)."""
+    counts = Counter(pool or [])
+    if not counts:
+        return []
+    flags = [land_spell_faces(c, mana_cache) for c in pool]
+    lands = sum(1 for land, _ in flags if land)
+    spells = sum(1 for _, spell in flags if spell)
+    mdfc = sum(1 for land, spell in flags if land and spell)
+    out = []
+    if lands:
+        label = f"Land — {lands} in deck"
+        if mdfc:
+            label += f" (incl. {mdfc} MDFC{'s' if mdfc != 1 else ''})"
+        out.append((label, lands))
+    for name in sorted(counts, key=lambda x: (-counts[x], x.lower())):
+        out.append((f"{counts[name]}x {name}", counts[name]))
+    if 0 < spells < len(pool) or (spells == len(pool) and lands):
+        out.append((f"Non-land — {spells} in deck", spells))
+    return out
+
+
+def wilson_ci(wins, n, z=1.96):
+    """Wilson score interval for a winrate: (lo, hi) as fractions.
+
+    Better behaved than the normal approximation at small samples or
+    lopsided rates. (None, None) when there are no matches."""
+    try:
+        wins, n, z = float(wins), int(n), float(z)
+    except (TypeError, ValueError):
+        return (None, None)
+    if n <= 0 or not 0 <= wins <= n:
+        return (None, None)
+    p = wins / n
+    den = 1 + z * z / n
+    center = p + z * z / (2 * n)
+    delta = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return (max(0.0, (center - delta) / den), min(1.0, (center + delta) / den))
 
 
 class GuiStore:
@@ -306,6 +539,86 @@ class GuiStore:
             return None
         return ra.get("vs", {}).get(opp)
 
+    def best_worst_matchups(self, deck_name: str, n: int = 3, min_matches: int = 10):
+        """(best, worst) head-to-head lists vs all tracked archetypes.
+
+        Each entry: {"name", "winrate", "matches"}. Best is highest-first.
+        The mirror is excluded, as are cells under min_matches (a 100% on
+        2 matches is noise, not signal). Opponents outside our top 20 keep
+        their source names."""
+        row = self.matchup_row(deck_name)
+        if not row:
+            return [], []
+        mapping = (self.matchups or {}).get("mapping", {})
+        own_their = mapping.get(deck_name)
+        rev = {}
+        for ours, theirs in mapping.items():
+            rev.setdefault(theirs, ours)
+        cands = []
+        for opp_their, cell in (row.get("vs") or {}).items():
+            if opp_their == own_their:
+                continue
+            if not cell or cell.get("matches", 0) < min_matches:
+                continue
+            cands.append({"name": rev.get(opp_their, opp_their),
+                          "winrate": cell["winrate"],
+                          "matches": cell["matches"]})
+        cands.sort(key=lambda r: r["winrate"])
+        return list(reversed(cands[-n:])), cands[:n]
+
+    def field_ev(self, deck_name: str):
+        """Expected match win % vs the top-20 field, weighted by meta share.
+
+        Mirror counts as 50%. Opponents without data are excluded and the
+        weights renormalize over what's covered. Returns
+        {"ev", "coverage", "n_covered", "n_total"} with ev None when the
+        deck has no matchup row at all."""
+        decks = [d["name"] for d in (getattr(self, "metagame", {}) or {}).get("decks", [])]
+        weights = {d["name"]: d.get("meta_pct", 0) or 0 for d in
+                   (getattr(self, "metagame", {}) or {}).get("decks", [])}
+        if not self.matchup_row(deck_name):
+            return {"ev": None, "coverage": 0.0,
+                    "n_covered": 0, "n_total": len(decks)}
+        num, den, covered = 0.0, 0.0, 0
+        for opp in decks:
+            w = weights.get(opp, 0)
+            if opp == deck_name:
+                num += w * 50.0
+                den += w
+                covered += 1
+                continue
+            cell = self.matchup_cell(deck_name, opp)
+            if not cell or cell == "mirror":
+                continue
+            num += w * cell["winrate"]
+            den += w
+            covered += 1
+        total_w = sum(weights.values())
+        return {"ev": round(num / den, 1) if den > 0 else None,
+                "coverage": round(den / total_w, 3) if total_w > 0 else 0.0,
+                "n_covered": covered, "n_total": len(decks)}
+
+    def play_scores(self, deck_list=None):
+        """What to sleeve up, ranked: field EV blended with % owned.
+
+        score = EV x owned-fraction (0-100 scale). Decks without matchup
+        data score None and sort last. The top row is the recommended pick.
+        """
+        if deck_list is None:
+            deck_list = self.deck_progress_list()
+        out = []
+        for prog in deck_list:
+            ev_info = self.field_ev(prog["deck"])
+            owned_frac = (prog["owned"] / prog["total"]) if prog["total"] else 0.0
+            ev = ev_info["ev"]
+            out.append({"deck": prog["deck"], "meta_pct": prog.get("meta_pct"),
+                        "ev": ev, "coverage": ev_info["coverage"],
+                        "owned_pct": round(prog["pct"], 1),
+                        "score": round(ev * owned_frac, 1) if ev is not None else None,
+                        "buildable": prog["buildable"]})
+        out.sort(key=lambda r: (r["score"] is None, -(r["score"] or 0)))
+        return out
+
     def load_metagame(self):
         try:
             if METAGAME_FILE.exists():
@@ -351,7 +664,62 @@ class GuiStore:
             rows.append({"name": name, "old": op, "new": np, "delta": delta,
                          "status": status})
         rows.sort(key=lambda r: (r["delta"] is None, -(r["delta"] or 0)))
+        for r in rows:
+            o = old_map.get(r["name"], {})
+            n = new_map.get(r["name"], {})
+            ow, nw = o.get("overall_winrate"), n.get("overall_winrate")
+            try:
+                r["wr_delta"] = round(float(nw) - float(ow), 1) \
+                    if ow is not None and nw is not None else None
+            except (TypeError, ValueError):
+                r["wr_delta"] = None
+            r["wr_old"], r["wr_new"] = ow, nw
         return rows
+
+    def stamp_snapshot_winrates(self, mu_decks, metagame_file=None,
+                                snap_dir=None):
+        """Write overall winrate + match count into every deck entry of the
+        live metagame file and every saved snapshot, so later comparisons
+        can show winrate deltas even after the matchup matrix moves on.
+        mu_decks: {our deck name: {"overall": %, "matches": n}}.
+        Returns the number of deck entries stamped."""
+        metagame_file = Path(metagame_file) if metagame_file else METAGAME_FILE
+        snap_dir = Path(snap_dir) if snap_dir else SNAPSHOTS_DIR
+        targets = []
+        if metagame_file.exists():
+            targets.append(metagame_file)
+        if snap_dir.exists():
+            targets.extend(sorted(snap_dir.glob("metagame_*.json")))
+        stamped = 0
+        for path in targets:
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    data = json.load(fh)
+            except Exception:
+                continue
+            changed = False
+            for dd in data.get("decks", []):
+                mu = (mu_decks or {}).get(dd.get("name", ""))
+                if not isinstance(mu, dict):
+                    continue
+                try:
+                    wr = float(mu.get("overall"))
+                except (TypeError, ValueError):
+                    continue
+                try:
+                    matches = int(mu.get("matches", 0))
+                except (TypeError, ValueError):
+                    matches = 0
+                if dd.get("overall_winrate") != wr or dd.get("wr_matches") != matches:
+                    dd["overall_winrate"], dd["wr_matches"] = wr, matches
+                    changed = True
+                stamped += 1
+            if changed:
+                try:
+                    write_json_atomic(path, data)
+                except Exception:
+                    pass
+        return stamped
 
     def load_decklists(self):
         try:
@@ -468,6 +836,47 @@ class GuiStore:
             return True
         return False
 
+    def load_last_seen(self):
+        """Digest baseline from the previous launch (None on first run)."""
+        try:
+            if LAST_SEEN_FILE.exists():
+                with open(LAST_SEEN_FILE, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                return data if isinstance(data, dict) else None
+        except Exception:
+            pass
+        return None
+
+    def save_last_seen(self, state: dict):
+        try:
+            write_json_atomic(LAST_SEEN_FILE, state)
+        except Exception:
+            pass
+
+    def current_digest_state(self, deck_list=None):
+        """Everything the since-last-visit digest compares."""
+        import datetime
+        if deck_list is None:
+            deck_list = self.deck_progress_list()
+        movers = []
+        snaps = self.list_snapshots()
+        if len(snaps) >= 2:
+            rows = self.compare_snapshots(snaps[-2]["data"], snaps[-1]["data"])
+
+            def _key(r):
+                return (r["delta"] is None, -abs(r["delta"] or 0))
+
+            for r in sorted(rows, key=_key)[:3]:
+                movers.append({"name": r["name"], "delta": r["delta"],
+                               "status": r["status"], "old": r["old"],
+                               "new": r["new"]})
+        return {"date": datetime.date.today().isoformat(),
+                "buildable": sorted(d["deck"] for d in deck_list if d["buildable"]),
+                "collection_unique": self.collection.unique_cards(),
+                "collection_total": self.collection.total_cards(),
+                "unpriced": dict(sorted(self.cards_missing_prices().items())),
+                "movers": movers}
+
     def decklist_progress(self, deck_name: str):
         """Ownership vs a deck's own 60+15 list (with user substitutions
         applied at the same quantity). None if no list stored."""
@@ -545,7 +954,8 @@ class GuiStore:
         return counts
 
     def cards_missing_mana(self):
-        """{lower_name: display_name} for top-20 cards with no pip data."""
+        """{lower_name: display_name} for top-20 cards with no card data
+        (pip-only legacy entries count as missing so they self-heal)."""
         disp = {}
         for entry in (self.decklists or {}).values():
             for section in ("mainboard", "sideboard"):
@@ -554,7 +964,8 @@ class GuiStore:
         cache = self.mana_cache or {}
         return {k: v for k, v in disp.items()
                 if not (isinstance(cache.get(k), dict)
-                        and isinstance(cache[k].get("pips"), dict))}
+                        and isinstance(cache[k].get("pips"), dict)
+                        and "type_line" in cache[k] and "cmc" in cache[k])}
 
     def deck_progress_list(self):
         """All metagame decks with own-list progress, buildable first."""
@@ -706,6 +1117,7 @@ class DeckDetailWindow(tk.Toplevel):
         self.on_change = on_change
         self.on_copy = on_copy
         self._row_items = {}  # tree item id -> index into prog["rows"]
+        self.configure(bg=C("bg"))
         self._build()
 
     def _build(self):
@@ -717,7 +1129,7 @@ class DeckDetailWindow(tk.Toplevel):
         if desc:
             ttk.Label(self, text=desc, wraplength=820, foreground=C("muted")).pack(padx=10, pady=(0, 2))
         self.lbl_source = tk.Label(self, text="", font=F("xs"),
-                                   fg=C("link"), cursor="hand2")
+                                   fg=C("link"), bg=C("bg"), cursor="hand2")
         self.lbl_source.pack(padx=10, pady=(0, 8), anchor="w")
         self._refresh_source()
 
@@ -733,8 +1145,10 @@ class DeckDetailWindow(tk.Toplevel):
                        command=self._revert_swaps).pack(side="left", padx=(8, 0))
         ttk.Button(bar, text="Close", command=self.destroy).pack(side="right")
 
+        body = ttk.Frame(self)
+        body.pack(fill="both", expand=True, padx=10, pady=5)
         cols = ("need", "have", "missing", "price")
-        self.tree = ttk.Treeview(self, columns=cols, show="tree headings", height=14)
+        self.tree = ttk.Treeview(body, columns=cols, show="tree headings", height=14)
         self.tree.heading("#0", text="Card")
         self.tree.column("#0", width=340, anchor="w")
         for c, w, h in [("need", 60, "Need"), ("have", 60, "Have"),
@@ -742,7 +1156,12 @@ class DeckDetailWindow(tk.Toplevel):
             self.tree.heading(c, text=h)
             self.tree.column(c, width=w, anchor="center")
         theme.apply_tree_tags(self.tree, theme.DECK_TAGS)
-        self.tree.pack(fill="both", expand=True, padx=10, pady=5)
+        vsb = ttk.Scrollbar(body, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=vsb.set)
+        self.tree.grid(row=0, column=0, sticky="nsew")
+        vsb.grid(row=0, column=1, sticky="ns")
+        body.grid_rowconfigure(0, weight=1)
+        body.grid_columnconfigure(0, weight=1)
         self._refresh()
 
     def _refresh_source(self):
@@ -830,6 +1249,7 @@ class DeckDetailWindow(tk.Toplevel):
         dlg.title(f"Replace {row['need']}x {row['name']}")
         dlg.geometry("520x420")
         dlg.transient(self)
+        dlg.configure(bg=C("bg"))
         ttk.Label(dlg, text=f"Replace {row['need']}x {row['name']} with (same quantity):",
                   wraplength=480).pack(padx=10, pady=(10, 4))
         entry = ttk.Entry(dlg)
@@ -909,13 +1329,14 @@ class TrackerGUI(tk.Tk):
         self.settings = app_settings.load()
         theme.init_fonts(self.settings.get("font_scale", 1.0))
         theme.apply(self, self.settings.get("theme", "light"))
+        # Wide default: the Statistics charts row holds pie + bars + history.
         if self.settings.get("remember_ui", True) and self.settings.get("geometry"):
             try:
                 self.geometry(self.settings["geometry"])
             except Exception:
-                self.geometry("1080x740")
+                self.geometry("1520x820")
         else:
-            self.geometry("1080x740")
+            self.geometry("1520x820")
         self.store = GuiStore(PLAN_FILE, COLLECTION_FILE)
         self._build_ui()
         self.refresh_all()
@@ -939,6 +1360,7 @@ class TrackerGUI(tk.Tk):
         except Exception:
             pass
         self.after(800, self._maybe_auto_refresh)
+        self.after(1500, self._maybe_show_digest)
 
     def _on_close(self):
         """Persist window/tab/visit, then exit."""
@@ -977,6 +1399,50 @@ class TrackerGUI(tk.Tk):
                 f"Run Refresh all data now?"):
             self.refresh_all_data()
 
+    def _maybe_show_digest(self):
+        if not self.settings.get("digest_on_startup", True):
+            return
+        try:
+            previous = self.store.load_last_seen()
+            current = self.store.current_digest_state()
+            sections = build_digest(previous, current)
+            self.store.save_last_seen(current)
+            if sections:
+                self._show_digest_dialog(sections, (previous or {}).get("date"))
+        except Exception:
+            pass
+
+    def _show_digest_dialog(self, sections, since):
+        dlg = tk.Toplevel(self)
+        dlg.title("Since last visit")
+        dlg.geometry("540x440")
+        dlg.transient(self)
+        dlg.configure(bg=C("bg"))
+        head = f"Since {since}:" if since else "What's new:"
+        ttk.Label(dlg, text=head, font=F("m_b"),
+                  wraplength=500).pack(anchor="w", padx=12, pady=(10, 2))
+        for header, lines in sections:
+            ttk.Label(dlg, text=header, font=F("s_b")).pack(anchor="w", padx=12, pady=(6, 0))
+            for line in lines:
+                ttk.Label(dlg, text="•  " + line, wraplength=500,
+                          justify="left").pack(anchor="w", padx=24)
+        show_var = tk.BooleanVar(value=True)
+        ttk.Checkbutton(dlg, text="Show this summary on startup",
+                        variable=show_var).pack(anchor="w", padx=12, pady=(10, 0))
+
+        def _close():
+            try:
+                self.settings["digest_on_startup"] = bool(show_var.get())
+                app_settings.save(self.settings)
+            except Exception:
+                pass
+            try:
+                dlg.destroy()
+            except Exception:
+                pass
+
+        ttk.Button(dlg, text="Close", command=_close).pack(anchor="e", padx=12, pady=10)
+
     def open_settings(self):
         """Preferences dialog. Theme and font size apply live; everything
         is saved on close (and again on app exit)."""
@@ -984,6 +1450,7 @@ class TrackerGUI(tk.Tk):
         dlg.title("Settings")
         dlg.geometry("380x330")
         dlg.transient(self)
+        dlg.configure(bg=C("bg"))
         body = ttk.Frame(dlg, padding=12)
         body.pack(fill="both", expand=True)
 
@@ -1042,7 +1509,7 @@ class TrackerGUI(tk.Tk):
         theme.apply(self, name)
         self.settings["theme"] = theme.current()
         for canvas in ("dash_canvas", "meta_canvas", "pie_canvas",
-                       "bar_canvas", "arch_canvas", "mu_canvas"):
+                       "bar_canvas", "arch_canvas", "mu_canvas", "hist_canvas"):
             try:
                 getattr(self, canvas).configure(bg=theme.C("canvas"))
             except Exception:
@@ -1056,6 +1523,21 @@ class TrackerGUI(tk.Tk):
             self.paste_box.configure(bg=theme.C("entry_bg"),
                                      fg=theme.C("entry_fg"),
                                      insertbackground=theme.C("entry_fg"))
+        except Exception:
+            pass
+        try:
+            # Odds Lab hand list is built once (not on refresh).
+            self.sim_list.configure(bg=theme.C("entry_bg"),
+                                    fg=theme.C("entry_fg"))
+        except Exception:
+            pass
+        try:
+            # Metagame column header is built once (not on refresh).
+            self._meta_header.configure(bg=theme.C("bg"))
+            for c in self._meta_header.winfo_children():
+                c.configure(bg=theme.C("bg"))
+                if str(c.cget("text") or ""):
+                    c.configure(fg=theme.C("muted"))
         except Exception:
             pass
         try:
@@ -1095,6 +1577,7 @@ class TrackerGUI(tk.Tk):
         self.tab_meta = ttk.Frame(self.notebook, padding=8)
         self.tab_stats = ttk.Frame(self.notebook, padding=8)
         self.tab_mu = ttk.Frame(self.notebook, padding=8)
+        self.tab_odds = ttk.Frame(self.notebook, padding=8)
         self.notebook.add(self.tab_dash, text="  Dashboard (decks)  ")
         self.notebook.add(self.tab_shop, text="  Buy Next  ")
         self.notebook.add(self.tab_coll, text="  Collection  ")
@@ -1102,6 +1585,7 @@ class TrackerGUI(tk.Tk):
         self.notebook.add(self.tab_meta, text="  Metagame  ")
         self.notebook.add(self.tab_stats, text="  Statistics  ")
         self.notebook.add(self.tab_mu, text="  Matchups  ")
+        self.notebook.add(self.tab_odds, text="  Odds Lab  ")
 
         self._build_dashboard_tab()
         self._build_shop_tab()
@@ -1110,6 +1594,7 @@ class TrackerGUI(tk.Tk):
         self._build_metagame_tab()
         self._build_stats_tab()
         self._build_matchups_tab()
+        self._build_odds_tab()
         self.status = ttk.Label(self, text="", relief="sunken", anchor="w", padding=(6, 2))
         self.status.pack(fill="x", side="bottom")
 
@@ -1493,6 +1978,8 @@ class TrackerGUI(tk.Tk):
         self._meta_rows = []
         self._meta_row_frames = []
         self._meta_selected = None
+        self._meta_expanded = None  # deck name with an open matchup panel
+        self._mu_panel = None
         self._meta_imgs = []  # keeps PhotoImage refs alive
         self.refresh_metagame_table()
 
@@ -1648,6 +2135,7 @@ class TrackerGUI(tk.Tk):
         self._meta_rows = []
         self._meta_row_frames = []
         self._meta_selected = None
+        self._mu_panel = None
         self._meta_imgs = []
         decks = (getattr(self.store, "metagame", {}) or {}).get("decks", [])
         for d in sorted(decks, key=lambda x: x.get("meta_pct", 0), reverse=True):
@@ -1665,6 +2153,17 @@ class TrackerGUI(tk.Tk):
             self._meta_row_frames.append((row, tag))
             self._bind_meta_row(row, idx)
         self._bind_meta_wheel(self.meta_inner)
+        # Restore a previously expanded panel (e.g. after data refreshes).
+        if self._meta_expanded:
+            for i, d in enumerate(self._meta_rows):
+                if d["name"] == self._meta_expanded:
+                    self._meta_selected = i
+                    frame, _tag = self._meta_row_frames[i]
+                    self._paint_meta_row(frame, C("meta_sel"))
+                    self._expand_mu_panel(i)
+                    break
+            else:
+                self._meta_expanded = None
 
     def _bind_meta_row(self, widget, idx):
         widget.bind("<Button-1>", lambda e: self._select_meta_row(idx))
@@ -1680,6 +2179,58 @@ class TrackerGUI(tk.Tk):
         if idx is not None and idx < len(self._meta_row_frames):
             frame, _tag = self._meta_row_frames[idx]
             self._paint_meta_row(frame, C("meta_sel"))
+        # Accordion: clicking the expanded deck collapses it, clicking
+        # another moves the panel. (A double-click ends collapsed, then
+        # opens the deck page — predictable enough.)
+        name = self._meta_rows[idx]["name"] if idx is not None and idx < len(self._meta_rows) else None
+        if name is not None and self._meta_expanded == name:
+            self._collapse_mu_panel()
+        elif name is not None:
+            self._expand_mu_panel(idx)
+
+    def _collapse_mu_panel(self):
+        try:
+            if self._mu_panel is not None:
+                self._mu_panel.destroy()
+        except Exception:
+            pass
+        self._mu_panel = None
+        self._meta_expanded = None
+
+    def _expand_mu_panel(self, idx):
+        self._collapse_mu_panel()
+        if idx is None or idx >= len(self._meta_rows):
+            return
+        deck = self._meta_rows[idx]["name"]
+        best, worst = self.store.best_worst_matchups(deck)
+        row_frame, _tag = self._meta_row_frames[idx]
+        panel = tk.Frame(self.meta_inner, bg=C("bg"), relief="sunken",
+                         borderwidth=1, padx=10, pady=6)
+        tk.Label(panel, text=f"Best / worst matchups for {deck} (min. 10 matches)",
+                 bg=C("bg"), fg=C("muted"), font=F("s_b")).pack(anchor="w", pady=(0, 4))
+        cols = tk.Frame(panel, bg=C("bg"))
+        cols.pack(fill="x")
+        for title, entries in (("Best matchups", best), ("Worst matchups", worst)):
+            col = tk.Frame(cols, bg=C("bg"))
+            col.pack(side="left", fill="x", expand=True, padx=(0, 16))
+            tk.Label(col, text=title, bg=C("bg"), fg=C("fg"),
+                     font=F("s_b")).pack(anchor="w")
+            if not entries:
+                tk.Label(col, text="No tracked matchups", bg=C("bg"),
+                         fg=C("muted"), font=F("s")).pack(anchor="w")
+            for e in entries:
+                fill, fg = wr_colors(e["winrate"])
+                line = tk.Frame(col, bg=C("bg"))
+                line.pack(fill="x", pady=1)
+                tk.Label(line, text=e["name"], bg=C("bg"), fg=C("fg"),
+                         font=F("s"), anchor="w", width=24).pack(side="left")
+                tk.Label(line, text=f"{e['winrate']:.0f}%", bg=fill, fg=fg,
+                         font=F("s_b"), width=6).pack(side="left", padx=(6, 4))
+                tk.Label(line, text=f"({e['matches']})", bg=C("bg"),
+                         fg=C("muted"), font=F("xs")).pack(side="left")
+        panel.pack(fill="x", padx=(24, 2), pady=(0, 6), after=row_frame)
+        self._mu_panel = panel
+        self._meta_expanded = deck
 
     def _bind_meta_wheel(self, widget):
         widget.bind("<MouseWheel>", lambda e: self._smooth_scroll(self.meta_canvas, e))
@@ -1943,8 +2494,14 @@ class TrackerGUI(tk.Tk):
                 results["mana"] = f"FAILED: {e}"
             try:
                 say("Step 5/5: matchup matrix...")
-                snap = matchup_fetch.build_snapshot()
-                results["matchups"] = f"ok ({len(snap.get('decks', {}))} decks)"
+                mu_snap = matchup_fetch.build_snapshot()
+                mu_decks = mu_snap.get("decks", {})
+                results["matchups"] = f"ok ({len(mu_decks)} decks)"
+                try:
+                    n = self.store.stamp_snapshot_winrates(mu_decks)
+                    results["winrates"] = f"ok ({n} entries stamped)"
+                except Exception as e:  # noqa: BLE001 - stamping is best-effort
+                    results["winrates"] = f"FAILED: {e}"
             except Exception as e:  # noqa: BLE001 - collected for the summary
                 results["matchups"] = f"FAILED: {e}"
             work.put(("done", results))
@@ -1996,7 +2553,8 @@ class TrackerGUI(tk.Tk):
         finally:
             self.btn_refresh_all.config(state="normal")
         lines = [f"{step}: {results.get(step, 'skipped')}" for step in
-                 ("metagame", "decklists", "prices", "mana", "matchups")]
+                 ("metagame", "decklists", "prices", "mana", "matchups",
+                  "winrates")]
         if results.get("metagame_ok"):
             lines.append(f"{n_swaps} card swap(s) reverted to the fresh lists.")
         messagebox.showinfo("Refresh all data", "\n".join(lines))
@@ -2041,12 +2599,33 @@ class TrackerGUI(tk.Tk):
                                     highlightbackground="#ccc")
         self.pie_canvas.pack()
         right = ttk.Frame(charts)
-        right.pack(side="left", fill="x", expand=True)
+        right.pack(side="left", padx=(0, 12))
         ttk.Label(right, text="Top 10 decks by META% · overall winrate in color (blue bar = buildable)",
                   font=F("s_b")).pack(anchor="w")
         self.bar_canvas = tk.Canvas(right, width=560, height=290, bg=C("bg"), highlightthickness=1,
                                     highlightbackground="#ccc")
-        self.bar_canvas.pack(fill="x")
+        self.bar_canvas.pack()
+        hist = ttk.Frame(charts)
+        hist.pack(side="left", fill="both", expand=True)
+        ttk.Label(hist, text="Metagame history — top 8 decks", font=F("s_b")).pack(anchor="w")
+        hrow = ttk.Frame(hist)
+        hrow.pack(anchor="w", pady=(0, 2))
+        ttk.Label(hrow, text="Show:").pack(side="left")
+        self.hist_metric = tk.StringVar(value=HISTORY_METRICS[0][0])
+        self.hist_combo = ttk.Combobox(hrow, textvariable=self.hist_metric, width=16,
+                                       state="readonly",
+                                       values=[m[0] for m in HISTORY_METRICS])
+        self.hist_combo.pack(side="left", padx=(4, 0))
+        self.hist_combo.bind("<<ComboboxSelected>>", lambda e: self._draw_history())
+        self.hist_canvas = tk.Canvas(hist, width=360, height=290, bg=C("bg"),
+                                     highlightthickness=1, highlightbackground="#ccc")
+        self.hist_canvas.pack(fill="both", expand=True)
+        self.hist_canvas.bind("<Configure>", lambda e: self._hist_resize_soon())
+        self._hist_resize_id = None
+        self._hist_retry = 0
+        self.lbl_hist_info = ttk.Label(hist, text="", foreground=C("muted"),
+                                       justify="left")
+        self.lbl_hist_info.pack(anchor="w")
 
         ttk.Label(self.tab_stats, text="Meta share by archetype",
                   font=F("s_b")).pack(anchor="w", pady=(6, 0))
@@ -2054,16 +2633,37 @@ class TrackerGUI(tk.Tk):
                                      highlightthickness=1, highlightbackground="#ccc")
         self.arch_canvas.pack(fill="x")
 
+        ttk.Label(self.tab_stats,
+                  text="What to play — field EV (meta-weighted winrate) blended with % owned",
+                  font=F("s_b")).pack(anchor="w", pady=(6, 0))
+        playframe = ttk.Frame(self.tab_stats)
+        playframe.pack(fill="x")
+        pcols = ("deck", "ev", "owned", "score")
+        self.play_tree = ttk.Treeview(playframe, columns=pcols, show="headings", height=6)
+        pheads = {"deck": "Deck", "ev": "Field EV %", "owned": "Owned %",
+                  "score": "Score"}
+        pwidths = {"deck": 260, "ev": 100, "owned": 100, "score": 100}
+        for c in pcols:
+            self.play_tree.heading(c, text=pheads[c])
+            self.play_tree.column(c, width=pwidths[c], anchor="center" if c != "deck" else "w")
+        self.play_tree.pack(side="left", fill="x", expand=True)
+        play_vsb = ttk.Scrollbar(playframe, orient="vertical", command=self.play_tree.yview)
+        self.play_tree.configure(yscrollcommand=play_vsb.set)
+        play_vsb.pack(side="right", fill="y")
+
         self.lbl_trend_title = ttk.Label(self.tab_stats, text="Trending",
                                          font=F("s_b"))
         self.lbl_trend_title.pack(anchor="w", pady=(6, 2))
         tframe = ttk.Frame(self.tab_stats)
         tframe.pack(fill="both", expand=True)
-        tcols = ("deck", "then", "now", "delta", "trend")
+        tcols = ("deck", "then", "now", "delta", "wr_then", "wr_now",
+                 "wr_delta", "trend")
         self.trend_tree = ttk.Treeview(tframe, columns=tcols, show="headings", height=9)
         heads = {"deck": "Deck", "then": "Then %", "now": "Now %", "delta": "Change (pp)",
+                 "wr_then": "WR then", "wr_now": "WR now", "wr_delta": "WR Δ (pp)",
                  "trend": "Trend"}
-        widths = {"deck": 260, "then": 90, "now": 90, "delta": 110, "trend": 100}
+        widths = {"deck": 220, "then": 70, "now": 70, "delta": 90, "wr_then": 70,
+                  "wr_now": 70, "wr_delta": 90, "trend": 80}
         for c in tcols:
             self.trend_tree.heading(c, text=heads[c])
             self.trend_tree.column(c, width=widths[c], anchor="center" if c != "deck" else "w")
@@ -2172,9 +2772,13 @@ class TrackerGUI(tk.Tk):
             self._draw_pie(decks)
             self._draw_bars(decks, buildable)
             self._draw_archetypes(decks)
+            self._draw_history()
+            self._refresh_play_table(deck_list)
         else:
             self.lbl_stats_summary.config(text="No metagame data loaded.")
             self.arch_canvas.delete("all")
+            for r in self.play_tree.get_children():
+                self.play_tree.delete(r)
 
         for r in self.trend_tree.get_children():
             self.trend_tree.delete(r)
@@ -2183,7 +2787,8 @@ class TrackerGUI(tk.Tk):
             self.lbl_trend_title.config(
                 text="Trending — need 2+ snapshots in snapshots/ (use 'Save snapshot' after each refresh)")
             self.trend_tree.insert("", "end", values=(
-                "Not enough history yet", "—", "—", "—", "—"), tags=("flat",))
+                "Not enough history yet", "—", "—", "—", "—", "—", "—", "—"),
+                tags=("flat",))
             return
         old, new = snaps[-2], snaps[-1]
         title = (f"Trending: {old['date']} ({old['timeframe']})  ->  "
@@ -2201,8 +2806,146 @@ class TrackerGUI(tk.Tk):
                 delta = f"{r['delta']:+.1f}pp"
                 arrow = "UP" if r["status"] == "UP" else ("DOWN" if r["status"] == "DOWN" else "FLAT")
             tag = {"UP": "up", "DOWN": "down", "NEW": "new", "OUT": "out"}.get(r["status"], "flat")
+            w_then = f"{r['wr_old']:.1f}%" if r["wr_old"] is not None else "—"
+            w_now = f"{r['wr_new']:.1f}%" if r["wr_new"] is not None else "—"
+            w_delta = f"{r['wr_delta']:+.1f}pp" if r["wr_delta"] is not None else "—"
             self.trend_tree.insert("", "end", values=(
-                r["name"], then, now, delta, arrow), tags=(tag,))
+                r["name"], then, now, delta, w_then, w_now, w_delta, arrow),
+                tags=(tag,))
+    def _hist_resize_soon(self, delay_ms=250):
+        try:
+            if self._hist_resize_id is not None:
+                self.after_cancel(self._hist_resize_id)
+            self._hist_resize_id = self.after(delay_ms, self._hist_resized)
+        except Exception:
+            pass
+
+    def _hist_resized(self):
+        self._hist_resize_id = None
+        try:
+            self._draw_history()
+        except Exception:
+            pass
+
+    def _draw_history(self):
+        """Embedded trendline chart: one line per top-8 deck across every
+        saved snapshot, metric chosen by the dropdown. Gaps, not zeroes,
+        for decks missing from a snapshot."""
+        c = self.hist_canvas
+        c.delete("all")
+        W, H = c.winfo_width(), c.winfo_height()
+        if W < 120 or H < 120:
+            # Not laid out yet (first refresh before mainloop): retry briefly.
+            if getattr(self, "_hist_retry", 0) < 5:
+                self._hist_retry = getattr(self, "_hist_retry", 0) + 1
+                try:
+                    self.after(150, self._draw_history)
+                except Exception:
+                    pass
+            return
+        self._hist_retry = 0
+        try:
+            snaps = self.store.list_snapshots()
+            key, is_pct = history_metric_key(self.hist_metric.get())
+            idx = {"meta_pct": 1, "overall_winrate": 2, "deck_count": 3}[key]
+            hist = build_history(snaps)
+            latest = (snaps[-1].get("data") or {}).get("decks", []) if snaps else []
+            top = sorted([d["name"] for d in latest],
+                         key=lambda n: -((next((x for x in latest if x["name"] == n),
+                                               {}).get("meta_pct")) or 0))[:8]
+            vals = [p[idx] for n in top for p in hist.get(n, [])
+                    if isinstance(p[idx], (int, float))]
+            if len(snaps) < 2 or not top or not vals:
+                c.create_text(W / 2, H / 2, text="Need 2+ snapshots.\nRefresh data or "
+                              "'Save snapshot' to grow the history.",
+                              font=F("m"), fill=C("fg"), justify="center")
+                self.lbl_hist_info.config(text="")
+                return
+            lo, hi = min(vals), max(vals)
+            pad = (hi - lo) * 0.15 or max(1.0, abs(hi) * 0.1)
+            lo, hi = lo - pad, hi + pad
+            # Generous margins: y labels clear the left edge even at large
+            # font scales; legend sits fully below the date labels.
+            L, R, T = 58, 12, 8
+            leg_rows, leg_h, date_h, bottom_pad = 4, 17, 22, 6
+            plot_b = H - (leg_rows * leg_h + date_h + bottom_pad)
+            pw = W - L - R
+            dates = [s.get("date", "?") for s in snaps]
+            n = len(snaps)
+
+            def xy(i, v):
+                x = L + (pw * i / (n - 1) if n > 1 else pw / 2)
+                y = T + (plot_b - T) * (1 - (v - lo) / (hi - lo))
+                return x, y
+
+            for t in range(5):
+                v = lo + (hi - lo) * t / 4
+                _, y = xy(0, v)
+                c.create_line(L, y, W - R, y, fill=C("faint"))
+                lab = f"{v:.1f}%" if is_pct else f"{v:.0f}"
+                c.create_text(L - 8, y, text=lab, font=F("xs"),
+                              fill=C("muted"), anchor="e")
+            step = max(1, -(-n // 8))
+            for i, d in enumerate(dates):
+                if i % step:
+                    continue
+                x, _ = xy(i, lo)
+                # Edge labels anchor inward so centered text can't spill
+                # past the canvas border.
+                anchor = "w" if i == 0 else ("e" if i == n - 1 else "n")
+                x = min(max(x, L), W - R)
+                c.create_text(x, plot_b + 6, text=d[5:], font=F("xs"),
+                              fill=C("muted"), anchor=anchor)
+            leg_top = plot_b + date_h + 8
+            max_name = max(8, int((pw / 2 - 62) / 6.5))
+            for li, name in enumerate(top):
+                color = HISTORY_COLORS[li % len(HISTORY_COLORS)]
+                entries = {p[0]: p for p in hist.get(name, [])}
+                pts, seen_dates = [], set()
+                for i, s in enumerate(snaps):
+                    d = s.get("date")
+                    if d in seen_dates:
+                        continue  # same-day re-run: plot each date once
+                    seen_dates.add(d)
+                    p = entries.get(d)
+                    if p is not None and isinstance(p[idx], (int, float)):
+                        pts.append((i, p[idx]))
+                run = []
+                for i, v in pts:
+                    if run and i != run[-1][0] + 1:
+                        stroke_history_runs(c, run, xy, color)
+                        run = []
+                    run.append((i, v))
+                stroke_history_runs(c, run, xy, color)
+                col, row = li // leg_rows, li % leg_rows
+                lx = L + col * (pw / 2)
+                ly = leg_top + row * leg_h
+                c.create_rectangle(lx, ly - 5, lx + 11, ly + 5,
+                                   fill=color, outline="")
+                last = pts[-1][1] if pts else None
+                tail = (f" {last:.1f}%" if is_pct else f" {last:.0f}") \
+                    if last is not None else ""
+                short = name if len(name) <= max_name else name[:max_name - 1] + "…"
+                c.create_text(lx + 15, ly, text=short + tail,
+                              font=F("xs"), fill=C("fg"), anchor="w")
+            self.lbl_hist_info.config(
+                text=f"{n} snapshots ({dates[0]} → {dates[-1]})")
+        except Exception:
+            pass
+
+    def _refresh_play_table(self, deck_list=None):
+        for r in self.play_tree.get_children():
+            self.play_tree.delete(r)
+        for i, p in enumerate(self.store.play_scores(deck_list)):
+            ev = f"{p['ev']:.1f}%" if p["ev"] is not None else "—"
+            owned = f"{p['owned_pct']:.1f}%"
+            score = f"{p['score']:.1f}" if p["score"] is not None else "—"
+            self.play_tree.insert("", "end", values=(p["deck"], ev, owned, score),
+                                  tags=("pick" if i == 0 and p["score"] is not None else "",))
+        try:
+            self.play_tree.tag_configure("pick", background=C("meta_sel"))
+        except Exception:
+            pass
 
     # ---------- matchups tab (20x20 winrate matrix, canvas-drawn) ----------
     # Base geometry; CW/RH grow to fill the window (clamped) via _mu_resize.
@@ -2225,6 +2968,16 @@ class TrackerGUI(tk.Tk):
         ttk.Button(bar, text="Refresh matchups", command=self.refresh_matchups).pack(side="left")
         self.lbl_mu_status = ttk.Label(bar, text="", foreground=C("muted"))
         self.lbl_mu_status.pack(side="left", padx=(12, 0))
+        # Focus box is packed BEFORE the expanding matrix so it always keeps
+        # its strip at the bottom of the tab.
+        focus = ttk.LabelFrame(self.tab_mu, text=" Focus ", padding=6)
+        focus.pack(side="bottom", fill="x", pady=(6, 0))
+        self.lbl_mu_detail = ttk.Label(focus, text="Click any cell for winrate, "
+                                       "matches, and confidence interval.",
+                                       foreground=C("muted"), wraplength=1100,
+                                       justify="left")
+        self.lbl_mu_detail.pack(side="left", fill="x", expand=True)
+        ttk.Button(focus, text="Clear", command=self._mu_clear_sel).pack(side="right")
         frame = ttk.Frame(self.tab_mu)
         frame.pack(fill="both", expand=True)
         self.mu_canvas = tk.Canvas(frame, highlightthickness=0, bg=C("bg"))
@@ -2240,10 +2993,251 @@ class TrackerGUI(tk.Tk):
         self.mu_canvas.bind("<Button-4>", lambda e: self._smooth_scroll(self.mu_canvas, e))
         self.mu_canvas.bind("<Button-5>", lambda e: self._smooth_scroll(self.mu_canvas, e))
         self.mu_canvas.bind("<Motion>", self._mu_hover)
+        self.mu_canvas.bind("<Button-1>", self._mu_click)
         self.mu_canvas.bind("<Configure>", lambda e: self._mu_resize_soon())
         self._mu_cells = {}
+        self._mu_sel = None
         self._mu_resize_id = None
         self._draw_matchups()
+
+    # ---------- odds lab tab (hypergeometric odds + draw simulator) ----------
+    def _build_odds_tab(self):
+        hg = ttk.LabelFrame(self.tab_odds, text="Hypergeometric calculator", padding=8)
+        hg.pack(fill="x", pady=(0, 8))
+        ttk.Label(hg, text="Chance of finding key cards in your draws — pick a deck "
+                            "and a card (or lands) to auto-fill the numbers, "
+                            "or type them by hand.").pack(anchor="w", pady=(0, 4))
+        picker = ttk.Frame(hg)
+        picker.pack(anchor="w", pady=(0, 4))
+        ttk.Label(picker, text="Deck:").pack(side="left")
+        self.hg_deck_var = tk.StringVar()
+        self.hg_deck_combo = ttk.Combobox(picker, textvariable=self.hg_deck_var,
+                                          width=30, state="readonly")
+        self.hg_deck_combo.pack(side="left", padx=(4, 12))
+        self.hg_deck_combo.bind("<<ComboboxSelected>>",
+                                lambda e: self._refresh_hg_targets())
+        ttk.Label(picker, text="Want:").pack(side="left")
+        self.hg_want_var = tk.StringVar()
+        self.hg_want_combo = ttk.Combobox(picker, textvariable=self.hg_want_var,
+                                          width=30, state="readonly")
+        self.hg_want_combo.pack(side="left", padx=(4, 0))
+        self.hg_want_combo.bind("<<ComboboxSelected>>",
+                                lambda e: self._hg_want_picked())
+        self._hg_want_map = {}
+        grid = ttk.Frame(hg)
+        grid.pack(anchor="w")
+        self.hg_vars = {}
+        for i, (lbl, key, default) in enumerate(
+                (("Deck size", "N", "60"), ("Copies", "K", "4"),
+                 ("Drawn", "n", "7"), ("Want", "k", "1"))):
+            ttk.Label(grid, text=lbl).grid(row=0, column=2 * i, sticky="e",
+                                           padx=(0 if i == 0 else 10, 2))
+            var = tk.StringVar(value=default)
+            var.trace_add("write", lambda *a: self._refresh_hypergeom())
+            self.hg_vars[key] = var
+            ttk.Entry(grid, textvariable=var, width=6).grid(
+                row=0, column=2 * i + 1, sticky="w")
+        self.hg_mode = tk.StringVar(value="at least")
+        ttk.Combobox(grid, textvariable=self.hg_mode, width=10, state="readonly",
+                     values=["at least", "exactly", "at most"]).grid(
+                         row=0, column=8, padx=(10, 0))
+        self.hg_mode.trace_add("write", lambda *a: self._refresh_hypergeom())
+        self.hg_result = ttk.Label(hg, text="", font=F("l_b"))
+        self.hg_result.pack(anchor="w", pady=(4, 0))
+        self.hg_dist = ttk.Label(hg, text="", foreground=C("muted"),
+                                 wraplength=980, justify="left")
+        self.hg_dist.pack(anchor="w")
+        self._refresh_hypergeom()
+
+        sim = ttk.LabelFrame(self.tab_odds, text="Opening-hand simulator", padding=8)
+        sim.pack(fill="both", expand=True)
+        ttk.Label(sim, text="Draw test hands from any stored 60-card list (your card "
+                            "swaps apply). Lands resolve via cached type lines "
+                            "(land-face MDFCs count as both land and spell).",
+                  wraplength=980, foreground=C("muted")).pack(anchor="w", pady=(0, 4))
+        top = ttk.Frame(sim)
+        top.pack(fill="x", pady=(0, 4))
+        ttk.Label(top, text="Deck:").pack(side="left")
+        self.sim_deck_var = tk.StringVar()
+        self.sim_combo = ttk.Combobox(top, textvariable=self.sim_deck_var,
+                                      width=32, state="readonly")
+        self.sim_combo.pack(side="left", padx=(4, 8))
+        self.sim_combo.bind("<<ComboboxSelected>>", lambda e: self._sim_new_deck())
+        self.lbl_sim_pool = ttk.Label(top, text="", foreground=C("muted"))
+        self.lbl_sim_pool.pack(side="left")
+        btns = ttk.Frame(sim)
+        btns.pack(fill="x", pady=(0, 4))
+        ttk.Button(btns, text="New hand (7)", command=self._sim_new_hand).pack(side="left")
+        self.btn_mull = ttk.Button(btns, text="Mulligan", command=self._sim_mulligan)
+        self.btn_mull.pack(side="left", padx=(8, 0))
+        ttk.Button(btns, text="Draw a card", command=self._sim_draw_one).pack(
+            side="left", padx=(8, 0))
+        ttk.Button(btns, text="Clear stats", command=self._sim_clear).pack(
+            side="left", padx=(8, 0))
+        self.sim_list = tk.Listbox(sim, height=12, bg=C("entry_bg"), fg=C("entry_fg"),
+                                   highlightthickness=0, activestyle="none")
+        self.sim_list.pack(fill="both", expand=True)
+        self.lbl_sim_stats = ttk.Label(sim, text="No hands drawn yet.",
+                                       foreground=C("muted"))
+        self.lbl_sim_stats.pack(anchor="w", pady=(4, 0))
+        self._sim_pool, self._sim_hand = [], []
+        self._sim_mulls, self._sim_mull_total = 0, 0
+        self._sim_hist = []
+        self._refresh_odds_decks()
+
+    def _refresh_hypergeom(self):
+        g = {k: v.get().strip() for k, v in self.hg_vars.items()}
+        try:
+            N, K, n, k = int(g["N"]), int(g["K"]), int(g["n"]), int(g["k"])
+            ok = 0 <= K <= N and 0 <= n <= N and k >= 0
+        except (TypeError, ValueError):
+            ok = False
+        if not ok:
+            self.hg_result.config(text="—")
+            self.hg_dist.config(
+                text="Check the inputs (need 0 ≤ copies ≤ deck size, 0 ≤ drawn ≤ deck size).")
+            return
+        fn = {"at least": hypergeom_at_least, "exactly": hypergeom_pmf,
+              "at most": hypergeom_at_most}[self.hg_mode.get()]
+        self.hg_result.config(text=f"{fn(N, K, n, k) * 100:.1f}%")
+        self.hg_dist.config(
+            text="   ".join(f"{j}: {p * 100:.1f}%"
+                            for j, p in hypergeom_dist(N, K, n)) or "—")
+
+    def _refresh_odds_decks(self):
+        """Repopulate the simulator + calculator deck lists (call after data
+        refreshes)."""
+        names = sorted((self.store.decklists or {}).keys())
+        try:
+            self.sim_combo.configure(values=names)
+            if names and self.sim_deck_var.get() not in names:
+                self.sim_deck_var.set(names[0])
+            self._sim_new_deck()
+        except Exception:
+            pass
+        try:
+            self.hg_deck_combo.configure(values=names)
+            if names and self.hg_deck_var.get() not in names:
+                self.hg_deck_var.set(names[0])
+            self._refresh_hg_targets()
+        except Exception:
+            pass
+
+    def _refresh_hg_targets(self):
+        """Rebuild the calculator's Want dropdown for the picked deck and
+        auto-fill deck size; then pick the first target (lands)."""
+        deck = self.hg_deck_var.get()
+        pool = build_sim_pool(self.store.decklists,
+                              self.store.deck_overrides, deck)
+        self._hg_want_map = dict(hypergeom_targets(pool, self.store.mana_cache))
+        try:
+            self.hg_want_combo.configure(values=list(self._hg_want_map))
+            if pool:
+                self.hg_vars["N"].set(str(len(pool)))
+            if self.hg_want_var.get() not in self._hg_want_map:
+                self.hg_want_var.set(next(iter(self._hg_want_map), ""))
+            self._hg_want_picked()
+        except Exception:
+            pass
+
+    def _hg_want_picked(self):
+        """Auto-fill Copies from the selected Want target."""
+        copies = self._hg_want_map.get(self.hg_want_var.get())
+        if copies is None:
+            return
+        try:
+            self.hg_vars["K"].set(str(copies))
+        except Exception:
+            pass
+
+    def _sim_new_deck(self):
+        deck = self.sim_deck_var.get()
+        self._sim_pool = build_sim_pool(self.store.decklists,
+                                        self.store.deck_overrides, deck)
+        self._sim_hand, self._sim_mulls, self._sim_hist = [], 0, []
+        self._sim_mull_total = 0
+        subs = len((self.store.deck_overrides or {}).get(deck, {}))
+        note = f" ({subs} swap{'s' if subs != 1 else ''} applied)" if subs else ""
+        try:
+            self.lbl_sim_pool.config(
+                text=(f"{len(self._sim_pool)}-card pool{note}" if self._sim_pool
+                      else "No stored list for this deck."))
+            self._sim_render()
+        except Exception:
+            pass
+
+    def _sim_new_hand(self):
+        if not self._sim_pool:
+            self.status.config(text="Pick a deck with a stored list first.")
+            return
+        self._sim_mulls = 0
+        self._sim_hand = draw_cards(self._sim_pool, 7)
+        self._sim_hist.append(sim_land_count(self._sim_hand, self.store.mana_cache))
+        self._sim_render()
+
+    def _sim_mulligan(self):
+        if not self._sim_pool or self._sim_mulls >= 6:
+            return
+        self._sim_mulls += 1
+        self._sim_mull_total += 1
+        self._sim_hand = draw_cards(self._sim_pool, max(1, 7 - self._sim_mulls))
+        self._sim_hist.append(sim_land_count(self._sim_hand, self.store.mana_cache))
+        self._sim_render()
+
+    def _sim_draw_one(self):
+        if not self._sim_pool:
+            return
+        if not self._sim_hand:
+            self._sim_new_hand()
+            return
+        remaining = list(self._sim_pool)
+        for c in self._sim_hand:
+            try:
+                remaining.remove(c)
+            except ValueError:
+                pass
+        if remaining:
+            self._sim_hand.append(random.choice(remaining))
+        self._sim_render()
+
+    def _sim_clear(self):
+        self._sim_hand, self._sim_mulls, self._sim_hist = [], 0, []
+        self._sim_mull_total = 0
+        try:
+            self._sim_render()
+        except Exception:
+            pass
+
+    def _sim_render(self):
+        self.sim_list.delete(0, "end")
+        cache = self.store.mana_cache
+        lands = sim_land_count(self._sim_hand, cache)
+        counts = Counter(self._sim_hand)
+        for name in sorted(counts, key=lambda x: (sim_land_count([x], cache) == 0,
+                                                  x.lower())):
+            tag = "  [land]" if sim_land_count([name], cache) else ""
+            self.sim_list.insert("end", f"{counts[name]}x {name}{tag}")
+        if self._sim_hand:
+            self.sim_list.insert("end", "")
+            self.sim_list.insert(
+                "end",
+                f"— {len(self._sim_hand)} cards, {lands} land{'s' if lands != 1 else ''} —")
+        n = len(self._sim_hist)
+        if n:
+            avg = sum(self._sim_hist) / n
+            p0 = sum(1 for x in self._sim_hist if x == 0) / n * 100
+            p1 = sum(1 for x in self._sim_hist if x == 1) / n * 100
+            self.lbl_sim_stats.config(
+                text=(f"Hands: {n}   Mulligans: {self._sim_mull_total}   "
+                      f"Avg lands: {avg:.1f}   0-land: {p0:.0f}%   1-land: {p1:.0f}%"))
+        else:
+            self.lbl_sim_stats.config(text="No hands drawn yet.")
+        nxt = max(1, 7 - (self._sim_mulls + 1))
+        try:
+            self.btn_mull.config(text=f"Mulligan (draw {nxt})",
+                                 state=("disabled" if self._sim_mulls >= 6 else "!disabled"))
+        except Exception:
+            pass
 
     def _mu_resize_soon(self, delay_ms=250):
         try:
@@ -2280,21 +3274,24 @@ class TrackerGUI(tk.Tk):
         c = self.mu_canvas
         c.delete("all")
         self._mu_cells = {}
+        self._mu_row_labels = {}
+        self._mu_col_labels = {}
         decks = [d["name"] for d in (getattr(self.store, "metagame", {}) or {}).get("decks", [])]
         if not decks:
             return
         LW, OW, CW, RH, HH = self.MU_LW, self.MU_OW, self.MU_CW, self.MU_RH, self.MU_HH
         # column headers
-        c.create_text(LW + 8 + OW / 2, HH / 2, text="OVERALL", font=F("s_b"),
-                      fill=C("fg"))
+        self._mu_col_labels[-1] = c.create_text(
+            LW + 8 + OW / 2, HH / 2, text="OVERALL", font=F("s_b"), fill=C("fg"))
         for j, name in enumerate(decks):
             x = self._mu_xy(j, half=True)
-            c.create_text(x, HH / 2, text=short_deck_name(name), font=F("xs"),
-                          fill=C("fg"), justify="center")
+            self._mu_col_labels[j] = c.create_text(
+                x, HH / 2, text=short_deck_name(name), font=F("xs"),
+                fill=C("fg"), justify="center")
         for i, a in enumerate(decks):
             y = HH + i * RH
-            c.create_text(LW - 6, y + RH / 2, text=a, font=F("m"),
-                          fill=C("fg"), anchor="e")
+            self._mu_row_labels[i] = c.create_text(
+                LW - 6, y + RH / 2, text=a, font=F("m"), fill=C("fg"), anchor="e")
             row = self.store.matchup_row(a)
             # overall column (separated look via slightly wider gap)
             if row is None:
@@ -2333,18 +3330,128 @@ class TrackerGUI(tk.Tk):
                 c.create_text(x + CW / 2, y + RH / 2, text=txt,
                               font=F("m_b"), fill=fg)
                 self._mu_cells[(i, j)] = info
+        if getattr(self, "_mu_sel", None) not in self._mu_cells:
+            # Deck list changed under a previous selection: drop it.
+            self._mu_sel = None
+            try:
+                self.lbl_mu_detail.config(
+                    text="Click any cell for winrate, matches, and confidence interval.")
+            except Exception:
+                pass
+        self._draw_mu_selection()
         c.configure(scrollregion=c.bbox("all"))
+
+    def _draw_mu_selection(self):
+        """Mark the selected cell unmissably: high-contrast outline on the
+        cell, dashed bands over its row/column, and inverted chips behind
+        the row + column deck-name labels."""
+        c = self.mu_canvas
+        sel = getattr(self, "_mu_sel", None)
+        if sel not in self._mu_cells:
+            return
+        decks = [d["name"] for d in (getattr(self.store, "metagame", {}) or {}).get("decks", [])]
+        if not decks:
+            return
+        LW, OW, CW, RH, HH = self.MU_LW, self.MU_OW, self.MU_CW, self.MU_RH, self.MU_HH
+        i, j = sel
+        y0, y1 = HH + i * RH + 1, HH + (i + 1) * RH - 1
+        x1 = self._mu_xy(len(decks) - 1) + CW
+        c.create_rectangle(LW + 8, y0, x1, y1, outline=C("link"), width=2,
+                           dash=(6, 3), tags="mu_sel")
+        if j == -1:
+            cx0, cx1 = LW + 8, LW + 8 + OW
+        else:
+            cx0, cx1 = self._mu_xy(j), self._mu_xy(j) + CW
+        c.create_rectangle(cx0, HH + 1, cx1, HH + len(decks) * RH - 1,
+                           outline=C("link"), width=2, dash=(6, 3), tags="mu_sel")
+        # C("fg") is near-black on light / near-white on dark: maximum
+        # contrast against every red->green cell fill in both themes.
+        c.create_rectangle(cx0, y0 + 1, cx1, y1 - 1, outline=C("fg"),
+                           width=4, tags="mu_sel")
+        for lid in (self._mu_row_labels.get(i), self._mu_col_labels.get(j)):
+            try:
+                bb = c.bbox(lid)
+            except Exception:
+                bb = None
+            if not bb:
+                continue
+            c.create_rectangle(bb[0] - 5, bb[1] - 2, bb[2] + 5, bb[3] + 2,
+                               fill=C("link"), outline="", tags="mu_sel")
+            c.tag_raise(lid)
+            c.itemconfig(lid, fill=C("bg"))
+
+    def _mu_cell_at(self, event):
+        """(i, j) cell key under the mouse (j == -1 is the overall column),
+        or None. Scroll-aware via canvasx/canvasy."""
+        try:
+            x = self.mu_canvas.canvasx(event.x)
+            y = self.mu_canvas.canvasy(event.y)
+            ox0 = self.MU_LW + 8
+            i = int((y - self.MU_HH) // self.MU_RH)
+            if ox0 <= x < ox0 + self.MU_OW:
+                key = (i, -1)
+            else:
+                j = int((x - (ox0 + self.MU_OW + 8)) // self.MU_CW)
+                key = (i, j)
+            return key if key in self._mu_cells else None
+        except Exception:
+            return None
+
+    def _mu_click(self, event):
+        key = self._mu_cell_at(event)
+        if key is None:
+            return
+        if key == getattr(self, "_mu_sel", None):
+            self._mu_clear_sel()
+        else:
+            self._mu_sel = key
+            self._draw_matchups()
+            a, b, wr, matches = self._mu_cells[self._mu_sel]
+            self.lbl_mu_detail.config(text=self._mu_detail_text(a, b, wr, matches))
+
+    def _mu_clear_sel(self):
+        self._mu_sel = None
+        try:
+            self._draw_matchups()
+            self.lbl_mu_detail.config(
+                text="Click any cell for winrate, matches, and confidence interval.")
+        except Exception:
+            pass
+
+    def _mu_detail_text(self, a, b, wr, matches):
+        if b is None:
+            if wr is None:
+                return f"{a}: no matchup data."
+            lo, hi = wilson_ci(round(wr / 100 * matches), matches)
+            return (f"{a}: {wr:.1f}% overall ({matches} matches)\n"
+                    f"95% confidence interval: {lo * 100:.1f}% – {hi * 100:.1f}%")
+        if a == b:
+            return f"{a} vs {b}: mirror matchup (always 50%)."
+        if wr is None:
+            return f"{a} vs {b}: no data."
+        lo, hi = wilson_ci(round(wr / 100 * matches), matches)
+        lines = [f"{a} {wr:.1f}% vs {b} ({matches} matches)",
+                 f"95% confidence interval: {lo * 100:.1f}% – {hi * 100:.1f}%"]
+        extra = []
+        try:
+            rev = self.store.matchup_cell(b, a)
+            if isinstance(rev, dict) and rev.get("winrate") is not None:
+                extra.append(f"reverse {rev['winrate']:.0f}% ({rev.get('matches', 0)} matches)")
+            for d in (a, b):
+                row = self.store.matchup_row(d)
+                if row and row.get("overall") is not None:
+                    extra.append(f"{d} overall {row['overall']:.1f}% ({row.get('matches', 0)})")
+        except Exception:
+            pass
+        if extra:
+            lines.append(" · ".join(extra))
+        return "\n".join(lines)
 
     def _mu_hover(self, event):
         info = None
         try:
-            ox0 = self.MU_LW + 8
-            i = int((event.y - self.MU_HH) // self.MU_RH)
-            if ox0 <= event.x < ox0 + self.MU_OW:
-                info = self._mu_cells.get((i, -1))
-            else:
-                j = int((event.x - (ox0 + self.MU_OW + 8)) // self.MU_CW)
-                info = self._mu_cells.get((i, j))
+            key = self._mu_cell_at(event)
+            info = self._mu_cells.get(key) if key is not None else None
         except Exception:
             info = None
         if not info:
@@ -2389,8 +3496,13 @@ class TrackerGUI(tk.Tk):
             self.store.matchups = self.store.load_matchups()
             self._draw_matchups()
             n = len(snap.get("decks", {}))
+            try:
+                stamped = self.store.stamp_snapshot_winrates(snap.get("decks", {}))
+                self.set_status(f"Matchup matrix updated ({n} decks, "
+                                f"{stamped} snapshot entries stamped).")
+            except Exception:
+                self.set_status(f"Matchup matrix updated ({n} decks).")
             self.lbl_mu_status.config(text=f"Updated {snap.get('snapshot_date')} ({n} decks mapped).")
-            self.set_status(f"Matchup matrix updated ({n} decks).")
         else:
             messagebox.showerror("Refresh matchups failed", msg[1])
             self.lbl_mu_status.config(text="Refresh failed.")
@@ -2424,6 +3536,8 @@ class TrackerGUI(tk.Tk):
             self.refresh_shop(deck_list)
         if hasattr(self, "mu_canvas"):
             self._draw_matchups()
+        if hasattr(self, "sim_combo"):
+            self._refresh_odds_decks()
 
     def refresh_dashboard(self, decks=None):
         # Tile grid of decks (no upgrade-phase references anywhere here):

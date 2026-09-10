@@ -2,7 +2,10 @@
  "swamp": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Basic Land \u2014 Swamp",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "faithful mending": {
   "cost": "{W}{U}",
@@ -10,57 +13,97 @@
    "W": 1,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "U",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "goryo's vengeance": {
   "cost": "{1}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant \u2014 Arcane",
+  "cmc": 2.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "flooded strand": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "thoughtseize": {
   "cost": "{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "griselbrand": {
   "cost": "{4}{B}{B}{B}{B}",
   "pips": {
    "B": 4
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Demon",
+  "cmc": 8.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "ephemerate": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "hallowed fountain": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Plains Island",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "breeding pool": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Forest Island",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "force of negation": {
   "cost": "{1}{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "superior spider-man": {
   "cost": "{2}{U}{B}",
@@ -68,19 +111,33 @@
    "U": 1,
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Spider Human Hero",
+  "cmc": 4.0,
+  "colors": [
+   "B",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "island": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Basic Land \u2014 Island",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "march of otherworldly light": {
   "cost": "{X}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "atraxa, grand unifier": {
   "cost": "{3}{G}{W}{U}{B}",
@@ -90,12 +147,23 @@
    "U": 1,
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Phyrexian Angel",
+  "cmc": 7.0,
+  "colors": [
+   "B",
+   "G",
+   "U",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "undercity sewers": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Island Swamp",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "psychic frog": {
   "cost": "{U}{B}",
@@ -103,75 +171,125 @@
    "U": 1,
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Frog",
+  "cmc": 2.0,
+  "colors": [
+   "B",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "shadowy backstreet": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Plains Swamp",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "meticulous archive": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Plains Island",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "polluted delta": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "watery grave": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Island Swamp",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "prismatic ending": {
   "cost": "{X}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "solitude": {
   "cost": "{3}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental Incarnation",
+  "cmc": 5.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "plains": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Basic Land \u2014 Plains",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "godless shrine": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Plains Swamp",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "marsh flats": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "quantum riddler": {
   "cost": "{3}{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Sphinx",
+  "cmc": 5.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "nihil spellbomb": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "mystical dispute": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "teferi, time raveler": {
   "cost": "{1}{W}{U}",
@@ -179,40 +297,69 @@
    "W": 1,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Teferi",
+  "cmc": 3.0,
+  "colors": [
+   "U",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "consign to memory": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "spell snare": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "wrath of the skies": {
   "cost": "{X}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "dragon's rage channeler": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Shaman",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "thundering falls": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Island Mountain",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "expressive iteration": {
   "cost": "{U}{R}",
@@ -220,409 +367,675 @@
    "U": 1,
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "arid mesa": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "lightning bolt": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "scalding tarn": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "preordain": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "mutagenic growth": {
   "cost": "{G/P}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "mountain": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Basic Land \u2014 Mountain",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "wooded foothills": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cori-steel cutter": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Artifact \u2014 Equipment",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "mishra's bauble": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "steam vents": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Island Mountain",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "violent urge": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "monastery swiftspear": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Monk",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "fiery islet": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "slickshot show-off": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Bird Wizard",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "lava dart": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "bloodstained mire": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "surgical extraction": {
   "cost": "{B/P}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "spell pierce": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "meltdown": {
   "cost": "{X}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "unholy heat": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "gemstone caverns": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "thought-knot seer": {
   "cost": "{3}{C}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi",
+  "cmc": 4.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "blade of the bloodchief": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact \u2014 Equipment",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "dismember": {
   "cost": "{1}{B/P}{B/P}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 3.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "forest": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Basic Land \u2014 Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "basking broodscale": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi Lizard",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "delighted halfling": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Halfling Citizen",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "the mycosynth gardens": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Sphere",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "eldrazi temple": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cavern of souls": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "springleaf drum": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "kozilek's command": {
   "cost": "{X}{C}{C}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Kindred Instant \u2014 Eldrazi",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "grove of the burnwillows": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "malevolent rumble": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "glaring fleshraker": {
   "cost": "{2}{C}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi Drone",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ancient stirrings": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "sowing mycospawn": {
   "cost": "{3}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi Fungus",
+  "cmc": 4.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "walking ballista": {
   "cost": "{X}{X}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Construct",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "vexing bauble": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "haywire mite": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Insect",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "emrakul, the promised end": {
   "cost": "{13}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Eldrazi",
+  "cmc": 13.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "soul-guide lantern": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "boseiju, who endures": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "urza's saga": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Enchantment Land \u2014 Urza's Saga",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "nature's claim": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "damping sphere": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "pithing needle": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "thief of existence": {
   "cost": "{1}{C}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "grafdigger's cage": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "warping wail": {
   "cost": "{1}{C}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "sire of seven deaths": {
   "cost": "{7}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi",
+  "cmc": 7.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "emperor of bones": {
   "cost": "{1}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Skeleton Noble",
+  "cmc": 2.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "fatal push": {
   "cost": "{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "flickerwisp": {
   "cost": "{1}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental",
+  "cmc": 3.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "overlord of the balemurk": {
   "cost": "{3}{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment Creature \u2014 Avatar Horror",
+  "cmc": 5.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "phelia, exuberant shepherd": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Dog",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "clarion conqueror": {
   "cost": "{2}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Dragon",
+  "cmc": 3.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "containment priest": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Cleric",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "high noon": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "otawara, soaring city": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "salvage titan": {
   "cost": "{4}{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Golem",
+  "cmc": 6.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "starting town": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Town",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "blood moon": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "engineered explosives": {
   "cost": "{X}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "kappa cannoneer": {
   "cost": "{5}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Turtle Warrior",
+  "cmc": 6.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "skateboard": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact \u2014 Equipment",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "mox opal": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "welding jar": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "pinnacle emissary": {
   "cost": "{1}{U}{R}",
@@ -630,167 +1043,281 @@
    "U": 1,
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Robot",
+  "cmc": 3.0,
+  "colors": [
+   "R",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "weapons manufacturing": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "tormod's crypt": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "emry, lurker of the loch": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Merfolk Wizard",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "spirebluff canal": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "metallic rebuke": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "claws of gix": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cursed totem": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "shadowspear": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact \u2014 Equipment",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "whipflare": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "galvanic blast": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "swan song": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "artist's talent": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment \u2014 Class",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "desperate ritual": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant \u2014 Arcane",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "commercial district": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Mountain Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "stomping ground": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Mountain Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "strike it rich": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "hex magic": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery \u2014 Arcane",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "sacred foundry": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Mountain Plains",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "pyretic ritual": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "reckless impulse": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "ruby medallion": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "past in flames": {
   "cost": "{3}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 4.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "sunbaked canyon": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "wish": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "wrenn's resolve": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "elegant parlor": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Mountain Plains",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "manamorphose": {
   "cost": "{1}{R/G}",
@@ -798,21 +1325,37 @@
    "R": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "G",
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "stormscale scion": {
   "cost": "{4}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Dragon",
+  "cmc": 6.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "grapeshot": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "wear // tear": {
   "cost": "{1}{R} // {W}",
@@ -820,238 +1363,401 @@
    "R": 1,
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant // Instant",
+  "cmc": 3.0,
+  "colors": [
+   "R",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "brotherhood's end": {
   "cost": "{1}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "untimely malfunction": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "silence": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "ugin, eye of the storms": {
   "cost": "{7}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Ugin",
+  "cmc": 7.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "slumbering trudge": {
   "cost": "{X}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Plant Beast",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "ugin's labyrinth": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ulamog, the ceaseless hunger": {
   "cost": "{10}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Eldrazi",
+  "cmc": 10.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ghost quarter": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "green sun's zenith": {
   "cost": "{X}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "shifting woodland": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "mosswort bridge": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "yavimaya, cradle of growth": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "fanatic of rhonas": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Snake Druid",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "fight rigging": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "soulless jailer": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Phyrexian Golem",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "carnage tyrant": {
   "cost": "{4}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Dinosaur",
+  "cmc": 6.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "disruptor flute": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "torpor orb": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "trinisphere": {
   "cost": "{3}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "elder gargaroth": {
   "cost": "{3}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Beast",
+  "cmc": 5.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "arena of glory": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "belladonna took": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Halfling Citizen",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "dalkovan encampment": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "galvanic discharge": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "guide of souls": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Cleric",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "ocelot pride": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Cat",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "goblin bombardment": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "ragavan, nimble pilferer": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Monkey Pirate",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "ranger-captain of eos": {
   "cost": "{1}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Soldier Ranger",
+  "cmc": 3.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "seasoned pyromancer": {
   "cost": "{1}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Shaman",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "thraben charm": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "voice of victory": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Bard",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "windswept heath": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "rest in peace": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "obsidian charmaw": {
   "cost": "{3}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Dragon",
+  "cmc": 5.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "celestial purge": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "sanctifier en-vec": {
   "cost": "{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Cleric",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "wistfulness": {
   "cost": "{3}{G/U}{G/U}",
@@ -1059,43 +1765,73 @@
    "G": 2,
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental Incarnation",
+  "cmc": 5.0,
+  "colors": [
+   "G",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "endurance": {
   "cost": "{1}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental Incarnation",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "underground mortuary": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Swamp Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "twilight mire": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "formidable speaker": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elf Druid",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "generous ent": {
   "cost": "{5}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Treefolk",
+  "cmc": 6.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "sunken ruins": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "shardless agent": {
   "cost": "{1}{G}{U}",
@@ -1103,41 +1839,71 @@
    "G": 1,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Human Rogue",
+  "cmc": 3.0,
+  "colors": [
+   "G",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "overgrown tomb": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Swamp Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "misty rainforest": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "living end": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 0.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "subtlety": {
   "cost": "{2}{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental Incarnation",
+  "cmc": 4.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "harvester of misery": {
   "cost": "{3}{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Spirit",
+  "cmc": 5.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "flooded grove": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "deceit": {
   "cost": "{4}{U/B}{U/B}",
@@ -1145,7 +1911,13 @@
    "U": 2,
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental Incarnation",
+  "cmc": 6.0,
+  "colors": [
+   "B",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "ashiok, dream render": {
   "cost": "{1}{U/B}{U/B}",
@@ -1153,7 +1925,13 @@
    "U": 2,
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Ashiok",
+  "cmc": 3.0,
+  "colors": [
+   "B",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "culling ritual": {
   "cost": "{2}{B}{G}",
@@ -1161,175 +1939,291 @@
    "B": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 4.0,
+  "colors": [
+   "B",
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "force of vigor": {
   "cost": "{2}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "foundation breaker": {
   "cost": "{3}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "inevitable betrayal": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 0.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "urza's mine": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Urza's Mine",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "chalice of the void": {
   "cost": "{X}{X}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "mind stone": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "karn, the great creator": {
   "cost": "{4}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Karn",
+  "cmc": 4.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "devourer of destiny": {
   "cost": "{5}{C}{C}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi",
+  "cmc": 7.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "expedition map": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "urza's tower": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Urza's Tower",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "urza's power plant": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Urza's Power-Plant",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "the stone brain": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ensnaring bridge": {
   "cost": "{3}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cityscape leveler": {
   "cost": "{8}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Construct",
+  "cmc": 8.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "liquimetal coating": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "the ten rings": {
   "cost": "{8}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact",
+  "cmc": 8.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "extinguisher battleship": {
   "cost": "{8}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact \u2014 Spacecraft",
+  "cmc": 8.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "the filigree sylex": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "erode": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "cori mountain monastery": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "demolition field": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "price of freedom": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery \u2014 Lesson",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "avengers disassembled": {
   "cost": "{1}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "sunken citadel": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Cave",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "field of ruin": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cleansing wildfire": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "relic of progenitus": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "path to exile": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "chandra, awakened inferno": {
   "cost": "{4}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Chandra",
+  "cmc": 6.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "wrath of god": {
   "cost": "{2}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 4.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "kaheera, the orphanguard": {
   "cost": "{1}{G/W}{G/W}",
@@ -1337,21 +2231,37 @@
    "G": 2,
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Cat Beast",
+  "cmc": 3.0,
+  "colors": [
+   "G",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "cling to dust": {
   "cost": "{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "counterspell": {
   "cost": "{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "kaito, bane of nightmares": {
   "cost": "{2}{U}{B}",
@@ -1359,96 +2269,165 @@
    "U": 1,
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Kaito",
+  "cmc": 4.0,
+  "colors": [
+   "B",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "orcish bowmasters": {
   "cost": "{1}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Orc Archer",
+  "cmc": 2.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "sheoldred's edict": {
   "cost": "{1}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "break the ice": {
   "cost": "{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "requiting hex": {
   "cost": "{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "toxic deluge": {
   "cost": "{2}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "street wraith": {
   "cost": "{3}{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Wraith",
+  "cmc": 5.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "blazing rootwalla": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Lizard",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "burning inquiry": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "detective's phoenix": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment Creature \u2014 Phoenix",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "marauding mako": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Shark Pirate",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "hollow one": {
   "cost": "{5}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Golem",
+  "cmc": 5.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "practiced offense": {
   "cost": "{2}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "faithless looting": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "hardened academic": {
   "cost": "{R}{W}",
@@ -1456,62 +2435,105 @@
    "R": 1,
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Bird Cleric",
+  "cmc": 2.0,
+  "colors": [
+   "R",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "vengevine": {
   "cost": "{2}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elemental",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "rough // tumble": {
   "cost": "{1}{R} // {5}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery // Sorcery",
+  "cmc": 8.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "deafening silence": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "temple garden": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Forest Plains",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "indatha triome": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Plains Swamp Forest",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "leyline binding": {
   "cost": "{5}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 6.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "lush portico": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Forest Plains",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "scion of draco": {
   "cost": "{12}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact Creature \u2014 Dragon",
+  "cmc": 12.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "stubborn denial": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "territorial kavu": {
   "cost": "{R}{G}",
@@ -1519,19 +2541,33 @@
    "R": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Kavu",
+  "cmc": 2.0,
+  "colors": [
+   "G",
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "blood crypt": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Swamp Mountain",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "tribal flames": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "leyline of the guildpact": {
   "cost": "{G/W}{G/U}{B/G}{R/G}",
@@ -1542,199 +2578,338 @@
    "B": 1,
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 4.0,
+  "colors": [
+   "B",
+   "G",
+   "R",
+   "U",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "strix serenade": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "portent of calamity": {
   "cost": "{X}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "giant's boulder": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "nulldrifter": {
   "cost": "{7}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi Elemental",
+  "cmc": 7.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "talisman of dominance": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "dress down": {
   "cost": "{1}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 2.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "emrakul, the aeons torn": {
   "cost": "{15}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Eldrazi",
+  "cmc": 15.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "stock up": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "test of talents": {
   "cost": "{1}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "aftermath analyst": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elf Detective",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "selesnya sanctuary": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "arboreal grazer": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Sloth Beast",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "crumbling vestige": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "cultivator colossus": {
   "cost": "{4}{G}{G}{G}",
   "pips": {
    "G": 3
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Plant Beast",
+  "cmc": 7.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "dryad of the ilysian grove": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment Creature \u2014 Nymph Dryad",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "echoing deeps": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Cave",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "vesuva": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "primeval titan": {
   "cost": "{4}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Giant",
+  "cmc": 6.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "hanweir battlements": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "mirrorpool": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "scapeshift": {
   "cost": "{2}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "summoner's pact": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 0.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "simic growth chamber": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "spelunking": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "tolaria west": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "valakut, the molten pinnacle": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "amulet of vigor": {
   "cost": "{1}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "explore": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "bojuka bog": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "drannith magistrate": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Wizard",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "faerie macabre": {
   "cost": "{1}{B}{B}",
   "pips": {
    "B": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Faerie Rogue",
+  "cmc": 3.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "six": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Treefolk",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "neoform": {
   "cost": "{G}{U}",
@@ -1742,7 +2917,13 @@
    "G": 1,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "G",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "planar genesis": {
   "cost": "{G}{U}",
@@ -1750,38 +2931,65 @@
    "G": 1,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "G",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "eldritch evolution": {
   "cost": "{1}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "hedge maze": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land \u2014 Forest Island",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "allosaurus rider": {
   "cost": "{5}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elf Warrior",
+  "cmc": 7.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "hooting mandrills": {
   "cost": "{5}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Ape",
+  "cmc": 6.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "verdant catacombs": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "xenagos, god of revels": {
   "cost": "{3}{R}{G}",
@@ -1789,21 +2997,37 @@
    "R": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Enchantment Creature \u2014 God",
+  "cmc": 5.0,
+  "colors": [
+   "G",
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "veil of summer": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "ghalta, stampede tyrant": {
   "cost": "{5}{G}{G}{G}",
   "pips": {
    "G": 3
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Elder Dinosaur",
+  "cmc": 8.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "ureni, the song unending": {
   "cost": "{5}{G}{U}{R}",
@@ -1812,87 +3036,152 @@
    "U": 1,
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Spirit Dragon",
+  "cmc": 8.0,
+  "colors": [
+   "G",
+   "R",
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "pact of negation": {
   "cost": "{0}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 0.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "elesh norn, grand cenobite": {
   "cost": "{5}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Phyrexian Praetor",
+  "cmc": 7.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "abhorrent oculus": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eye",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "into the flood maw": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "thundertrap trainer": {
   "cost": "{1}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Otter Wizard",
+  "cmc": 2.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "natural state": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "shang-chi, master of kung fu": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Human Warrior Hero",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "leyline of abundance": {
   "cost": "{2}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "ouroboroid": {
   "cost": "{2}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Plant Wurm",
+  "cmc": 4.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "nature's rhythm": {
   "cost": "{X}{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "craterhoof behemoth": {
   "cost": "{5}{G}{G}{G}",
   "pips": {
    "G": 3
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Beast",
+  "cmc": 8.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "agatha's soul cauldron": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "tyvar, jubilant brawler": {
   "cost": "{1}{B}{G}",
@@ -1900,12 +3189,21 @@
    "B": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Tyvar",
+  "cmc": 3.0,
+  "colors": [
+   "B",
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "nurturing peatland": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "fiend artisan": {
   "cost": "{B/G}{B/G}",
@@ -1913,61 +3211,107 @@
    "B": 2,
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Nightmare",
+  "cmc": 2.0,
+  "colors": [
+   "B",
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "birds of paradise": {
   "cost": "{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Bird",
+  "cmc": 1.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "devoted druid": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elf Druid",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "postmortem lunge": {
   "cost": "{X}{B/P}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "dryad arbor": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land Creature \u2014 Forest Dryad",
+  "cmc": 0.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "vizier of remedies": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Cleric",
+  "cmc": 2.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "badgermole cub": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Badger Mole",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "guerrilla gorilla": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Ape Soldier Hero",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "keen-eyed curator": {
   "cost": "{G}{G}",
   "pips": {
    "G": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Raccoon Scout",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "grist, the hunger tide": {
   "cost": "{1}{B}{G}",
@@ -1975,21 +3319,37 @@
    "B": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Grist",
+  "cmc": 3.0,
+  "colors": [
+   "B",
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "collector ouphe": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Ouphe",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "kraul harpooner": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Insect Warrior",
+  "cmc": 2.0,
+  "colors": [
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "abrupt decay": {
   "cost": "{B}{G}",
@@ -1997,38 +3357,65 @@
    "B": 1,
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "B",
+   "G"
+  ],
+  "updated": "2026-09-09"
  },
  "day's undoing": {
   "cost": "{2}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "geier reach sanitarium": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Legendary Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "monumental henge": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "narset, parter of veils": {
   "cost": "{1}{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Planeswalker \u2014 Narset",
+  "cmc": 3.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "consult the star charts": {
   "cost": "{1}{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "U"
+  ],
+  "updated": "2026-09-09"
  },
  "supreme verdict": {
   "cost": "{1}{W}{W}{U}",
@@ -2036,59 +3423,101 @@
    "W": 2,
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 4.0,
+  "colors": [
+   "U",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "orim's chant": {
   "cost": "{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 1.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "mystic gate": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "isochron scepter": {
   "cost": "{2}",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Artifact",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "beza, the bounding spring": {
   "cost": "{2}{W}{W}",
   "pips": {
    "W": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Elemental Elk",
+  "cmc": 4.0,
+  "colors": [
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "goblin guide": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Goblin Scout",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "skewer the critics": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "rift bolt": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 3.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "lava spike": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery \u2014 Arcane",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "boros charm": {
   "cost": "{R}{W}",
@@ -2096,31 +3525,53 @@
    "R": 1,
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "boltwave": {
   "cost": "{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery",
+  "cmc": 1.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "inspiring vantage": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "barbarian ring": {
   "cost": "",
   "pips": {},
-  "updated": "2026-09-05"
+  "type_line": "Land",
+  "cmc": 0.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "searing blaze": {
   "cost": "{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "lightning helix": {
   "cost": "{R}{W}",
@@ -2128,14 +3579,25 @@
    "R": 1,
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "eidolon of the great revel": {
   "cost": "{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment Creature \u2014 Spirit",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "deflecting palm": {
   "cost": "{R}{W}",
@@ -2143,63 +3605,97 @@
    "R": 1,
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R",
+   "W"
+  ],
+  "updated": "2026-09-09"
  },
  "skullcrack": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "smash to smithereens": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant",
+  "cmc": 2.0,
+  "colors": [
+   "R"
+  ],
+  "updated": "2026-09-09"
  },
  "boggart trawler": {
   "cost": "{2}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Goblin // Land",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "witch enchanter": {
   "cost": "{3}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Warlock // Land",
+  "cmc": 4.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "the legend of roku": {
   "cost": "{2}{R}{R}",
   "pips": {
    "R": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Enchantment \u2014 Saga // Legendary Creature \u2014 Avatar",
+  "cmc": 4.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ral, monsoon mage": {
   "cost": "{1}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Human Wizard // Legendary Planeswalker \u2014 Ral",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "valakut awakening": {
   "cost": "{2}{R}",
   "pips": {
    "R": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant // Land",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "disciple of freyalise": {
   "cost": "{3}{G}{G}{G}",
   "pips": {
    "G": 3
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Elf Druid // Land",
+  "cmc": 6.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "drowner of truth": {
   "cost": "{5}{G/U}{G/U}",
@@ -2207,48 +3703,71 @@
    "G": 2,
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Eldrazi // Land",
+  "cmc": 7.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "ajani, nacatl pariah": {
   "cost": "{1}{W}",
   "pips": {
    "W": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Cat Warrior // Legendary Planeswalker \u2014 Ajani",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "troll of khazad-dum": {
   "cost": "{5}{B}",
   "pips": {
    "B": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Troll",
+  "cmc": 6.0,
+  "colors": [
+   "B"
+  ],
+  "updated": "2026-09-09"
  },
  "sink into stupor": {
   "cost": "{1}{U}{U}",
   "pips": {
    "U": 2
   },
-  "updated": "2026-09-05"
+  "type_line": "Instant // Land",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "tamiyo, inquisitive student": {
   "cost": "{U}",
   "pips": {
    "U": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Legendary Creature \u2014 Moonfolk Wizard // Legendary Planeswalker \u2014 Tamiyo",
+  "cmc": 1.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "bridgeworks battle": {
   "cost": "{2}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Sorcery // Land",
+  "cmc": 3.0,
+  "colors": [],
+  "updated": "2026-09-09"
  },
  "duskwatch recruiter": {
   "cost": "{1}{G}",
   "pips": {
    "G": 1
   },
-  "updated": "2026-09-05"
+  "type_line": "Creature \u2014 Human Warrior Werewolf // Creature \u2014 Werewolf",
+  "cmc": 2.0,
+  "colors": [],
+  "updated": "2026-09-09"
  }
 }
