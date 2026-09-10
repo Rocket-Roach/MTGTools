@@ -119,6 +119,156 @@ class PriceTTLTest(unittest.TestCase):
         self.assertNotIn('mountain', s.cards_missing_prices())
 
 
+class BestWorstTest(unittest.TestCase):
+    MU = {"mapping": {"Alpha": "A-Prime", "Beta": "B-Prime", "Gamma": "G-Prime"},
+          "decks": {"Alpha": {"overall": 55.0, "matches": 100,
+                              "vs": {"A-Prime": {"winrate": 50, "matches": 60},
+                                     "B-Prime": {"winrate": 70, "matches": 30},
+                                     "G-Prime": {"winrate": 40, "matches": 25},
+                                     "Stranger": {"winrate": 90, "matches": 50},
+                                     "Tiny": {"winrate": 0, "matches": 2}}}}}
+
+    def test_best_worst_order(self):
+        s = make_store()
+        s.matchups = dict(self.MU)
+        best, worst = s.best_worst_matchups("Alpha")
+        self.assertEqual([(e["name"], e["winrate"]) for e in best],
+                         [("Stranger", 90), ("Beta", 70), ("Gamma", 40)])
+        self.assertEqual([(e["name"], e["winrate"]) for e in worst],
+                         [("Gamma", 40), ("Beta", 70), ("Stranger", 90)])
+
+    def test_mirror_and_sample_floor(self):
+        s = make_store()
+        s.matchups = dict(self.MU)
+        best, worst = s.best_worst_matchups("Alpha")
+        names = [e["name"] for e in best + worst]
+        self.assertNotIn("Alpha", names)  # mirror excluded
+        self.assertNotIn("Tiny", names)  # under min_matches excluded
+
+    def test_unmapped_deck(self):
+        s = make_store()
+        s.matchups = dict(self.MU)
+        self.assertEqual(s.best_worst_matchups("Nobody"), ([], []))
+
+
+class PlayScoreTest(unittest.TestCase):
+    def _mu_store(self):
+        s = make_store()
+        s.metagame = {"decks": [
+            {"name": "Alpha", "meta_pct": 60.0},
+            {"name": "Beta", "meta_pct": 30.0},
+            {"name": "Gamma", "meta_pct": 10.0},
+        ]}
+        s.matchups = {
+            "mapping": {"Alpha": "A-Prime", "Beta": "B-Prime"},
+            "decks": {
+                "Alpha": {"overall": 55.0, "matches": 100,
+                          "vs": {"B-Prime": {"winrate": 80, "matches": 20},
+                                 "G-Prime": {"winrate": 20, "matches": 20}}},
+                "Beta": {"overall": 40.0, "matches": 100,
+                         "vs": {"A-Prime": {"winrate": 20, "matches": 20}}},
+            }}
+        return s
+
+    def test_field_ev_weights_and_mirror(self):
+        s = self._mu_store()
+        # Alpha: mirror 50@60 + Beta 80@30 + Gamma missing; Gamma's 10 excluded
+        ev = s.field_ev("Alpha")
+        self.assertAlmostEqual(ev["ev"], (60 * 50 + 30 * 80) / 90, places=1)
+        self.assertAlmostEqual(ev["coverage"], 0.9, places=2)
+        self.assertEqual((ev["n_covered"], ev["n_total"]), (2, 3))
+
+    def test_field_ev_unmapped(self):
+        s = self._mu_store()
+        ev = s.field_ev("Gamma")
+        self.assertIsNone(ev["ev"])
+        self.assertEqual(ev["coverage"], 0.0)
+
+    def test_play_scores_ranking(self):
+        s = self._mu_store()
+        # Alpha fully owned (16/16 of its fixture list... use pct via rows)
+        for name, qty in [("Bolt", 4), ("Mountain", 10), ("Relic", 2)]:
+            s.collection.add(Card(name, qty))
+        scores = {p["deck"]: p for p in s.play_scores()}
+        # Alpha: EV 55.6 x 100% owned; Beta: EV ~? x partial
+        self.assertGreater(scores["Alpha"]["score"], scores["Beta"]["score"])
+        self.assertEqual(scores["Alpha"]["owned_pct"], 100.0)
+        self.assertIsNone(scores["Gamma"]["score"])
+        ranked = [p["deck"] for p in s.play_scores()]
+        self.assertEqual(ranked[0], "Alpha")
+        self.assertEqual(ranked[-1], "Gamma")  # unscored sorts last
+
+
+class DigestTest(unittest.TestCase):
+    def _state(self, **kw):
+        base = {"date": "2026-09-06", "buildable": ["Alpha"],
+                "collection_unique": 10, "collection_total": 40,
+                "unpriced": {"gem": "Gem"}, "movers": []}
+        base.update(kw)
+        return base
+
+    def test_first_run_silent(self):
+        self.assertEqual(__import__("tracker_gui").build_digest(None, self._state()), [])
+
+    def test_newly_and_lost(self):
+        from tracker_gui import build_digest
+        prev = self._state(buildable=["Alpha", "Old"])
+        cur = self._state(buildable=["Alpha", "New"])
+        heads = dict(build_digest(prev, cur))
+        self.assertEqual(heads["Newly buildable"], ["New — ready to sleeve up"])
+        self.assertEqual(heads["No longer buildable"], ["Old"])
+
+    def test_collection_delta(self):
+        from tracker_gui import build_digest
+        heads = dict(build_digest(self._state(),
+                                  self._state(collection_unique=12, collection_total=35)))
+        self.assertEqual(heads["Collection"], ["+2 unique cards, -5 total cards"])
+        # identical counts -> no section
+        self.assertNotIn("Collection", dict(build_digest(self._state(), self._state())))
+
+    def test_cleared_caps_display_names(self):
+        from tracker_gui import build_digest
+        old_un = {f"c{i:02d}": f"Card {i:02d}" for i in range(10)}
+        heads = dict(build_digest(self._state(unpriced=old_un), self._state(unpriced={})))
+        line = heads["Cleared from the buy list"][0]
+        self.assertTrue(line.startswith("10 cards bought or newly priced: "))
+        self.assertIn("(+2 more)", line)
+        self.assertIn("Card 00", line)
+
+    def test_movers_gate(self):
+        from tracker_gui import build_digest
+        small = [{"name": "A", "delta": 0.4, "status": "UP", "old": 5.0, "new": 5.4}]
+        # tiny wiggle alone -> silent
+        self.assertEqual(build_digest(self._state(movers=[]),
+                                      self._state(movers=small)), [])
+        # big move alone triggers, formatted with sign
+        big = [{"name": "A", "delta": -2.5, "status": "DOWN", "old": 5.0, "new": 2.5}]
+        heads = dict(build_digest(self._state(movers=[]), self._state(movers=big)))
+        self.assertEqual(heads["Meta movers"], ["A -2.5pp (5.0% → 2.5%)"])
+        # NEW/OUT always trigger
+        new = [{"name": "Z", "delta": None, "status": "NEW", "old": None, "new": 2.0}]
+        heads = dict(build_digest(self._state(movers=[]), self._state(movers=new)))
+        self.assertEqual(heads["Meta movers"], ["Z entered the top 20 at 2.0%"])
+        # already-reported movers never repeat
+        self.assertEqual(build_digest(self._state(movers=new),
+                                      self._state(movers=new)), [])
+
+    def test_last_seen_roundtrip(self):
+        s = make_store()
+        import tracker_gui
+        tmp = Path(tempfile.mkdtemp()) / "last_seen.json"
+        orig = tracker_gui.LAST_SEEN_FILE
+        tracker_gui.LAST_SEEN_FILE = tmp
+        try:
+            self.assertIsNone(s.load_last_seen())
+            state = s.current_digest_state()
+            self.assertIn("date", state)
+            s.save_last_seen(state)
+            self.assertEqual(s.load_last_seen(), state)
+        finally:
+            tracker_gui.LAST_SEEN_FILE = orig
+
+
 class SnapshotCompareTest(unittest.TestCase):
     def test_statuses_and_order(self):
         s = make_store()
@@ -131,6 +281,85 @@ class SnapshotCompareTest(unittest.TestCase):
         self.assertEqual(rows["B"]["status"], "FLAT")
         self.assertEqual(rows["New"]["status"], "NEW")
         self.assertEqual(rows["Gone"]["status"], "OUT")
+
+    def test_winrate_deltas(self):
+        old = {"decks": [{"name": "A", "meta_pct": 5.0, "overall_winrate": 52.0,
+                          "wr_matches": 100},
+                         {"name": "B", "meta_pct": 5.0}]}
+        new = {"decks": [{"name": "A", "meta_pct": 6.0, "overall_winrate": 49.5,
+                          "wr_matches": 200},
+                         {"name": "B", "meta_pct": 5.0, "overall_winrate": 55.0,
+                          "wr_matches": 50}]}
+        rows = {r["name"]: r for r in GuiStore.compare_snapshots(old, new)}
+        self.assertEqual(rows["A"]["wr_delta"], -2.5)
+        self.assertEqual((rows["A"]["wr_old"], rows["A"]["wr_new"]), (52.0, 49.5))
+        # B had no winrate before: new value shown, no delta
+        self.assertIsNone(rows["B"]["wr_delta"])
+        self.assertEqual(rows["B"]["wr_new"], 55.0)
+
+    def test_winrate_missing_stays_none(self):
+        rows = GuiStore.compare_snapshots({"decks": [{"name": "A", "meta_pct": 5.0}]},
+                                          {"decks": [{"name": "A", "meta_pct": 5.0}]})
+        self.assertIsNone(rows[0]["wr_delta"])
+        self.assertIsNone(rows[0]["wr_old"])
+
+
+class HistoryTest(unittest.TestCase):
+    def test_series_per_deck_in_order(self):
+        from tracker_gui import build_history
+        snaps = [
+            {"date": "2026-09-04",
+             "data": {"decks": [{"name": "A", "meta_pct": 5.0,
+                                 "overall_winrate": 52.0, "deck_count": 40},
+                                {"name": "B", "meta_pct": 7.0,
+                                 "overall_winrate": 50.0, "deck_count": 60}]}},
+            {"date": "2026-09-05",
+             "data": {"decks": [{"name": "A", "meta_pct": 6.0,
+                                 "overall_winrate": 49.5, "deck_count": 45}]}},
+        ]
+        hist = build_history(snaps)
+        self.assertEqual([p[0] for p in hist["A"]], ["2026-09-04", "2026-09-05"])
+        self.assertEqual(hist["A"][1][1:], (6.0, 49.5, 45))
+        # B sat out the second snapshot: gap, not zero
+        self.assertEqual(len(hist["B"]), 1)
+
+    def test_empty(self):
+        from tracker_gui import build_history
+        self.assertEqual(build_history([]), {})
+        self.assertEqual(build_history(None), {})
+
+    def test_year_of_history_kept(self):
+        import paths
+        self.assertEqual(paths.SNAPSHOT_KEEP, 52)
+
+
+class StampTest(unittest.TestCase):
+    def test_stamp_live_and_snapshots(self):
+        s = make_store()
+        tmp = Path(tempfile.mkdtemp())
+        live = tmp / "modern_metagame.json"
+        snap_dir = tmp / "snapshots"
+        snap_dir.mkdir()
+        old_snap = snap_dir / "metagame_2026-09-04_30days.json"
+        live.write_text(json.dumps(
+            {"decks": [{"name": "Alpha", "meta_pct": 10.0},
+                       {"name": "Ghost", "meta_pct": 1.0}]}), encoding="utf-8")
+        old_snap.write_text(json.dumps(
+            {"decks": [{"name": "Alpha", "meta_pct": 9.0}]}), encoding="utf-8")
+        mu = {"Alpha": {"overall": 51.7, "matches": 1071}}
+        n = s.stamp_snapshot_winrates(mu, metagame_file=live, snap_dir=snap_dir)
+        self.assertEqual(n, 2)  # live Alpha + snapshot Alpha; Ghost untouched
+        live_data = json.loads(live.read_text(encoding="utf-8"))
+        alpha = next(d for d in live_data["decks"] if d["name"] == "Alpha")
+        self.assertEqual((alpha["overall_winrate"], alpha["wr_matches"]), (51.7, 1071))
+        ghost = next(d for d in live_data["decks"] if d["name"] == "Ghost")
+        self.assertNotIn("overall_winrate", ghost)
+        snap_data = json.loads(old_snap.read_text(encoding="utf-8"))
+        self.assertEqual(snap_data["decks"][0]["overall_winrate"], 51.7)
+        # idempotent: second run stamps the same entries, values unchanged
+        self.assertEqual(s.stamp_snapshot_winrates(mu, metagame_file=live,
+                                                   snap_dir=snap_dir), 2)
+        self.assertEqual(json.loads(live.read_text(encoding="utf-8")), live_data)
 
 
 class MatchupStoreTest(unittest.TestCase):

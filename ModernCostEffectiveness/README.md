@@ -21,6 +21,9 @@ python src\tracker_gui.py
 # minutes, swaps reverted, per-step summary at the end).
 # The Settings button (top bar) holds theme, font size, window memory,
 # and auto-refresh preferences — all apply live, no restart needed.
+# On launch (after any auto-refresh prompt) a "Since last visit" digest
+# summarizes newly buildable decks, collection growth, cleared buy-list
+# cards, and big meta moves — with a checkbox to turn it off.
 ```
 
 ## How Matching Works (read once)
@@ -125,8 +128,12 @@ scaled mana symbols. The header also shows the snapshot's age and nudges
 you to refresh past 7 days.
 
 - Row colors: **green** = buildable, cream = partial, white = untouched.
-- Click a row to highlight it; **double-click** (or **Open selected deck**)
-  opens its MTGGoldfish archetype page.
+- Click a row to highlight it and drop open its **best/worst matchup panel**
+  (top 3 and bottom 3 head-to-head winrates, min. 10 matches, mirror
+  excluded); click the same row again to collapse it. The open panel
+  survives data refreshes.
+- **Double-click** (or **Open selected deck**) opens its MTGGoldfish
+  archetype page.
 
 | Button | What it does |
 |---|---|
@@ -136,7 +143,7 @@ you to refresh past 7 days.
 | Refresh live 7-day | Re-pulls MTGGoldfish + art (~30–60s); **reverts all card swaps**; auto-saves a snapshot |
 | Save snapshot | Archives the current view into `data/snapshots/` |
 | Update prices | Scrapes cheapest-printing prices (Scryfall) for cards you still need (~1 min, threaded, cached in `prices.json`). Prices older than 14 days are re-checked; the confirm dialog breaks down new vs stale |
-| Update mana data | Fetches mana costs for pip/color data (Scryfall bulk lookup, cached in `mana_costs.json`) |
+| Update mana data | Fetches card data (cost, pips, type line, mana value, colors — Scryfall bulk lookup, cached in `mana_costs.json`) |
 
 ### 6. Statistics — the shape of the format
 
@@ -146,10 +153,22 @@ you to refresh past 7 days.
 - **Bar chart**: top 10 by META% (blue bar = buildable), each with its
   overall winrate appended in red/gold/green.
 - **Archetype bar**: meta share stacked by archetype with a legend.
+- **What to play**: every deck ranked by field EV (meta-weighted winrate,
+  mirror = 50%, opponents without data excluded) blended with % owned —
+  score = EV × owned. The top row is the recommended pick.
 - **Trending table**: newest two snapshots compared
-  (UP / DOWN / NEW / OUT / FLAT with point changes). Needs 2+ files in
+  (UP / DOWN / NEW / OUT / FLAT with point changes, plus overall-winrate
+  then/now/delta per deck). Needs 2+ files in
   `data/snapshots/`. The title names both windows and says so when they
   differ — a 30-day → 7-day move partly reflects sample size, not movement.
+  Every refresh stamps the current overall winrates into the live file and
+  all saved snapshots, so winrate deltas survive after the matrix moves on.
+- **Metagame history** (top-right, beside the Top 10 bars): one trendline
+  per top-8 deck across *every* saved snapshot (a year's worth — the newest
+  52 are kept, same-day re-runs archived as `_2`/`_3`, never overwritten).
+  A dropdown switches the metric: meta share %, overall winrate %, or deck
+  count, with a color legend under the chart. Decks missing from a snapshot
+  leave a gap, not a zero.
 
 ### 7. Matchups — who beats whom
 
@@ -157,14 +176,35 @@ A 20×20 winrate matrix from mtgdecks.net (last 15 days), color-coded
 red → yellow → green, with a separate bold **Overall** column and grey
 mirror diagonal. Cells under 10 matches render faded — same number, less
 shout. **Hover any cell** for the exact winrate and sample size
-(e.g. `Izzet Prowess 44% vs Goryo's Vengeance (108 matches)`). Cells grow
-with the window; scrollbars cover the rest.
+(e.g. `Izzet Prowess 44% vs Goryo's Vengeance (108 matches)`).
+**Click a cell** to pin it: the cell gets a high-contrast outline, its row
+and column bands highlight, and both deck-name labels invert, while a
+**Focus** box under the matrix shows the winrate, total matches, the 95%
+Wilson confidence interval, the reverse matchup, and both decks' overall
+winrates. Click again (or Clear) to clear.
+Cells grow with the window; scrollbars cover the rest.
 
 Deck names differ between sources, so a curated mapping translates them —
 all 20 resolve (Goryo's→Esper Reanimator, Neobrand→Neoform, Tron→Mono Blue
 Tron, Affinity→Izzet Metalcraft, Eldrazi→Eldrazi Bloodchief Combo, plus
 direct matches). **Refresh matchups** re-pulls the matrix
 (CLI: `python src\matchup_fetch.py`).
+
+### 8. Odds Lab — hypergeometric odds + test hands
+
+Two tools for deciding if a deck's mana and key cards work:
+
+- **Hypergeometric calculator** — pick a deck and a Want target (any land,
+  any specific card like `4x Arid Mesa`, or non-lands) to auto-fill deck
+  size and copies from its 60-card list (swaps apply), then set cards drawn
+  and want (at least / exactly / at most) for live results plus the full
+  distribution — or type every number by hand. MDFCs with a land face sit
+  in both buckets (annotated, e.g. `Land — 24 in deck (incl. 5 MDFCs)`).
+- **Opening-hand simulator** — pick any stored 60-card list (your card
+  swaps apply) and draw 7, mulligan down London-style to 1, or draw a
+  card, with running stats (hands, mulligans, average lands, 0-land and
+  1-land rates). Hands group by card with lands tagged; land counts come
+  from cached mana costs (costless cards count as lands).
 
 ## Files & Data
 
@@ -183,12 +223,13 @@ ModernCostEffectiveness/
                        decklists.json (60+15 sample list per deck)
                        prices.json (cheapest-printing price cache;
                                     prices older than 14 days are re-checked)
-                       mana_costs.json (mana-cost pip cache)
+                       mana_costs.json (card data: cost/pips/type/cmc/colors)
                        matchups.json (winrate matrix + name mapping)
-                       deck_overrides.json (your card swaps)
-                       my_collection.json (your cards — backed up by OneDrive)
+                        deck_overrides.json (your card swaps)
+                        last_seen.json (baseline for the since-last-visit digest)
+                        my_collection.json (your cards — backed up by OneDrive)
                        esper_blink_gateway_plan.json (price reference + CLI)
-                       snapshots/ (dated metagame history, newest 10 kept)
+                       snapshots/ (dated metagame history, newest 52 kept)
                        backups/ (auto-saves before clears/replace-imports, last 5)
   assets/thumbs/       deck art thumbnails
   assets/fonts/        bundled mana-symbol font
@@ -248,7 +289,7 @@ Fetch scripts (also behind GUI buttons):
 | `python src\snapshot_fetch.py [--period 7] [--limit 20]` | Refresh the metagame snapshot + art |
 | `python src\fetch_decklists.py [--limit 20]` | Refresh the 60+15 sample lists |
 | `python src\price_fetch.py --missing` | Price cards you still need |
-| `python src\mana_fetch.py --missing` | Fetch mana-cost pip data |
+| `python src\mana_fetch.py --missing` | Fetch card data (cost/type/cmc/colors) |
 | `python src\matchup_fetch.py` | Refresh the winrate matrix |
 
 Example CLI workflow:

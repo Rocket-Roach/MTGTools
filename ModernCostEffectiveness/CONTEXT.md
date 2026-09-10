@@ -11,27 +11,43 @@ desktop app (Windows, Python 3.10, run from source, no build step).
 
 ```
 C:\Users\Orion\OneDrive\MTGApps\ModernCostEffectiveness\
-  tracker_gui.bat / tracker.bat   launchers (GUI uses `py -3`→`python` fallback, always pauses)
+  tracker_gui.bat / tracker.bat / runtests.bat   launchers (always pause; GUI uses `py -3`→`python` fallback)
   README.md / requirements.txt / CONTEXT.md (this file)
   src/      tracker.py            Card/Collection/FileParser + phase-based CLI
-            tracker_gui.py        the app (~1800 lines, 6 tabs)
+            tracker_gui.py        the app (~2600 lines, 7 tabs)
             paths.py              ALL file locations live here — use it, never hardcode
+                                   (+ write_json_atomic, backup_file, prune_snapshots,
+                                   PRICE_TTL_DAYS=14, SNAPSHOT_KEEP=52, BACKUP_KEEP=5)
+            theme.py              light/dark palettes, named fonts, ttk styling (see §4)
+            settings.py           data/settings.json load/save/validation
             snapshot_fetch.py     metagame pull + ARCHETYPE/LAND_COLORS/color math + DECK_IDENTITY_RULES
-            fetch_decklists.py    60+15 sample lists per deck (enforces identity rules)
-            price_fetch.py        Scryfall cheapest-printing prices
-            mana_fetch.py         Scryfall bulk mana costs → pip counts
+            fetch_decklists.py    60+15 sample lists per deck (enforces identity rules, records cuts)
+            price_fetch.py        Scryfall cheapest-printing prices (skips owned, refreshes stale)
+            mana_fetch.py         Scryfall bulk card data (cost/pips/type/cmc/colors)
             matchup_fetch.py      mtgdecks.net winrate matrix + ours→theirs mapping
-  data/     modern_metagame.json (top-20 stats) / decklists.json (60+15 each)
+  tests/    committed unittest suite (test_matching/rules/parsers/settings/store/data)
+  data/     modern_metagame.json (top-20 stats + stamped overall winrates)
+            decklists.json (60+15 each)
             my_collection.json (USER DATA — never delete/recreate, only move carefully)
             prices.json / mana_costs.json / matchups.json / deck_overrides.json
+            settings.json (theme, font scale, window, auto-refresh, digest opt-out)
+            last_seen.json (since-last-visit digest baseline; prefs via
+                            build_digest()/current_digest_state()/load_last_seen())
             esper_blink_gateway_plan.json (legacy price ref + CLI phases only)
             snapshots/ (metagame_2026-09-04_30days.json, metagame_2026-09-05_7days.json)
+            backups/ (auto-saves before clears/replace-imports, last 5)
   assets/thumbs/ (*-art.jpg deck art) / assets/fonts/mana.ttf (symbol font)
 ```
 
 First step in any session: `ls` root + `python -m py_compile src/*.py`-equivalent,
 then launch via `tracker_gui.bat` flow or instantiate `TrackerGUI()` headless
 with `after(500, destroy)` + `mainloop()`.
+
+Tabs (in order): Dashboard (deck tiles) / Buy Next (shopping optimizer) /
+Collection / Import / Metagame (custom rows) / Statistics / Matchups (canvas matrix) /
+Odds Lab (deck-aware hypergeometric calc via hypergeom_targets() + hand simulator;
+pure helpers hypergeom_*/build_sim_pool/draw_cards/sim_land_count,
+UI state reset on deck switch + data refresh).
 
 ## 2. Core semantics (do not break these)
 
@@ -52,7 +68,29 @@ with `after(500, destroy)` + `mainloop()`.
 - **Swaps** (`deck_overrides.json`, per-deck orig→replacement, same qty) flow
   through progress/shopping/tiles; **any live 7-day refresh clears them**.
 - **Prices** = cheapest printing (Scryfall), scraped only for cards the user
-  still needs; cached in prices.json. Mana pips cached in mana_costs.json.
+  still needs; cached in prices.json. Entries older than 14 days count as
+  missing so refreshes re-check them (display keeps the old value meanwhile).
+- **Cards** = Scryfall bulk records cached in mana_costs.json (cost/pips/
+  type_line/cmc/colors; static data, never expires, refetched only when
+  fields are absent). `land_spell_faces()` reads every type-line face, so
+  land-back MDFCs count as both (`is_land()` = either face); heuristic
+  fallback when uncached.
+- **Theming**: every color/font in the GUI resolves through `theme.py`
+  (`C(key)` colors, `F(name)` shared named fonts). `apply_theme()` restyles
+  ttk chrome, recolors static surfaces, then calls `refresh_all()` so data
+  views rebuild. **Any widget built once (not on refresh) MUST be recolored
+  in `apply_theme`** — this bit us with the metagame header, popup roots,
+  and the settings dialog. Canvas `create_text` items need explicit `fill`;
+  `Toplevel` roots need explicit `bg`.
+- **Buy Next**: `shopping_priorities()` ranks missing cards by decks-covered
+  then cost (unpriced last); `deck_unlock_order()` lists cheapest unlocks
+  (unpriced gaps last).
+- **Matchups**: cells under 10 matches render faded (`mu_fade`); click selects
+  a cell (`mu_sel`: fg outline + link bands + inverted row/col label chips,
+  Wilson CI via `wilson_ci()` in the bottom Focus box, Clear button/toggle
+  to clear); deck popup
+  shows sample provenance (`source_deck_id`, `truncated` when a list was cut
+  to 60/15).
 
 ## 3. Scraping knowledge (hard-won, re-read before touching fetchers)
 
@@ -85,12 +123,17 @@ with `after(500, destroy)` + `mainloop()`.
 - Treeview cells are text-only → image columns require custom canvas/frame
   rows (see Metagame tab).
 - `PhotoImage` needs a live Tk root AND a held reference; separate `Tk()`
-  instances don't share images (kept smoke tests to one root).
+  instances don't share images (keep smoke tests to one root).
 - Canvas image scrolling: 1-unit wheel steps + settle repaint
   (`update_idletasks` + guarded full `update()`) on drag-release and
   debounced wheel-idle. Shared helpers: `_smooth_scroll`, `_settle_canvas*`.
 - Header/row column alignment: identical pixel minsize grids both sides +
   header width-locked to canvas width in `<Configure>`.
+- Pack order decides clipping in fixed windows: expanding widgets (trees)
+  pack AFTER fixed button bars, or the bar starves (deck popup, replace dlg).
+- Unthemed tk widgets fall back to system black/white — audit every
+  `tk.Label`/`create_text` for an explicit themed fg/fill, and every
+  `Toplevel` root for an explicit bg. ttk widgets follow the global style.
 - `messagebox` blocks headless tests → monkeypatch it in smoke scripts.
 - Windows console is cp1252: never print unicode in scripts (use repr or
   codepoints). PowerShell: no `&&`, quote carefully, prefer script files
@@ -98,19 +141,23 @@ with `after(500, destroy)` + `mainloop()`.
 
 ## 5. How to verify (keep this green)
 
-- `python -m py_compile src/*.py`
-- Launch `TrackerGUI()` headless: 6 tabs, 20 dashboard tiles, 20 metagame
+- `python -m unittest discover -s tests` (or `runtests.bat`) — currently 106
+  tests covering matching, rules, parsers, settings/theme contracts, store
+  logic (incl. since-last-visit digest), odds/sim/history math, and live
+  `data/` invariants.
+- Launch `TrackerGUI()` headless: 8 tabs, 20 dashboard tiles, 20 metagame
   rows, trend rows, matrix 881 canvas items; open/close a deck popup
   (Mainboard 60 / Sideboard 15); exercise hover/selection paths.
 - Spot-check numbers against `data/*.json`, never eyeball alone.
 - Scratch verification scripts live in `$env:TEMP\opencode` (deletable).
 
-## 6. Last known state (2026-09-05)
+## 6. Last known state (2026-09-06)
 
-- Snapshot: 7-day top 20 (Goryo's #1 10.2%). Collection 1357 unique rows,
-  3/20 buildable. Prices 178/179 (Twilight Mire failed once — self-heals).
-  Mana 356/356. Matchups 20/20.
-- Known cosmetic risks (user's machine only): circled mana glyphs were
-  removed in favor of image pips; if any symbol ever shows tofu, say so.
+- Snapshot: 7-day top 20 (Goryo's #1 10.2%, pulled 2026-09-05). Collection
+  1357 unique rows (2648 total), 3/20 buildable. Prices 178/179 (Twilight
+  Mire failed once — self-heals). Mana 356/356. Matchups 20/20.
+- Settings default to light theme; user runs dark mode. All text/background
+  pairings verified against WCAG AA in both themes — if any text ever looks
+  wrong, re-run the contrast audit before restyling blindly.
 - If dashboard scroll trails persist *after* stopping a drag, it's
   driver-level — next step would be tile pagination, not more repaint hacks.

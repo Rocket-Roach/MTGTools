@@ -23,6 +23,7 @@ PRICES_FILE = DATA_DIR / "prices.json"
 MANA_FILE = DATA_DIR / "mana_costs.json"
 MATCHUPS_FILE = DATA_DIR / "matchups.json"
 SETTINGS_FILE = DATA_DIR / "settings.json"
+LAST_SEEN_FILE = DATA_DIR / "last_seen.json"
 BACKUPS_DIR = DATA_DIR / "backups"
 FONTS_DIR = ASSETS_DIR / "fonts"
 MANA_FONT_FILE = FONTS_DIR / "mana.ttf"
@@ -30,7 +31,10 @@ MANA_FONT_FILE = FONTS_DIR / "mana.ttf"
 # Prices older than this are treated as stale (re-fetched, never trusted
 # for buildable math without a refresh).
 PRICE_TTL_DAYS = 14
-SNAPSHOT_KEEP = 10
+# A full year of weekly snapshots: each is only ~7KB, and the history
+# powers the Statistics trend table + metagame-history chart. Snapshots
+# accumulate (same-day re-runs get _2/_3 suffixes, never overwritten).
+SNAPSHOT_KEEP = 52
 BACKUP_KEEP = 5
 
 

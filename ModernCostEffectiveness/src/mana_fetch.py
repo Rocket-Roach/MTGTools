@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 """
-Mana-cost pip data via the Scryfall bulk endpoint.
+Card data via the Scryfall bulk endpoint: mana cost + colored-pip counts
+({2}{G}{G/U} -> G:2, U:1) plus type line, mana value, and colors.
 
-For each card, stores its mana cost and colored-pip counts
-({2}{G}{G/U} -> G:2, U:1). Used for color-identity ratios.
-Cached in data/mana_costs.json so repeat runs only fetch what's missing.
+Records look like {'cost', 'pips', 'type_line', 'cmc', 'colors', 'updated'}.
+Pips drive color-identity ratios; type_line gives exact land detection
+(replacing the old no-mana-cost heuristic); cmc/colors enable curve and
+filter features. Cached in data/mana_costs.json so repeat runs only fetch
+what's missing. Cost/type data is static per card, so unlike prices these
+records never expire — entries are only refetched when fields are absent.
 
 Usage:
-    python mana_fetch.py --missing   # every top-20 card lacking pip data
+    python mana_fetch.py --missing   # every top-20 card lacking card data
     python mana_fetch.py "Lightning Bolt" "Wear // Tear"
 
 Stdlib only. Bulk endpoint takes 75 cards per request.
@@ -46,7 +50,7 @@ def count_pips(mana_cost: str) -> dict:
 
 
 def _post_names(names):
-    """One bulk round. Returns ({lower_name: mana_cost}, [unmatched names])."""
+    """Bulk rounds. Returns ({lower_name: full Scryfall card}, [unmatched])."""
     found, missing = {}, []
     for i in range(0, len(names), BATCH):
         chunk = names[i:i + BATCH]
@@ -62,35 +66,56 @@ def _post_names(names):
         finally:
             time.sleep(DELAY)
         for card in resp.get('data', []):
-            found[card.get('name', '').strip().lower()] = card.get('mana_cost')
+            found[card.get('name', '').strip().lower()] = card
         missing.extend(nf.get('name', '') for nf in resp.get('not_found', []))
     return found, missing
 
 
-def _fuzzy_cost(name):
-    """Single-card fuzzy lookup; front-face cost for MDFCs. None on failure."""
+def _fuzzy_card(name):
+    """Single-card fuzzy lookup (full Scryfall object). None on failure."""
     url = ('https://api.scryfall.com/cards/named?fuzzy='
            + urllib.parse.quote(name.strip(), safe=''))
     try:
-        card = json.load(urllib.request.urlopen(
+        return json.load(urllib.request.urlopen(
             urllib.request.Request(url, headers=UA), timeout=30))
     except Exception:
         return None
     finally:
         time.sleep(DELAY)
+
+
+def make_record(card):
+    """Extract our cached record from a Scryfall card object (or None).
+
+    MDFCs/split cards use the FRONT face for cost (matches how pips are
+    counted); type_line stays the full top-level line ('A // B') while
+    colors stay the top-level union."""
+    if not isinstance(card, dict):
+        return None
     cost = card.get('mana_cost')
-    if not cost and card.get('card_faces'):
-        cost = card['card_faces'][0].get('mana_cost')
-    return cost
+    type_line = card.get('type_line') or ''
+    faces = card.get('card_faces')
+    if (not cost or not type_line) and faces:
+        cost = cost or faces[0].get('mana_cost')
+        type_line = type_line or faces[0].get('type_line', '')
+    # Costless cards (lands, Living End) simply have no mana_cost key.
+    cost = cost or ''
+    try:
+        cmc = float(card.get('cmc', 0) or 0)
+    except (TypeError, ValueError):
+        cmc = 0.0
+    colors = card.get('colors') or []
+    return {'cost': cost, 'pips': count_pips(cost),
+            'type_line': type_line, 'cmc': cmc,
+            'colors': [c for c in colors if c in ('W', 'U', 'B', 'R', 'G')]}
 
 
-def fetch_costs(names):
-    """{requested name: mana_cost or None} via POST /cards/collection.
+def fetch_cards(names):
+    """{requested name: Scryfall card object or None} via /cards/collection.
 
     Split cards ('Wear // Tear') aren't matched whole, so those fall back
-    to a first-face query ('Wear'), which returns the full split cost.
-    Anything still missing (e.g. MDFC front faces) falls back to single
-    fuzzy lookups, taking the front-face cost.
+    to a first-face query ('Wear'). Anything still missing falls back to
+    single fuzzy lookups.
     """
     names = [n for n in names if n]
     found, missing = _post_names(names)
@@ -103,15 +128,15 @@ def fetch_costs(names):
         found2, _ = _post_names(list(retry.values()))
         for orig, face in retry.items():
             fl = face.strip().lower()
-            for resp_name, cost in found2.items():
+            for resp_name, card in found2.items():
                 if resp_name.split('//')[0].strip() == fl:
-                    found[orig.strip().lower()] = cost
+                    found[orig.strip().lower()] = card
                     break
     still = [n for n in names if found.get(n.strip().lower()) is None]
     for n in still:
-        cost = _fuzzy_cost(n)
-        if cost:
-            found[n.strip().lower()] = cost
+        card = _fuzzy_card(n)
+        if card:
+            found[n.strip().lower()] = card
     return {n: found.get(n.strip().lower()) for n in names}
 
 
@@ -133,7 +158,8 @@ def save_cache(cache):
 
 def _cached(cache, lname):
     v = cache.get(lname)
-    return isinstance(v, dict) and isinstance(v.get('pips'), dict)
+    return (isinstance(v, dict) and isinstance(v.get('pips'), dict)
+            and 'type_line' in v and 'cmc' in v)
 
 
 def display_map(limit_decks=20):
@@ -151,23 +177,26 @@ def display_map(limit_decks=20):
 
 
 def update_missing(name_map, cache=None, progress_cb=None):
-    """Fetch pip data for {lower: display} missing from cache.
+    """Fetch card data for {lower: display} missing from cache.
+    Records without type_line/cmc count as missing, so old pip-only
+    entries self-heal into full records on the next update.
     Returns (updated, failed_display_names)."""
     if cache is None:
         cache = load_cache()
     todo = [(k, v) for k, v in name_map.items() if not _cached(cache, k)]
     today = date.today().isoformat()
     updated, failed = 0, []
-    costs = fetch_costs([disp for _, disp in todo])
+    cards = fetch_cards([disp for _, disp in todo])
     for i, (lname, display) in enumerate(todo):
-        cost = costs.get(display)
-        if cost is None:
+        rec = make_record(cards.get(display))
+        if rec is None:
             failed.append(display)
         else:
-            cache[lname] = {'cost': cost, 'pips': count_pips(cost), 'updated': today}
+            rec['updated'] = today
+            cache[lname] = rec
             updated += 1
         if progress_cb:
-            progress_cb(i + 1, len(todo), display, cost is not None)
+            progress_cb(i + 1, len(todo), display, rec is not None)
     save_cache(cache)
     return updated, failed
 
@@ -177,7 +206,7 @@ def main(argv):
         disp = display_map()
         cache = load_cache()
         todo = {k: v for k, v in disp.items() if not _cached(cache, k)}
-        print(f'{len(todo)} cards missing pip data')
+        print(f'{len(todo)} cards missing card data')
 
         def progress(i, n, display, ok):
             print(f'[{i}/{n}] {display}: {"ok" if ok else "FAILED"}')
@@ -190,9 +219,8 @@ def main(argv):
         for name in argv:
             if name.startswith('--'):
                 continue
-            costs = fetch_costs([name])
-            cost = costs.get(name)
-            print(f'{name}: {cost} -> {count_pips(cost or "")}')
+            rec = make_record(fetch_cards([name]).get(name))
+            print(f'{name}: {rec}')
 
 
 if __name__ == '__main__':
